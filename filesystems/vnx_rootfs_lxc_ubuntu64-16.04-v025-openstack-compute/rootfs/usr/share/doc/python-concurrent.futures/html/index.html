@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>concurrent.futures — Asynchronous computation &mdash; futures 2.1.6 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="futures 2.1.6 documentation" href="#" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">futures 2.1.6 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-concurrent.futures">
+<span id="concurrent-futures-asynchronous-computation"></span><h1><a class="reference internal" href="#module-concurrent.futures" title="concurrent.futures: Execute computations asynchronously using threads or processes."><code class="xref py py-mod docutils literal"><span class="pre">concurrent.futures</span></code></a> &#8212; Asynchronous computation<a class="headerlink" href="#module-concurrent.futures" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="#module-concurrent.futures" title="concurrent.futures: Execute computations asynchronously using threads or processes."><code class="xref py py-mod docutils literal"><span class="pre">concurrent.futures</span></code></a> module provides a high-level interface for
+asynchronously executing callables.</p>
+<p>The asynchronous execution can be be performed by threads using
+<a class="reference internal" href="#concurrent.futures.ThreadPoolExecutor" title="concurrent.futures.ThreadPoolExecutor"><code class="xref py py-class docutils literal"><span class="pre">ThreadPoolExecutor</span></code></a> or seperate processes using
+<a class="reference internal" href="#concurrent.futures.ProcessPoolExecutor" title="concurrent.futures.ProcessPoolExecutor"><code class="xref py py-class docutils literal"><span class="pre">ProcessPoolExecutor</span></code></a>. Both implement the same interface, which is
+defined by the abstract <code class="xref py py-class docutils literal"><span class="pre">Executor</span></code> class.</p>
+<div class="section" id="executor-objects">
+<h2>Executor Objects<a class="headerlink" href="#executor-objects" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref py py-class docutils literal"><span class="pre">Executor</span></code> is an abstract class that provides methods to execute calls
+asynchronously. It should not be used directly, but through its two
+subclasses: <a class="reference internal" href="#concurrent.futures.ThreadPoolExecutor" title="concurrent.futures.ThreadPoolExecutor"><code class="xref py py-class docutils literal"><span class="pre">ThreadPoolExecutor</span></code></a> and <a class="reference internal" href="#concurrent.futures.ProcessPoolExecutor" title="concurrent.futures.ProcessPoolExecutor"><code class="xref py py-class docutils literal"><span class="pre">ProcessPoolExecutor</span></code></a>.</p>
+<dl class="method">
+<dt id="concurrent.futures.Executor.submit">
+<code class="descclassname">Executor.</code><code class="descname">submit</code><span class="sig-paren">(</span><em>fn</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Executor.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Schedules the callable to be executed as <em>fn*(</em>*args*, <em>**kwargs</em>) and
+returns a <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> representing the execution of the callable.</p>
+</dd></dl>
+
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="nb">pow</span><span class="p">,</span> <span class="mi">323</span><span class="p">,</span> <span class="mi">1235</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="concurrent.futures.Executor.map">
+<code class="descclassname">Executor.</code><code class="descname">map</code><span class="sig-paren">(</span><em>func</em>, <em>*iterables</em>, <em>timeout=None</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Executor.map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent to map(<em>func</em>, <em>*iterables</em>) but func is executed asynchronously
+and several calls to <em>func</em> may be made concurrently. The returned iterator
+raises a <code class="xref py py-exc docutils literal"><span class="pre">TimeoutError</span></code> if <code class="xref py py-meth docutils literal"><span class="pre">__next__()</span></code> is called and the result
+isn&#8217;t available after <em>timeout</em> seconds from the original call to
+<a class="reference internal" href="#concurrent.futures.Executor.map" title="concurrent.futures.Executor.map"><code class="xref py py-meth docutils literal"><span class="pre">map()</span></code></a>. <em>timeout</em> can be an int or float. If <em>timeout</em> is not
+specified or <code class="docutils literal"><span class="pre">None</span></code> then there is no limit to the wait time. If a call
+raises an exception then that exception will be raised when its value is
+retrieved from the iterator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="concurrent.futures.Executor.shutdown">
+<code class="descclassname">Executor.</code><code class="descname">shutdown</code><span class="sig-paren">(</span><em>wait=True</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Executor.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signal the executor that it should free any resources that it is using when
+the currently pending futures are done executing. Calls to
+<a class="reference internal" href="#concurrent.futures.Executor.submit" title="concurrent.futures.Executor.submit"><code class="xref py py-meth docutils literal"><span class="pre">Executor.submit()</span></code></a> and <a class="reference internal" href="#concurrent.futures.Executor.map" title="concurrent.futures.Executor.map"><code class="xref py py-meth docutils literal"><span class="pre">Executor.map()</span></code></a> made after shutdown will
+raise <code class="xref py py-exc docutils literal"><span class="pre">RuntimeError</span></code>.</p>
+<p>If <em>wait</em> is <cite>True</cite> then this method will not return until all the pending
+futures are done executing and the resources associated with the executor
+have been freed. If <em>wait</em> is <cite>False</cite> then this method will return
+immediately and the resources associated with the executor will be freed
+when all pending futures are done executing. Regardless of the value of
+<em>wait</em>, the entire Python program will not exit until all pending futures
+are done executing.</p>
+<p>You can avoid having to call this method explicitly if you use the <cite>with</cite>
+statement, which will shutdown the <cite>Executor</cite> (waiting as if
+<cite>Executor.shutdown</cite> were called with <em>wait</em> set to <cite>True</cite>):</p>
+</dd></dl>
+
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">shutil</span>
+<span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">,</span> <span class="s1">&#39;src1.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;dest1.txt&#39;</span><span class="p">)</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">,</span> <span class="s1">&#39;src2.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;dest2.txt&#39;</span><span class="p">)</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">,</span> <span class="s1">&#39;src3.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;dest3.txt&#39;</span><span class="p">)</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">,</span> <span class="s1">&#39;src3.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;dest4.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="threadpoolexecutor-objects">
+<h2>ThreadPoolExecutor Objects<a class="headerlink" href="#threadpoolexecutor-objects" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#concurrent.futures.ThreadPoolExecutor" title="concurrent.futures.ThreadPoolExecutor"><code class="xref py py-class docutils literal"><span class="pre">ThreadPoolExecutor</span></code></a> class is an <code class="xref py py-class docutils literal"><span class="pre">Executor</span></code> subclass that uses
+a pool of threads to execute calls asynchronously.</p>
+<p>Deadlock can occur when the callable associated with a <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> waits on
+the results of another <code class="xref py py-class docutils literal"><span class="pre">Future</span></code>. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
+<span class="k">def</span> <span class="nf">wait_on_b</span><span class="p">():</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>  <span class="c1"># b will never complete because it is waiting on a.</span>
+    <span class="k">return</span> <span class="mi">5</span>
+
+<span class="k">def</span> <span class="nf">wait_on_a</span><span class="p">():</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>  <span class="c1"># a will never complete because it is waiting on b.</span>
+    <span class="k">return</span> <span class="mi">6</span>
+
+
+<span class="n">executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">wait_on_b</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">wait_on_a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">wait_on_future</span><span class="p">():</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="nb">pow</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># This will never complete because there is only one worker thread and</span>
+    <span class="c1"># it is executing this function.</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+
+<span class="n">executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">wait_on_future</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="class">
+<dt id="concurrent.futures.ThreadPoolExecutor">
+<em class="property">class </em><code class="descclassname">concurrent.futures.</code><code class="descname">ThreadPoolExecutor</code><span class="sig-paren">(</span><em>max_workers</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.ThreadPoolExecutor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes calls asynchronously using a pool of at most <em>max_workers</em> threads.</p>
+</dd></dl>
+
+<div class="section" id="threadpoolexecutor-example">
+<span id="id1"></span><h3>ThreadPoolExecutor Example<a class="headerlink" href="#threadpoolexecutor-example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">concurrent</span> <span class="kn">import</span> <span class="n">futures</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+
+<span class="n">URLS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;http://www.foxnews.com/&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;http://www.cnn.com/&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;http://europe.wsj.com/&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;http://www.bbc.co.uk/&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;http://some-made-up-domain.com/&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">load_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">future_to_url</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">load_url</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="n">url</span><span class="p">)</span>
+                         <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">URLS</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="o">.</span><span class="n">as_completed</span><span class="p">(</span><span class="n">future_to_url</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">future_to_url</span><span class="p">[</span><span class="n">future</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">future</span><span class="o">.</span><span class="n">exception</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%r</span><span class="s1"> generated an exception: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span>
+                                                     <span class="n">future</span><span class="o">.</span><span class="n">exception</span><span class="p">()))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%r</span><span class="s1"> page is </span><span class="si">%d</span><span class="s1"> bytes&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">())))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="processpoolexecutor-objects">
+<h2>ProcessPoolExecutor Objects<a class="headerlink" href="#processpoolexecutor-objects" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#concurrent.futures.ProcessPoolExecutor" title="concurrent.futures.ProcessPoolExecutor"><code class="xref py py-class docutils literal"><span class="pre">ProcessPoolExecutor</span></code></a> class is an <code class="xref py py-class docutils literal"><span class="pre">Executor</span></code> subclass that
+uses a pool of processes to execute calls asynchronously.
+<a class="reference internal" href="#concurrent.futures.ProcessPoolExecutor" title="concurrent.futures.ProcessPoolExecutor"><code class="xref py py-class docutils literal"><span class="pre">ProcessPoolExecutor</span></code></a> uses the <code class="xref py py-mod docutils literal"><span class="pre">multiprocessing</span></code> module, which
+allows it to side-step the <span class="xref std std-term">Global Interpreter Lock</span> but also means that
+only picklable objects can be executed and returned.</p>
+<p>Calling <code class="xref py py-class docutils literal"><span class="pre">Executor</span></code> or <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> methods from a callable submitted
+to a <a class="reference internal" href="#concurrent.futures.ProcessPoolExecutor" title="concurrent.futures.ProcessPoolExecutor"><code class="xref py py-class docutils literal"><span class="pre">ProcessPoolExecutor</span></code></a> will result in deadlock.</p>
+<dl class="class">
+<dt id="concurrent.futures.ProcessPoolExecutor">
+<em class="property">class </em><code class="descclassname">concurrent.futures.</code><code class="descname">ProcessPoolExecutor</code><span class="sig-paren">(</span><em>max_workers=None</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.ProcessPoolExecutor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes calls asynchronously using a pool of at most <em>max_workers</em>
+processes. If <em>max_workers</em> is <code class="docutils literal"><span class="pre">None</span></code> or not given then as many worker
+processes will be created as the machine has processors.</p>
+</dd></dl>
+
+<div class="section" id="processpoolexecutor-example">
+<span id="id2"></span><h3>ProcessPoolExecutor Example<a class="headerlink" href="#processpoolexecutor-example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">PRIMES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="mi">112272535095293</span><span class="p">,</span>
+    <span class="mi">112582705942171</span><span class="p">,</span>
+    <span class="mi">112272535095293</span><span class="p">,</span>
+    <span class="mi">115280095190773</span><span class="p">,</span>
+    <span class="mi">115797848077099</span><span class="p">,</span>
+    <span class="mi">1099726899285419</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="n">sqrt_n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">sqrt_n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="bp">True</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">futures</span><span class="o">.</span><span class="n">ProcessPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">number</span><span class="p">,</span> <span class="n">prime</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">PRIMES</span><span class="p">,</span> <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">is_prime</span><span class="p">,</span> <span class="n">PRIMES</span><span class="p">)):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> is prime: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">prime</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="future-objects">
+<h2>Future Objects<a class="headerlink" href="#future-objects" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> class encapulates the asynchronous execution of a callable.
+<code class="xref py py-class docutils literal"><span class="pre">Future</span></code> instances are created by <a class="reference internal" href="#concurrent.futures.Executor.submit" title="concurrent.futures.Executor.submit"><code class="xref py py-meth docutils literal"><span class="pre">Executor.submit()</span></code></a>.</p>
+<dl class="method">
+<dt id="concurrent.futures.Future.cancel">
+<code class="descclassname">Future.</code><code class="descname">cancel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Future.cancel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to cancel the call. If the call is currently being executed then
+it cannot be cancelled and the method will return <cite>False</cite>, otherwise the call
+will be cancelled and the method will return <cite>True</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="concurrent.futures.Future.cancelled">
+<code class="descclassname">Future.</code><code class="descname">cancelled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Future.cancelled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>True</cite> if the call was successfully cancelled.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="concurrent.futures.Future.running">
+<code class="descclassname">Future.</code><code class="descname">running</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Future.running" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>True</cite> if the call is currently being executed and cannot be
+cancelled.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="concurrent.futures.Future.done">
+<code class="descclassname">Future.</code><code class="descname">done</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Future.done" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <cite>True</cite> if the call was successfully cancelled or finished running.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="concurrent.futures.Future.result">
+<code class="descclassname">Future.</code><code class="descname">result</code><span class="sig-paren">(</span><em>timeout=None</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Future.result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the value returned by the call. If the call hasn&#8217;t yet completed then
+this method will wait up to <em>timeout</em> seconds. If the call hasn&#8217;t completed
+in <em>timeout</em> seconds then a <code class="xref py py-exc docutils literal"><span class="pre">TimeoutError</span></code> will be raised. <em>timeout</em> can
+be an int or float.If <em>timeout</em> is not specified or <code class="docutils literal"><span class="pre">None</span></code> then there is no
+limit to the wait time.</p>
+<p>If the future is cancelled before completing then <code class="xref py py-exc docutils literal"><span class="pre">CancelledError</span></code> will
+be raised.</p>
+<p>If the call raised then this method will raise the same exception.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="concurrent.futures.Future.exception">
+<code class="descclassname">Future.</code><code class="descname">exception</code><span class="sig-paren">(</span><em>timeout=None</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Future.exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the exception raised by the call. If the call hasn&#8217;t yet completed
+then this method will wait up to <em>timeout</em> seconds. If the call hasn&#8217;t
+completed in <em>timeout</em> seconds then a <code class="xref py py-exc docutils literal"><span class="pre">TimeoutError</span></code> will be raised.
+<em>timeout</em> can be an int or float. If <em>timeout</em> is not specified or <code class="docutils literal"><span class="pre">None</span></code>
+then there is no limit to the wait time.</p>
+<p>If the future is cancelled before completing then <code class="xref py py-exc docutils literal"><span class="pre">CancelledError</span></code> will
+be raised.</p>
+<p>If the call completed without raising then <code class="docutils literal"><span class="pre">None</span></code> is returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="concurrent.futures.Future.add_done_callback">
+<code class="descclassname">Future.</code><code class="descname">add_done_callback</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Future.add_done_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attaches the callable <em>fn</em> to the future. <em>fn</em> will be called, with the
+future as its only argument, when the future is cancelled or finishes
+running.</p>
+<p>Added callables are called in the order that they were added and are always
+called in a thread belonging to the process that added them. If the callable
+raises an <code class="xref py py-exc docutils literal"><span class="pre">Exception</span></code> then it will be logged and ignored. If the
+callable raises another <code class="xref py py-exc docutils literal"><span class="pre">BaseException</span></code> then the behavior is not
+defined.</p>
+<p>If the future has already completed or been cancelled then <em>fn</em> will be
+called immediately.</p>
+</dd></dl>
+
+<div class="section" id="internal-future-methods">
+<h3>Internal Future Methods<a class="headerlink" href="#internal-future-methods" title="Permalink to this headline">¶</a></h3>
+<p>The following <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> methods are meant for use in unit tests and
+<code class="xref py py-class docutils literal"><span class="pre">Executor</span></code> implementations.</p>
+<dl class="method">
+<dt id="concurrent.futures.Future.set_running_or_notify_cancel">
+<code class="descclassname">Future.</code><code class="descname">set_running_or_notify_cancel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Future.set_running_or_notify_cancel" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method should only be called by <code class="xref py py-class docutils literal"><span class="pre">Executor</span></code> implementations before
+executing the work associated with the <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> and by unit tests.</p>
+<p>If the method returns <cite>False</cite> then the <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> was cancelled i.e.
+<a class="reference internal" href="#concurrent.futures.Future.cancel" title="concurrent.futures.Future.cancel"><code class="xref py py-meth docutils literal"><span class="pre">Future.cancel()</span></code></a> was called and returned <cite>True</cite>. Any threads waiting
+on the <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> completing (i.e. through <a class="reference internal" href="#concurrent.futures.as_completed" title="concurrent.futures.as_completed"><code class="xref py py-func docutils literal"><span class="pre">as_completed()</span></code></a> or
+<a class="reference internal" href="#concurrent.futures.wait" title="concurrent.futures.wait"><code class="xref py py-func docutils literal"><span class="pre">wait()</span></code></a>) will be woken up.</p>
+<p>If the method returns <cite>True</cite> then the <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> was not cancelled
+and has been put in the running state i.e. calls to
+<a class="reference internal" href="#concurrent.futures.Future.running" title="concurrent.futures.Future.running"><code class="xref py py-meth docutils literal"><span class="pre">Future.running()</span></code></a> will return <cite>True</cite>.</p>
+<p>This method can only be called once and cannot be called after
+<a class="reference internal" href="#concurrent.futures.Future.set_result" title="concurrent.futures.Future.set_result"><code class="xref py py-meth docutils literal"><span class="pre">Future.set_result()</span></code></a> or <a class="reference internal" href="#concurrent.futures.Future.set_exception" title="concurrent.futures.Future.set_exception"><code class="xref py py-meth docutils literal"><span class="pre">Future.set_exception()</span></code></a> have been
+called.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="concurrent.futures.Future.set_result">
+<code class="descclassname">Future.</code><code class="descname">set_result</code><span class="sig-paren">(</span><em>result</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Future.set_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the result of the work associated with the <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> to <em>result</em>.</p>
+<p>This method should only be used by Executor implementations and unit tests.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="concurrent.futures.Future.set_exception">
+<code class="descclassname">Future.</code><code class="descname">set_exception</code><span class="sig-paren">(</span><em>exception</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.Future.set_exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the result of the work associated with the <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> to the
+<code class="xref py py-class docutils literal"><span class="pre">Exception</span></code> <em>exception</em>.</p>
+<p>This method should only be used by Executor implementations and unit tests.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-functions">
+<h2>Module Functions<a class="headerlink" href="#module-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="concurrent.futures.wait">
+<code class="descclassname">concurrent.futures.</code><code class="descname">wait</code><span class="sig-paren">(</span><em>fs</em>, <em>timeout=None</em>, <em>return_when=ALL_COMPLETED</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.wait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for the <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> instances (possibly created by different
+<code class="xref py py-class docutils literal"><span class="pre">Executor</span></code> instances) given by <em>fs</em>  to complete. Returns a named
+2-tuple of sets. The first set, named &#8220;done&#8221;, contains the futures that
+completed (finished or were cancelled) before the wait completed. The second
+set, named &#8220;not_done&#8221;, contains uncompleted futures.</p>
+<p><em>timeout</em> can be used to control the maximum number of seconds to wait before
+returning. <em>timeout</em> can be an int or float. If <em>timeout</em> is not specified or
+<code class="docutils literal"><span class="pre">None</span></code> then there is no limit to the wait time.</p>
+<p><em>return_when</em> indicates when this function should return. It must be one of
+the following constants:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Constant</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="xref py py-const docutils literal"><span class="pre">FIRST_COMPLETED</span></code></td>
+<td>The function will return when any
+future finishes or is cancelled.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-const docutils literal"><span class="pre">FIRST_EXCEPTION</span></code></td>
+<td>The function will return when any
+future finishes by raising an
+exception. If no future raises an
+exception then it is equivalent to
+<cite>ALL_COMPLETED</cite>.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-const docutils literal"><span class="pre">ALL_COMPLETED</span></code></td>
+<td>The function will return when all
+futures finish or are cancelled.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="concurrent.futures.as_completed">
+<code class="descclassname">concurrent.futures.</code><code class="descname">as_completed</code><span class="sig-paren">(</span><em>fs</em>, <em>timeout=None</em><span class="sig-paren">)</span><a class="headerlink" href="#concurrent.futures.as_completed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator over the <code class="xref py py-class docutils literal"><span class="pre">Future</span></code> instances (possibly created by
+different <code class="xref py py-class docutils literal"><span class="pre">Executor</span></code> instances) given by <em>fs</em> that yields futures as
+they complete (finished or were cancelled). Any futures given by <em>fs</em> that
+are duplicated will be returned once. Any futures that completed
+before <a class="reference internal" href="#concurrent.futures.as_completed" title="concurrent.futures.as_completed"><code class="xref py py-func docutils literal"><span class="pre">as_completed()</span></code></a> is called will be yielded first.  The returned
+iterator raises a <code class="xref py py-exc docutils literal"><span class="pre">TimeoutError</span></code> if <code class="xref py py-meth docutils literal"><span class="pre">__next__()</span></code> is
+called and the result isn&#8217;t available after <em>timeout</em> seconds from the
+original call to <a class="reference internal" href="#concurrent.futures.as_completed" title="concurrent.futures.as_completed"><code class="xref py py-func docutils literal"><span class="pre">as_completed()</span></code></a>.  <em>timeout</em> can be an int or float.
+If <em>timeout</em> is not specified or <code class="docutils literal"><span class="pre">None</span></code>, there is no limit to the wait
+time.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">concurrent.futures</span></code> &#8212; Asynchronous computation</a><ul>
+<li><a class="reference internal" href="#executor-objects">Executor Objects</a></li>
+<li><a class="reference internal" href="#threadpoolexecutor-objects">ThreadPoolExecutor Objects</a><ul>
+<li><a class="reference internal" href="#threadpoolexecutor-example">ThreadPoolExecutor Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#processpoolexecutor-objects">ProcessPoolExecutor Objects</a><ul>
+<li><a class="reference internal" href="#processpoolexecutor-example">ProcessPoolExecutor Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#future-objects">Future Objects</a><ul>
+<li><a class="reference internal" href="#internal-future-methods">Internal Future Methods</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-functions">Module Functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">futures 2.1.6 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2009-2011, Brian Quinlan.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

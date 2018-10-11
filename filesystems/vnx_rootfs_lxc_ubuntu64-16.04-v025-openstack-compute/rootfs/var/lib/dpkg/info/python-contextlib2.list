@@ -1,0 +1,13 @@
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/python-contextlib2
+/usr/share/doc/python-contextlib2/copyright
+/usr/share/doc/python-contextlib2/changelog.Debian.gz
+/usr/lib
+/usr/lib/python2.7
+/usr/lib/python2.7/dist-packages
+/usr/lib/python2.7/dist-packages/contextlib2-0.5.1.egg-info
+/usr/lib/python2.7/dist-packages/contextlib2.py
+/usr/share/doc/python-contextlib2/NEWS.rst.gz

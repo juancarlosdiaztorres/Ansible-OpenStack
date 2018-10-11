@@ -1,0 +1,14 @@
+TARGETS = apache-htcacheclean lvm2-lvmpolld lvm2-lvmetad uuidd unattended-upgrades resolvconf ebtables apache2 virtlockd neutron-ovs-cleanup nova-compute libvirt-guests neutron-openvswitch-agent urandom open-iscsi openvswitch-switch libvirtd iscsid virtlogd sendsigs rsyslog umountnfs.sh hwclock.sh networking umountfs umountroot halt reboot
+openvswitch-switch: neutron-openvswitch-agent
+libvirtd: libvirt-guests
+iscsid: open-iscsi
+virtlogd: libvirtd
+sendsigs: libvirtd neutron-ovs-cleanup virtlogd iscsid nova-compute virtlockd openvswitch-switch libvirt-guests uuidd unattended-upgrades apache-htcacheclean apache2 open-iscsi neutron-openvswitch-agent
+rsyslog: libvirtd virtlogd virtlockd sendsigs apache-htcacheclean apache2
+umountnfs.sh: libvirtd neutron-ovs-cleanup virtlogd nova-compute virtlockd openvswitch-switch sendsigs libvirt-guests uuidd unattended-upgrades rsyslog apache-htcacheclean apache2 neutron-openvswitch-agent
+hwclock.sh: uuidd rsyslog
+networking: iscsid apache2 open-iscsi umountnfs.sh
+umountfs: libvirtd neutron-ovs-cleanup hwclock.sh virtlogd iscsid urandom nova-compute resolvconf lvm2-lvmpolld virtlockd openvswitch-switch lvm2-lvmetad libvirt-guests uuidd unattended-upgrades networking apache-htcacheclean ebtables apache2 open-iscsi umountnfs.sh neutron-openvswitch-agent
+umountroot: umountfs
+halt: umountroot
+reboot: umountroot

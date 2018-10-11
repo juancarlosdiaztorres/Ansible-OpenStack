@@ -1,0 +1,487 @@
+#!/bin/sh
+# postinst script for libvirt-daemon-system
+#
+# see: dh_installdeb(1)
+
+set -e
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <postinst> `abort-remove'
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+# Allocated UID and GID for libvirt-qemu
+LIBVIRT_QEMU_UID=64055
+LIBVIRT_QEMU_GID=64055
+
+add_users_groups()
+{
+    if ! getent group libvirt >/dev/null; then
+        if getent group libvirtd >/dev/null; then
+            gid=`getent group libvirtd | getent group libvirtd  | cut -d: -f3`
+            groupadd --system --non-unique --gid "$gid" libvirt
+        else
+            addgroup --quiet --system libvirt
+        fi
+    fi
+
+    # Add each admin user to the libvirt group - for systems installed
+    # before precise
+    for u in $(getent group admin | sed -e "s/^.*://" -e "s/,/ /g"); do
+        adduser "$u" libvirt >/dev/null || true
+    done
+
+    # Add each sudo user to the libvirt group
+    for u in $(getent group sudo | sed -e "s/^.*://" -e "s/,/ /g"); do
+        adduser "$u" libvirt >/dev/null || true
+    done
+
+    if ! getent group kvm >/dev/null; then
+        addgroup --quiet --system kvm
+    fi
+    # user and group libvirt runs qemu/kvm instances with
+    if ! getent passwd libvirt-qemu >/dev/null; then
+
+        # set uid if available (expected); don't fail otherwise.
+        PARAMETER_UID=''
+        if ! getent passwd $LIBVIRT_QEMU_UID >/dev/null; then
+            PARAMETER_UID="--uid $LIBVIRT_QEMU_UID"
+        fi
+
+        adduser --quiet \
+            --system \
+            --ingroup kvm \
+            --quiet \
+            --disabled-login \
+            --disabled-password \
+            --home /var/lib/libvirt \
+            --no-create-home \
+            --gecos "Libvirt Qemu" \
+            $PARAMETER_UID \
+            libvirt-qemu
+    fi
+    if ! getent group libvirt-qemu >/dev/null; then
+
+        # set gid if available (expected); don't fail otherwise.
+        PARAMETER_GID=''
+        if ! getent group $LIBVIRT_QEMU_GID >/dev/null; then
+            PARAMETER_GID="--gid $LIBVIRT_QEMU_GID"
+        fi
+
+        addgroup --quiet --system $PARAMETER_GID libvirt-qemu
+        adduser --quiet libvirt-qemu libvirt-qemu
+    fi
+    if ! getent passwd libvirt-dnsmasq >/dev/null; then
+        adduser --quiet \
+                --system \
+                --ingroup libvirt \
+                --disabled-login \
+                --disabled-password \
+                --home /var/lib/libvirt/dnsmasq \
+                --no-create-home \
+                --gecos "Libvirt Dnsmasq" \
+                libvirt-dnsmasq
+    fi
+}
+
+includes_virbr0addr() {
+    viraddr="192.168.122.1"
+    a=$1
+    b=$2
+    for n in `seq 1 4`; do
+        aa=`echo $a | awk -F. '{ print $'$n' }'`
+        cc=`echo $viraddr | awk -F. '{ print $'$n' }'`
+        cmp=$((b/8))
+        if [ $cmp -ge $n ]; then
+            if [ $aa -ne $cc ]; then
+                echo "false"
+                return
+            fi
+        elif [ $((cmp+1)) -ge $n ]; then
+            # do we bother comparing partial (i.e. /25)?
+            :
+        else
+            break
+        fi
+    done
+    echo "true"
+    return
+}
+
+set_autostart()
+{
+    if [ ! -e /etc/libvirt/qemu/networks/autostart/default.xml ]; then
+        ln -s /etc/libvirt/qemu/networks/default.xml \
+              /etc/libvirt/qemu/networks/autostart/
+    fi
+}
+
+# on first install, don't set default network to autostart if we already
+# have a 192.168.122.0 network.  Good for instance for nested libvirt.
+maybe_set_autostart()
+{
+    # don't autostart virbr0 if 192.168.122.1/24 already exists
+    found=0
+    for pair in `ip addr show | grep "inet\>" |awk '{ print $2 }'`; do
+        a=`echo $pair | awk -F/ '{ print $1}'`
+        m=`echo $pair | awk -F/ '{ print $2}'`
+        res=`includes_virbr0addr $a $m`
+        if [ $res = "true" ]; then
+            found=1
+        fi
+    done
+    if [ $found -eq 1 ]; then
+        return
+    fi
+    set_autostart
+}
+
+
+add_statoverrides()
+{
+    ROOT_DIRS="\
+        /var/lib/libvirt/images/ \
+        /var/lib/libvirt/boot/   \
+        /var/cache/libvirt/      \
+    "
+
+    QEMU_DIRS="\
+         /var/lib/libvirt/qemu/   \
+         /var/cache/libvirt/qemu/ \
+         /var/lib/libvirt/qemu/channel/ \
+         /var/lib/libvirt/qemu/channel/target/ \
+    "
+
+    SANLOCK_DIR="/var/lib/libvirt/sanlock"
+
+    QEMU_CONF="/etc/libvirt/qemu.conf"
+
+    for dir in ${ROOT_DIRS}; do
+        if ! dpkg-statoverride --list "${dir}" >/dev/null 2>&1; then
+            [ ! -e "${dir}" ] || chown root:root "${dir}"
+            [ ! -e "${dir}" ] || chmod 0711 "${dir}"
+        fi
+    done
+
+    for dir in ${QEMU_DIRS}; do
+        if ! dpkg-statoverride --list "${dir}" >/dev/null 2>&1; then
+            [ ! -e "${dir}" ] || chown libvirt-qemu:libvirt-qemu "${dir}"
+            [ ! -e "${dir}" ] || chmod 0750 "${dir}"
+        fi
+    done
+
+    if ! dpkg-statoverride --list "${SANLOCK_DIR}" >/dev/null 2>&1; then
+        [ ! -e "${SANLOCK_DIR}" ] || chown root:root "${SANLOCK_DIR}"
+        [ ! -e "${SANLOCK_DIR}" ] || chmod 0700 "${SANLOCK_DIR}"
+    fi
+
+    if ! dpkg-statoverride --list "${QEMU_CONF}" >/dev/null 2>&1; then
+        [ ! -e "${QEMU_CONF}" ] || chown root:root "${QEMU_CONF}"
+        [ ! -e "${QEMU_CONF}" ] || chmod 0600 "${QEMU_CONF}"
+    fi
+}
+
+
+case "$1" in
+    configure)
+        add_users_groups
+        add_statoverrides
+
+	# Make sure the directories don't get removed on package removal since
+	# logrotate chokes otherwise.
+	for dir in qemu uml lxc; do
+	    touch /var/log/libvirt/"${dir}"/.placeholder
+	done
+
+        for p in usr.sbin.libvirtd usr.lib.libvirt.virt-aa-helper ; do
+            profile="/etc/apparmor.d/$p"
+            if [ -f "$profile" ] && aa-status --enabled 2>/dev/null; then
+                apparmor_parser -r "$profile" || true
+            fi
+        done
+
+        # Remove left over empty directory from pre 1.2.7
+        [ ! -d /etc/apparmor.d/libvirtd ] || rmdir --ignore-fail-on-non-empty /etc/apparmor.d/libvirtd
+	
+        # Force virtlockd to reexec if enabled
+        if [ -d /run/systemd/system ]; then
+          ! systemctl is-active -q virtlogd || systemctl reload virtlogd.service >/dev/null
+          ! systemctl is-active -q virtlockd || systemctl reload virtlockd.service >/dev/null
+        fi
+
+        # Force refresh of capabilties (#731815)
+        rm -f /var/cache/libvirt/qemu/capabilities/*.xml
+
+        # 1. On an initial package install, create the default network autostart
+        #    symlink.
+        # 2. If the default.xml existed before upgrade, make sure it is
+        #    recreated.
+        #    This won't be a problem on most upgrades, but when upgrading from a
+        #    version where the symlink came with the package, it will.
+        # 3. If upgrading from one of the bad libvirt versions which deleted the
+        #    symlink wrongly, recreate it
+        EXISTED="/etc/libvirt/qemu/networks/autostart/TMP_defaultexisted"
+        if [ -z $2 ]; then
+            maybe_set_autostart
+        elif [ -e "$EXISTED" ]; then
+            # on upgrade, if default network was previously autostarted,
+            # continue to do so.
+            rm -f "$EXISTED"
+            set_autostart
+        fi
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+db_stop
+
+# dh_installdeb will replace this with shell code automatically
+# generated by other debhelper scripts.
+
+# Automatically added by dh_apparmor
+if [ "$1" = "configure" ]; then
+    APP_PROFILE="/etc/apparmor.d/usr.lib.libvirt.virt-aa-helper"
+    if [ -f "$APP_PROFILE" ]; then
+        # Add the local/ include
+        LOCAL_APP_PROFILE="/etc/apparmor.d/local/usr.lib.libvirt.virt-aa-helper"
+
+        test -e "$LOCAL_APP_PROFILE" || {
+            tmp=`mktemp`
+        cat <<EOM > "$tmp"
+# Site-specific additions and overrides for usr.lib.libvirt.virt-aa-helper.
+# For more details, please see /etc/apparmor.d/local/README.
+EOM
+            mkdir `dirname "$LOCAL_APP_PROFILE"` 2>/dev/null || true
+            mv -f "$tmp" "$LOCAL_APP_PROFILE"
+            chmod 644 "$LOCAL_APP_PROFILE"
+        }
+
+        # Reload the profile, including any abstraction updates
+        if aa-status --enabled 2>/dev/null; then
+            apparmor_parser -r -T -W "$APP_PROFILE" || true
+        fi
+    fi
+fi
+# End automatically added section
+# Automatically added by dh_apparmor
+if [ "$1" = "configure" ]; then
+    APP_PROFILE="/etc/apparmor.d/usr.sbin.libvirtd"
+    if [ -f "$APP_PROFILE" ]; then
+        # Add the local/ include
+        LOCAL_APP_PROFILE="/etc/apparmor.d/local/usr.sbin.libvirtd"
+
+        test -e "$LOCAL_APP_PROFILE" || {
+            tmp=`mktemp`
+        cat <<EOM > "$tmp"
+# Site-specific additions and overrides for usr.sbin.libvirtd.
+# For more details, please see /etc/apparmor.d/local/README.
+EOM
+            mkdir `dirname "$LOCAL_APP_PROFILE"` 2>/dev/null || true
+            mv -f "$tmp" "$LOCAL_APP_PROFILE"
+            chmod 644 "$LOCAL_APP_PROFILE"
+        }
+
+        # Reload the profile, including any abstraction updates
+        if aa-status --enabled 2>/dev/null; then
+            apparmor_parser -r -T -W "$APP_PROFILE" || true
+        fi
+    fi
+fi
+# End automatically added section
+# Automatically added by dh_systemd_enable
+# This will only remove masks created by d-s-h on package removal.
+deb-systemd-helper unmask libvirt-guests.service >/dev/null || true
+
+# was-enabled defaults to true, so new installations run enable.
+if deb-systemd-helper --quiet was-enabled libvirt-guests.service; then
+	# Enables the unit on first installation, creates new
+	# symlinks on upgrades if the unit file has changed.
+	deb-systemd-helper enable libvirt-guests.service >/dev/null || true
+else
+	# Update the statefile to add new symlinks (if any), which need to be
+	# cleaned up on purge. Also remove old symlinks.
+	deb-systemd-helper update-state libvirt-guests.service >/dev/null || true
+fi
+# End automatically added section
+# Automatically added by dh_systemd_enable
+# This will only remove masks created by d-s-h on package removal.
+deb-systemd-helper unmask libvirtd.service >/dev/null || true
+
+# was-enabled defaults to true, so new installations run enable.
+if deb-systemd-helper --quiet was-enabled libvirtd.service; then
+	# Enables the unit on first installation, creates new
+	# symlinks on upgrades if the unit file has changed.
+	deb-systemd-helper enable libvirtd.service >/dev/null || true
+else
+	# Update the statefile to add new symlinks (if any), which need to be
+	# cleaned up on purge. Also remove old symlinks.
+	deb-systemd-helper update-state libvirtd.service >/dev/null || true
+fi
+# End automatically added section
+# Automatically added by dh_systemd_enable
+# This will only remove masks created by d-s-h on package removal.
+deb-systemd-helper unmask virtlockd.service >/dev/null || true
+
+# was-enabled defaults to true, so new installations run enable.
+if deb-systemd-helper --quiet was-enabled virtlockd.service; then
+	# Enables the unit on first installation, creates new
+	# symlinks on upgrades if the unit file has changed.
+	deb-systemd-helper enable virtlockd.service >/dev/null || true
+else
+	# Update the statefile to add new symlinks (if any), which need to be
+	# cleaned up on purge. Also remove old symlinks.
+	deb-systemd-helper update-state virtlockd.service >/dev/null || true
+fi
+# End automatically added section
+# Automatically added by dh_systemd_enable
+# This will only remove masks created by d-s-h on package removal.
+deb-systemd-helper unmask virtlockd.socket >/dev/null || true
+
+# was-enabled defaults to true, so new installations run enable.
+if deb-systemd-helper --quiet was-enabled virtlockd.socket; then
+	# Enables the unit on first installation, creates new
+	# symlinks on upgrades if the unit file has changed.
+	deb-systemd-helper enable virtlockd.socket >/dev/null || true
+else
+	# Update the statefile to add new symlinks (if any), which need to be
+	# cleaned up on purge. Also remove old symlinks.
+	deb-systemd-helper update-state virtlockd.socket >/dev/null || true
+fi
+# End automatically added section
+# Automatically added by dh_systemd_enable
+# This will only remove masks created by d-s-h on package removal.
+deb-systemd-helper unmask virtlogd.service >/dev/null || true
+
+# was-enabled defaults to true, so new installations run enable.
+if deb-systemd-helper --quiet was-enabled virtlogd.service; then
+	# Enables the unit on first installation, creates new
+	# symlinks on upgrades if the unit file has changed.
+	deb-systemd-helper enable virtlogd.service >/dev/null || true
+else
+	# Update the statefile to add new symlinks (if any), which need to be
+	# cleaned up on purge. Also remove old symlinks.
+	deb-systemd-helper update-state virtlogd.service >/dev/null || true
+fi
+# End automatically added section
+# Automatically added by dh_systemd_enable
+# This will only remove masks created by d-s-h on package removal.
+deb-systemd-helper unmask virtlogd.socket >/dev/null || true
+
+# was-enabled defaults to true, so new installations run enable.
+if deb-systemd-helper --quiet was-enabled virtlogd.socket; then
+	# Enables the unit on first installation, creates new
+	# symlinks on upgrades if the unit file has changed.
+	deb-systemd-helper enable virtlogd.socket >/dev/null || true
+else
+	# Update the statefile to add new symlinks (if any), which need to be
+	# cleaned up on purge. Also remove old symlinks.
+	deb-systemd-helper update-state virtlogd.socket >/dev/null || true
+fi
+# End automatically added section
+# Automatically added by dh_installinit
+if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ]; then
+	if [ -x "/etc/init.d/virtlogd" ]; then
+		update-rc.d virtlogd defaults >/dev/null
+		invoke-rc.d virtlogd start || exit $?
+	fi
+fi
+# End automatically added section
+# Automatically added by dh_installinit
+if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ]; then
+	if [ -x "/etc/init.d/virtlockd" ]; then
+		update-rc.d virtlockd defaults >/dev/null
+		invoke-rc.d virtlockd start || exit $?
+	fi
+fi
+# End automatically added section
+# Automatically added by dh_installinit
+if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ]; then
+	if [ -x "/etc/init.d/libvirtd" ]; then
+		update-rc.d libvirtd defaults 28 72 >/dev/null
+		if [ -n "$2" ]; then
+			_dh_action=restart
+		else
+			_dh_action=start
+		fi
+		invoke-rc.d libvirtd $_dh_action || exit $?
+	fi
+fi
+# End automatically added section
+# Automatically added by dh_installinit
+if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ]; then
+	if [ -x "/etc/init.d/libvirt-guests" ]; then
+		update-rc.d libvirt-guests defaults 29 71 >/dev/null
+		invoke-rc.d libvirt-guests start || exit $?
+	fi
+fi
+# End automatically added section
+# Automatically added by dh_installdeb
+dpkg-maintscript-helper mv_conffile /etc/default/libvirt-bin /etc/default/libvirtd 1.3.3-2 libvirt-bin -- "$@"
+# End automatically added section
+# Automatically added by dh_installdeb
+dpkg-maintscript-helper mv_conffile /etc/init.d/libvirt-bin /etc/init.d/libvirtd 1.3.3-2 libvirt-bin -- "$@"
+# End automatically added section
+# Automatically added by dh_installdeb
+dpkg-maintscript-helper rm_conffile /etc/apparmor.d/libvirtd/TEMPLATE 1.2.7-5~ libvirt-bin -- "$@"
+# End automatically added section
+# Automatically added by dh_installdeb
+dpkg-maintscript-helper rm_conffile /etc/apparmor.d/libvirtd/TEMPLATE 1.2.7-5~ libvirt-daemon-system -- "$@"
+# End automatically added section
+# Automatically added by dh_installdeb
+dpkg-maintscript-helper rm_conffile /etc/polkit-1/rules.d/60-libvirt.rules 1.2.9-3~ -- "$@"
+# End automatically added section
+# Automatically added by dh_installdeb
+dpkg-maintscript-helper rm_conffile /etc/apparmor.d/libvirt/TEMPLATE 1.3.3-2 libvirt-bin -- "$@"
+# End automatically added section
+# Automatically added by dh_installdeb
+dpkg-maintscript-helper rm_conffile /etc/apparmor.d/libvirt/TEMPLATE 1.2.7-5~ libvirt-daemon-system -- "$@"
+# End automatically added section
+
+
+# We need this after the debhelper generated code so that dpkg-maintscript
+# can do its renamming first.
+if [ "$1" = "configure" ]; then
+    # Configure dnsmasq
+    if [ -f /etc/dnsmasq.d-available/libvirt-daemon ]; then
+        echo "Setting up libvirt-daemon dnsmasq configuration."
+        mkdir -p /etc/dnsmasq.d
+        if [ ! -e /etc/dnsmasq.d/libvirt-daemon ]; then
+            ln -s /etc/dnsmasq.d-available/libvirt-daemon \
+                  /etc/dnsmasq.d/libvirt-daemon
+        fi
+
+        # Try to restart a potential system wide dnsmasq
+        invoke-rc.d dnsmasq restart 2>/dev/null || true
+    fi
+
+    # Make sure libvirtd.service is enabled/disabled if
+    # libvirt-bin.service was.
+    if [ -f /etc/libvirt/TMP_libvirt-bin-enabled ]; then
+        deb-systemd-helper enable libvirtd.service
+        rm -f /etc/libvirt/TMP_libvirt-bin-enabled
+    elif [ -f /etc/libvirt/TMP_libvirt-bin-disabled ]; then
+        deb-systemd-helper disable libvirtd.service
+        rm -f /etc/libvirt/TMP_libvirt-bin-disabled
+    fi
+fi
+
+exit 0
+
+

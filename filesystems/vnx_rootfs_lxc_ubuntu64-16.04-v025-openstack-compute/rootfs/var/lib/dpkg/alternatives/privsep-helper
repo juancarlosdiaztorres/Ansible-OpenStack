@@ -1,0 +1,6 @@
+auto
+/usr/bin/privsep-helper
+
+/usr/bin/python2-privsep-helper
+300
+

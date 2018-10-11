@@ -1,0 +1,6 @@
+auto
+/usr/bin/oslo-messaging-zmq-proxy
+
+/usr/bin/python2-oslo-messaging-zmq-proxy
+300
+

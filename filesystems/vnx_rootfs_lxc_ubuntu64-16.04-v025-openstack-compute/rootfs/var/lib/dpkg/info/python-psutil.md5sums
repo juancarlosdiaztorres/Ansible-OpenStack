@@ -1,0 +1,14 @@
+5bacc26b960d07df48c19f234f83eccc  usr/lib/python2.7/dist-packages/psutil-3.4.2.egg-info
+23ecf34da7850c5e07a305bb5932b25a  usr/lib/python2.7/dist-packages/psutil/__init__.py
+08d68ad1c22a82af6dbe38be19d1a2c5  usr/lib/python2.7/dist-packages/psutil/_common.py
+93fa535dfbd83bc699be396b634869cf  usr/lib/python2.7/dist-packages/psutil/_compat.py
+4695c691b1da58cca5255b4717ae22c4  usr/lib/python2.7/dist-packages/psutil/_psbsd.py
+ee7d9abe65586ae36584f1f293fcedda  usr/lib/python2.7/dist-packages/psutil/_pslinux.py
+1cbb7c6f3162b659932b02b87f2a039f  usr/lib/python2.7/dist-packages/psutil/_psosx.py
+22bca8b8132e1e369e72cd539c1203bb  usr/lib/python2.7/dist-packages/psutil/_psposix.py
+0f61987681ab008c916d6f418b4c2a0d  usr/lib/python2.7/dist-packages/psutil/_pssunos.py
+de19cb57086e5acd0b7f5d90b80f4791  usr/lib/python2.7/dist-packages/psutil/_psutil_linux.x86_64-linux-gnu.so
+1907b3e93732005ade3dbc0761518a98  usr/lib/python2.7/dist-packages/psutil/_psutil_posix.x86_64-linux-gnu.so
+37bae45c47449b0affb9a98c933bd166  usr/lib/python2.7/dist-packages/psutil/_pswindows.py
+41340f6bd7e90fc973429a5b4ed247d7  usr/share/doc/python-psutil/changelog.Debian.gz
+4b73fb6935870a501558f9151c10aaa6  usr/share/doc/python-psutil/copyright

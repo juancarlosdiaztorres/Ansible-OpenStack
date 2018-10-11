@@ -1,0 +1,6 @@
+auto
+/usr/bin/oslopolicy-list-redundant
+
+/usr/bin/python2-oslopolicy-list-redundant
+300
+

@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Transport &mdash; oslo.messaging  documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="oslo.messaging  documentation" href="index.html" />
+    <link rel="next" title="Executors" href="executors.html" />
+    <link rel="prev" title="oslo.messaging" href="index.html" /> 
+  </head>
+  <body role="document">
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="transport">
+<h1>Transport<a class="headerlink" href="#transport" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="oslo_messaging.get_transport">
+<code class="descclassname">oslo_messaging.</code><code class="descname">get_transport</code><span class="sig-paren">(</span><em>conf</em>, <em>url=None</em>, <em>allowed_remote_exmods=None</em>, <em>aliases=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.get_transport" title="Permalink to this definition">¶</a></dt>
+<dd><p>A factory method for Transport objects.</p>
+<p>This method will construct a Transport object from transport configuration
+gleaned from the user&#8217;s configuration and, optionally, a transport URL.</p>
+<p>If a transport URL is supplied as a parameter, any transport configuration
+contained in it takes precedence. If no transport URL is supplied, but
+there is a transport URL supplied in the user&#8217;s configuration then that
+URL will take the place of the URL parameter. In both cases, any
+configuration not supplied in the transport URL may be taken from
+individual configuration parameters in the user&#8217;s configuration.</p>
+<p>An example transport URL might be:</p>
+<div class="highlight-python"><div class="highlight"><pre>rabbit://me:passwd@host:5672/virtual_host
+</pre></div>
+</div>
+<p>and can either be passed as a string or a TransportURL object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>conf</strong> (<em>cfg.ConfigOpts</em>) &#8211; the user configuration</li>
+<li><strong>url</strong> (<em>str or TransportURL</em>) &#8211; a transport URL</li>
+<li><strong>allowed_remote_exmods</strong> (<em>list</em>) &#8211; a list of modules which a client using this
+transport will deserialize remote exceptions
+from</li>
+<li><strong>aliases</strong> (<em>dict</em>) &#8211; A map of transport alias to transport name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="oslo_messaging.Transport">
+<em class="property">class </em><code class="descclassname">oslo_messaging.</code><code class="descname">Transport</code><span class="sig-paren">(</span><em>driver</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.Transport" title="Permalink to this definition">¶</a></dt>
+<dd><p>A messaging transport.</p>
+<p>This is a mostly opaque handle for an underlying messaging transport
+driver.</p>
+<p>It has a single &#8216;conf&#8217; property which is the cfg.ConfigOpts instance used
+to construct the transport object.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="oslo_messaging.TransportURL">
+<em class="property">class </em><code class="descclassname">oslo_messaging.</code><code class="descname">TransportURL</code><span class="sig-paren">(</span><em>conf</em>, <em>transport=None</em>, <em>virtual_host=None</em>, <em>hosts=None</em>, <em>aliases=None</em>, <em>query=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.TransportURL" title="Permalink to this definition">¶</a></dt>
+<dd><p>A parsed transport URL.</p>
+<p>Transport URLs take the form:</p>
+<div class="highlight-python"><div class="highlight"><pre>transport://user:pass@host:port[,userN:passN@hostN:portN]/virtual_host?query
+</pre></div>
+</div>
+<p>i.e. the scheme selects the transport driver, you may include multiple
+hosts in netloc, the path part is a &#8220;virtual host&#8221; partition path and
+the query part contains some driver-specific options which may override
+corresponding values from a static configuration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>conf</strong> (<em>oslo.config.cfg.ConfigOpts</em>) &#8211; a ConfigOpts instance</li>
+<li><strong>transport</strong> (<em>str</em>) &#8211; a transport name for example &#8216;rabbit&#8217;</li>
+<li><strong>virtual_host</strong> (<em>str</em>) &#8211; a virtual host path for example &#8216;/&#8217;</li>
+<li><strong>hosts</strong> (<em>list</em>) &#8211; a list of TransportHost objects</li>
+<li><strong>aliases</strong> (<em>dict</em>) &#8211; DEPRECATED: a map of transport alias to transport name</li>
+<li><strong>query</strong> (<em>dict</em>) &#8211; a dictionary of URL query parameters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="classmethod">
+<dt id="oslo_messaging.TransportURL.parse">
+<em class="property">classmethod </em><code class="descname">parse</code><span class="sig-paren">(</span><em>conf</em>, <em>url=None</em>, <em>aliases=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.TransportURL.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse an url.</p>
+<p>Assuming a URL takes the form of:</p>
+<div class="highlight-python"><div class="highlight"><pre>transport://user:pass@host:port[,userN:passN@hostN:portN]/virtual_host?query
+</pre></div>
+</div>
+<p>then parse the URL and return a TransportURL object.</p>
+<p>Netloc is parsed following the sequence bellow:</p>
+<ul>
+<li><p class="first">It is first split by &#8216;,&#8217; in order to support multiple hosts</p>
+</li>
+<li><p class="first">All hosts should be specified with username/password or not
+at the same time. In case of lack of specification, username and
+password will be omitted:</p>
+<div class="highlight-python"><div class="highlight"><pre>user:pass@host1:port1,host2:port2
+
+[
+  {&quot;username&quot;: &quot;user&quot;, &quot;password&quot;: &quot;pass&quot;, &quot;host&quot;: &quot;host1:port1&quot;},
+  {&quot;host&quot;: &quot;host2:port2&quot;}
+]
+</pre></div>
+</div>
+</li>
+</ul>
+<p>If the url is not provided conf.transport_url is parsed instead.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>conf</strong> (<em>oslo.config.cfg.ConfigOpts</em>) &#8211; a ConfigOpts instance</li>
+<li><strong>url</strong> (<em>str</em>) &#8211; The URL to parse</li>
+<li><strong>aliases</strong> (<em>dict</em>) &#8211; A map of transport alias to transport name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A TransportURL</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="oslo_messaging.TransportHost">
+<em class="property">class </em><code class="descclassname">oslo_messaging.</code><code class="descname">TransportHost</code><span class="sig-paren">(</span><em>hostname=None</em>, <em>port=None</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.TransportHost" title="Permalink to this definition">¶</a></dt>
+<dd><p>A host element of a parsed transport URL.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="oslo_messaging.set_transport_defaults">
+<code class="descclassname">oslo_messaging.</code><code class="descname">set_transport_defaults</code><span class="sig-paren">(</span><em>control_exchange</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.set_transport_defaults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set defaults for messaging transport configuration options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>control_exchange</strong> (<em>str</em>) &#8211; the default exchange under which topics are scoped</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="section" id="forking-processes-and-oslo-messaging-transport-objects">
+<h2>Forking Processes and oslo.messaging Transport objects<a class="headerlink" href="#forking-processes-and-oslo-messaging-transport-objects" title="Permalink to this headline">¶</a></h2>
+<p>oslo.messaging can&#8217;t ensure that forking a process that shares the same
+transport object is safe for the library consumer, because it relies on
+different 3rd party libraries that don&#8217;t ensure that. In certain
+cases, with some drivers, it does work:</p>
+<ul class="simple">
+<li>rabbit: works only if no connection have already been established.</li>
+<li>amqp1: works</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">Transport</a><ul>
+<li><a class="reference internal" href="#forking-processes-and-oslo-messaging-transport-objects">Forking Processes and oslo.messaging Transport objects</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">oslo.messaging</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="executors.html"
+                                  title="next chapter">Executors</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/transport.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="executors.html" title="Executors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="oslo.messaging"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">oslo.messaging  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, OpenStack Foundation.
+      Last updated on February 27, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/oslo.messaging");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

@@ -1,0 +1,16 @@
+/.
+/usr
+/usr/lib
+/usr/lib/python2.7
+/usr/lib/python2.7/dist-packages
+/usr/lib/python2.7/dist-packages/functools32-3.2.3_2.egg-info
+/usr/lib/python2.7/dist-packages/functools32
+/usr/lib/python2.7/dist-packages/functools32/__init__.py
+/usr/lib/python2.7/dist-packages/functools32/_dummy_thread32.py
+/usr/lib/python2.7/dist-packages/functools32/reprlib32.py
+/usr/lib/python2.7/dist-packages/functools32/functools32.py
+/usr/share
+/usr/share/doc
+/usr/share/doc/python-functools32
+/usr/share/doc/python-functools32/copyright
+/usr/share/doc/python-functools32/changelog.Debian.gz

@@ -1,0 +1,6 @@
+auto
+/usr/bin/migrate-repository
+
+/usr/bin/python2-migrate-repository
+300
+

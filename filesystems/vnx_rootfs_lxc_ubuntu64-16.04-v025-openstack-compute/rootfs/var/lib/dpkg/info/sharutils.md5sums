@@ -1,0 +1,16 @@
+7f9ceecda0cd0b2bf7d53c6ffdf0da0f  usr/bin/shar
+fa62e6ca2f940d8b6eb1124d85d3dfa5  usr/bin/unshar
+ffad29bbf45405be03a73640e95d9529  usr/bin/uudecode
+f231c73c9a48c5cb6bd5d49accb5b3d3  usr/bin/uuencode
+1478ddd3393c2950596648ccca8d29d1  usr/share/doc/sharutils/NEWS.gz
+5dcbea9c2d737d1a1fb2b3d2f2b3527c  usr/share/doc/sharutils/README
+621bda14bdb45cb6dfe623aa48616aca  usr/share/doc/sharutils/THANKS
+5d96ece7121c83cc794d5022422a19ec  usr/share/doc/sharutils/TODO
+3719ec0a5ec35621fa78c081a93b3dfe  usr/share/doc/sharutils/changelog.Debian.gz
+a2992a382f593bb5830ea49bf0534b69  usr/share/doc/sharutils/copyright
+fff7bb3c65b1409e3d96c1c09182d38b  usr/share/info/sharutils.info.gz
+addd65453095de2d16610ef0f2691f1e  usr/share/man/man1/shar.1.gz
+5b289de97cce7a7bbe4fc93a35d74d2e  usr/share/man/man1/unshar.1.gz
+f8996cddb0223297642b4e4001c7e94f  usr/share/man/man1/uudecode.1.gz
+8cf8aae4bdf54d7eaf7ea559ced8dec1  usr/share/man/man1/uuencode.1.gz
+fe5d4f0b3754526f75ff6e57593aa442  usr/share/man/man5/uuencode.5.gz

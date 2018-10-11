@@ -1,0 +1,11 @@
+63bbfacc556e733882314294b599f809  usr/lib/python2.7/dist-packages/libvirt.py
+8865acdb2923c90c7709fb0c4338cf5a  usr/lib/python2.7/dist-packages/libvirt_lxc.py
+a84fd85ac19afea0c780dcc5cde6faec  usr/lib/python2.7/dist-packages/libvirt_python-3.0.0.egg-info
+b087dcd585a66386bb47d24a8520a361  usr/lib/python2.7/dist-packages/libvirt_qemu.py
+521588fbb9f346846c5132f1cac10712  usr/lib/python2.7/dist-packages/libvirtmod.x86_64-linux-gnu.so
+d04046e17b611d3ee3ce95647129ed84  usr/lib/python2.7/dist-packages/libvirtmod_lxc.x86_64-linux-gnu.so
+9896cecd2be914db500d70eb124c6d92  usr/lib/python2.7/dist-packages/libvirtmod_qemu.x86_64-linux-gnu.so
+744753b043b89d2bb674e4cc815d1b0a  usr/share/doc/python-libvirt/NEWS.gz
+8ab21cad86b09c61aa5af49a235d1016  usr/share/doc/python-libvirt/README
+7217849fe074adffd5417ca0b1bab73c  usr/share/doc/python-libvirt/changelog.Debian.gz
+20fe6a1fea33f8d594ab97226900ce0d  usr/share/doc/python-libvirt/copyright

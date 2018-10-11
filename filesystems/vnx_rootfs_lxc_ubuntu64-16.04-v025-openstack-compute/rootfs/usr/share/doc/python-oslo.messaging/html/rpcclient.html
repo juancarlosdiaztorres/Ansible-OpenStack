@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RPC Client &mdash; oslo.messaging  documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="oslo.messaging  documentation" href="index.html" />
+    <link rel="next" title="Notifier" href="notifier.html" />
+    <link rel="prev" title="RPC Server" href="server.html" /> 
+  </head>
+  <body role="document">
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="rpc-client">
+<h1>RPC Client<a class="headerlink" href="#rpc-client" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="oslo_messaging.RPCClient">
+<em class="property">class </em><code class="descclassname">oslo_messaging.</code><code class="descname">RPCClient</code><span class="sig-paren">(</span><em>transport</em>, <em>target</em>, <em>timeout=None</em>, <em>version_cap=None</em>, <em>serializer=None</em>, <em>retry=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.RPCClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class for invoking methods on remote RPC servers.</p>
+<p>The RPCClient class is responsible for sending method invocations to and
+receiving return values from remote RPC servers via a messaging transport.</p>
+<p>Two RPC patterns are supported: RPC calls and RPC casts.</p>
+<p>An RPC cast is used when an RPC method does <em>not</em> return a value to
+the caller. An RPC call is used when a return value is expected from the
+method.  For further information see the cast() and call() methods.</p>
+<p>The default target used for all subsequent calls and casts is supplied to
+the RPCClient constructor.  The client uses the target to control how the
+RPC request is delivered to a server.  If only the target&#8217;s topic (and
+optionally exchange) are set, then the RPC can be serviced by any server
+that is listening to that topic (and exchange).  If multiple servers are
+listening on that topic/exchange, then one server is picked using a
+best-effort round-robin algorithm.  Alternatively, the client can set the
+Target&#8217;s <code class="docutils literal"><span class="pre">server</span></code> attribute to the name of a specific server to send the
+RPC request to one particular server.  In the case of RPC cast, the RPC
+request can be broadcast to all servers listening to the Target&#8217;s
+topic/exchange by setting the Target&#8217;s <code class="docutils literal"><span class="pre">fanout</span></code> property to <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<p>While the default target is set on construction, target attributes can be
+overridden for individual method invocations using the prepare() method.</p>
+<p>A method invocation consists of a request context dictionary, a method name
+and a dictionary of arguments.</p>
+<p>This class is intended to be used by wrapping it in another class which
+provides methods on the subclass to perform the remote invocation using
+call() or cast():</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">TestClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transport</span><span class="p">):</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">messaging</span><span class="o">.</span><span class="n">Target</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;2.0&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">messaging</span><span class="o">.</span><span class="n">RPCClient</span><span class="p">(</span><span class="n">transport</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctxt</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">ctxt</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An example of using the prepare() method to override some attributes of the
+default target:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctxt</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+    <span class="n">cctxt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s1">&#39;2.5&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cctxt</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">ctxt</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>RPCClient have a number of other properties - for example, timeout and
+version_cap - which may make sense to override for some method invocations,
+so they too can be passed to prepare():</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctxt</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+    <span class="n">cctxt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cctxt</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">ctxt</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, this class can be used directly without wrapping it another class.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">transport</span> <span class="o">=</span> <span class="n">messaging</span><span class="o">.</span><span class="n">get_transport</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONF</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">messaging</span><span class="o">.</span><span class="n">Target</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;2.0&#39;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">messaging</span><span class="o">.</span><span class="n">RPCClient</span><span class="p">(</span><span class="n">transport</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">ctxt</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>but this is probably only useful in limited circumstances as a wrapper
+class will usually help to make the code much more obvious.</p>
+<p>If the connection to the messaging service is not active when an RPC
+request is made the client will block waiting for the connection to
+complete.  If the connection fails to complete, the client will try to
+re-establish that connection. By default this will continue indefinitely
+until the connection completes. However, the retry parameter can be used to
+have the RPC request fail with a MessageDeliveryFailure after the given
+number of retries. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">client</span> <span class="o">=</span> <span class="n">messaging</span><span class="o">.</span><span class="n">RPCClient</span><span class="p">(</span><span class="n">transport</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">retry</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">ctxt</span><span class="p">,</span> <span class="s1">&#39;sync&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">retry</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">ctxt</span><span class="p">,</span> <span class="s1">&#39;ping&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">messaging</span><span class="o">.</span><span class="n">MessageDeliveryFailure</span><span class="p">:</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Failed to send ping message&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="oslo_messaging.RPCClient.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>ctxt</em>, <em>method</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.RPCClient.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoke a method and wait for a reply.</p>
+<p>The call() method is used to invoke RPC methods that return a
+value. Since only a single return value is permitted it is not possible
+to call() to a fanout target.</p>
+<p>call() will block the calling thread until the messaging transport
+provides the return value, a timeout occurs, or a non-recoverable error
+occurs.</p>
+<p>call() guarantees that the RPC request is done &#8216;at-most-once&#8217; which
+ensures that the call will never be duplicated.  However if the call
+should fail or time out before the return value arrives then there are
+no guarantees whether or not the method was invoked.</p>
+<p>Since call() blocks until completion of the RPC method, call()s from
+the same thread are guaranteed to be processed in-order.</p>
+<p>Method arguments must either be primitive types or types supported by
+the client&#8217;s serializer (if any). Similarly, the request context must
+be a dict unless the client&#8217;s serializer supports serializing another
+type.</p>
+<p>The semantics of how any errors raised by the remote RPC endpoint
+method are handled are quite subtle.</p>
+<p>Firstly, if the remote exception is contained in one of the modules
+listed in the allow_remote_exmods messaging.get_transport() parameter,
+then it this exception will be re-raised by call(). However, such
+locally re-raised remote exceptions are distinguishable from the same
+exception type raised locally because re-raised remote exceptions are
+modified such that their class name ends with the &#8216;_Remote&#8217; suffix so
+you may do:</p>
+<div class="highlight-python"><div class="highlight"><pre>if ex.__class__.__name__.endswith(&#39;_Remote&#39;):
+    # Some special case for locally re-raised remote exceptions
+</pre></div>
+</div>
+<p>Secondly, if a remote exception is not from a module listed in the
+allowed_remote_exmods list, then a messaging.RemoteError exception is
+raised with all details of the remote exception.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ctxt</strong> (<em>dict</em>) &#8211; a request context dict</li>
+<li><strong>method</strong> (<em>str</em>) &#8211; the method name</li>
+<li><strong>kwargs</strong> (<em>dict</em>) &#8211; a dict of method arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">MessagingTimeout, RemoteError, MessageDeliveryFailure</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging.RPCClient.can_send_version">
+<code class="descname">can_send_version</code><span class="sig-paren">(</span><em>version=&lt;object object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.RPCClient.can_send_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check to see if a version is compatible with the version cap.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging.RPCClient.cast">
+<code class="descname">cast</code><span class="sig-paren">(</span><em>ctxt</em>, <em>method</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.RPCClient.cast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoke a method without blocking for a return value.</p>
+<p>The cast() method is used to invoke an RPC method that does not return
+a value.  cast() RPC requests may be broadcast to all Servers listening
+on a given topic by setting the fanout Target property to <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<p>The cast() operation is best-effort: cast() will block the
+calling thread until the RPC request method is accepted by the
+messaging transport, but cast() does <em>not</em> verify that the RPC method
+has been invoked by the server. cast() does guarantee that the
+method will be not executed twice on a destination (e.g. &#8216;at-most-once&#8217;
+execution).</p>
+<p>There are no ordering guarantees across successive casts, even
+among casts to the same destination. Therefore methods may be executed
+in an order different from the order in which they are cast.</p>
+<p>Method arguments must either be primitive types or types supported by
+the client&#8217;s serializer (if any).</p>
+<p>Similarly, the request context must be a dict unless the client&#8217;s
+serializer supports serializing another type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ctxt</strong> (<em>dict</em>) &#8211; a request context dict</li>
+<li><strong>method</strong> (<em>str</em>) &#8211; the method name</li>
+<li><strong>kwargs</strong> (<em>dict</em>) &#8211; a dict of method arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">MessageDeliveryFailure if the messaging transport fails to
+accept the request.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging.RPCClient.prepare">
+<code class="descname">prepare</code><span class="sig-paren">(</span><em>exchange=&lt;object object&gt;</em>, <em>topic=&lt;object object&gt;</em>, <em>namespace=&lt;object object&gt;</em>, <em>version=&lt;object object&gt;</em>, <em>server=&lt;object object&gt;</em>, <em>fanout=&lt;object object&gt;</em>, <em>timeout=&lt;object object&gt;</em>, <em>version_cap=&lt;object object&gt;</em>, <em>retry=&lt;object object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.RPCClient.prepare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare a method invocation context.</p>
+<p>Use this method to override client properties for an individual method
+invocation. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctxt</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+    <span class="n">cctxt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s1">&#39;2.5&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cctxt</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">ctxt</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">arg</span><span class="o">=</span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>exchange</strong> (<em>str</em>) &#8211; see Target.exchange</li>
+<li><strong>topic</strong> (<em>str</em>) &#8211; see Target.topic</li>
+<li><strong>namespace</strong> (<em>str</em>) &#8211; see Target.namespace</li>
+<li><strong>version</strong> (<em>str</em>) &#8211; requirement the server must support, see Target.version</li>
+<li><strong>server</strong> (<em>str</em>) &#8211; send to a specific server, see Target.server</li>
+<li><strong>fanout</strong> (<em>bool</em>) &#8211; send to all servers on topic, see Target.fanout</li>
+<li><strong>timeout</strong> (<em>int or float</em>) &#8211; an optional default timeout (in seconds) for call()s</li>
+<li><strong>version_cap</strong> (<em>str</em>) &#8211; raise a RPCVersionCapError version exceeds this cap</li>
+<li><strong>retry</strong> (<em>int</em>) &#8211; an optional connection retries configuration:
+None or -1 means to retry forever.
+0 means no retry is attempted.
+N means attempt at most N retries.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="oslo_messaging.RemoteError">
+<em class="property">exception </em><code class="descclassname">oslo_messaging.</code><code class="descname">RemoteError</code><span class="sig-paren">(</span><em>exc_type=None</em>, <em>value=None</em>, <em>traceback=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.RemoteError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signifies that a remote endpoint method has raised an exception.</p>
+<p>Contains a string representation of the type of the original exception,
+the value of the original exception, and the traceback.  These are
+sent to the parent as a joined string so printing the exception
+contains all of the relevant info.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="server.html"
+                                  title="previous chapter">RPC Server</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="notifier.html"
+                                  title="next chapter">Notifier</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/rpcclient.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="notifier.html" title="Notifier"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="RPC Server"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">oslo.messaging  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, OpenStack Foundation.
+      Last updated on February 27, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/oslo.messaging");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

@@ -1,0 +1,631 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>routes.mapper – Mapper and Sub-Mapper &mdash; Routes 1.13 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.13',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Routes 1.13 documentation" href="../index.html" />
+    <link rel="up" title="Routes Modules" href="index.html" />
+    <link rel="next" title="routes.route – Route" href="route.html" />
+    <link rel="prev" title="routes – Routes Common Classes and Functions" href="routes.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="route.html" title="routes.route – Route"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="routes.html" title="routes – Routes Common Classes and Functions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Routes 1.13 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Routes Modules</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-routes.mapper">
+<span id="routes-mapper-mapper-and-sub-mapper"></span><h1><a class="reference internal" href="#module-routes.mapper" title="routes.mapper"><code class="xref py py-mod docutils literal"><span class="pre">routes.mapper</span></code></a> &#8211; Mapper and Sub-Mapper<a class="headerlink" href="#module-routes.mapper" title="Permalink to this headline">¶</a></h1>
+<p>Mapper and Sub-Mapper</p>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="routes.mapper.SubMapperParent">
+<em class="property">class </em><code class="descclassname">routes.mapper.</code><code class="descname">SubMapperParent</code><a class="headerlink" href="#routes.mapper.SubMapperParent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for Mapper and SubMapper, both of which may be the parent
+of SubMapper objects</p>
+<dl class="method">
+<dt id="routes.mapper.SubMapperParent.collection">
+<code class="descname">collection</code><span class="sig-paren">(</span><em>collection_name, resource_name, path_prefix=None, member_prefix='/{id}', controller=None, collection_actions=['index', 'create', 'new'], member_actions=['show', 'update', 'delete', 'edit'], member_options=None, **kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapperParent.collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a submapper that represents a collection.</p>
+<p>This results in a <a class="reference internal" href="#routes.mapper.SubMapper" title="routes.mapper.SubMapper"><code class="xref py py-class docutils literal"><span class="pre">routes.mapper.SubMapper</span></code></a> object, with a
+<code class="docutils literal"><span class="pre">member</span></code> property of the same type that represents the collection&#8217;s
+member resources.</p>
+<p>Its interface is the same as the <code class="docutils literal"><span class="pre">submapper</span></code> together with
+<code class="docutils literal"><span class="pre">member_prefix</span></code>, <code class="docutils literal"><span class="pre">member_actions</span></code> and <code class="docutils literal"><span class="pre">member_options</span></code>
+which are passed to the <code class="docutils literal"><span class="pre">member</span></code> submapper as <code class="docutils literal"><span class="pre">path_prefix</span></code>,
+<code class="docutils literal"><span class="pre">actions</span></code> and keyword arguments respectively.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">routes.util</span> <span class="kn">import</span> <span class="n">url_for</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">(</span><span class="n">controller_scan</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="nb">map</span><span class="o">.</span><span class="n">collection</span><span class="p">(</span><span class="s1">&#39;entries&#39;</span><span class="p">,</span> <span class="s1">&#39;entry&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">member</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="s1">&#39;ping&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;entries&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;edit_entry&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries/1/edit&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;ping_entry&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries/1/ping&#39;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapperParent.submapper">
+<code class="descname">submapper</code><span class="sig-paren">(</span><em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapperParent.submapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a partial version of the Mapper with the designated
+options set</p>
+<p>This results in a <a class="reference internal" href="#routes.mapper.SubMapper" title="routes.mapper.SubMapper"><code class="xref py py-class docutils literal"><span class="pre">routes.mapper.SubMapper</span></code></a> object.</p>
+<p>If keyword arguments provided to this method also exist in the
+keyword arguments provided to the submapper, their values will
+be merged with the saved options going first.</p>
+<p>In addition to <a class="reference internal" href="route.html#routes.route.Route" title="routes.route.Route"><code class="xref py py-class docutils literal"><span class="pre">routes.route.Route</span></code></a> arguments, submapper
+can also take a <code class="docutils literal"><span class="pre">path_prefix</span></code> argument which will be
+prepended to the path of all routes that are connected.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">(</span><span class="n">controller_scan</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;splash&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">matchlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;home&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="nb">map</span><span class="o">.</span><span class="n">submapper</span><span class="p">(</span><span class="n">controller</span><span class="o">=</span><span class="s1">&#39;home&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="s1">&#39;/index&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">matchlist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;index&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">matchlist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s1">&#39;controller&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;home&#39;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Optional <code class="docutils literal"><span class="pre">collection_name</span></code> and <code class="docutils literal"><span class="pre">resource_name</span></code> arguments are
+used in the generation of route names by the <code class="docutils literal"><span class="pre">action</span></code> and
+<code class="docutils literal"><span class="pre">link</span></code> methods.  These in turn are used by the <code class="docutils literal"><span class="pre">index</span></code>,
+<code class="docutils literal"><span class="pre">new</span></code>, <code class="docutils literal"><span class="pre">create</span></code>, <code class="docutils literal"><span class="pre">show</span></code>, <code class="docutils literal"><span class="pre">edit</span></code>, <code class="docutils literal"><span class="pre">update</span></code> and
+<code class="docutils literal"><span class="pre">delete</span></code> methods which may be invoked indirectly by listing
+them in the <code class="docutils literal"><span class="pre">actions</span></code> argument.  If the <code class="docutils literal"><span class="pre">formatted</span></code> argument
+is set to <code class="docutils literal"><span class="pre">True</span></code> (the default), generated paths are given the
+suffix &#8216;{.format}&#8217; which matches or generates an optional format
+extension.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">routes.util</span> <span class="kn">import</span> <span class="n">url_for</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">(</span><span class="n">controller_scan</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="nb">map</span><span class="o">.</span><span class="n">submapper</span><span class="p">(</span><span class="n">path_prefix</span><span class="o">=</span><span class="s1">&#39;/entries&#39;</span><span class="p">,</span> <span class="n">collection_name</span><span class="o">=</span><span class="s1">&#39;entries&#39;</span><span class="p">,</span> <span class="n">resource_name</span><span class="o">=</span><span class="s1">&#39;entry&#39;</span><span class="p">,</span> <span class="n">actions</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="s1">&#39;new&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;entries&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;new_entry&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s1">&#39;xml&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries/new.xml&#39;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="routes.mapper.SubMapper">
+<em class="property">class </em><code class="descclassname">routes.mapper.</code><code class="descname">SubMapper</code><span class="sig-paren">(</span><em>obj</em>, <em>resource_name=None</em>, <em>collection_name=None</em>, <em>actions=None</em>, <em>formatted=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Partial mapper for use with_options</p>
+<dl class="method">
+<dt id="routes.mapper.SubMapper.action">
+<code class="descname">action</code><span class="sig-paren">(</span><em>name=None</em>, <em>action=None</em>, <em>method='GET'</em>, <em>formatted=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a named route at the base path of a submapper.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">routes</span> <span class="kn">import</span> <span class="n">url_for</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">(</span><span class="n">controller_scan</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="nb">map</span><span class="o">.</span><span class="n">submapper</span><span class="p">(</span><span class="n">path_prefix</span><span class="o">=</span><span class="s1">&#39;/entries&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s1">&#39;entry&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">action</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;entries&#39;</span><span class="p">,</span> <span class="n">formatted</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">action</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;create&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="n">controller</span><span class="o">=</span><span class="s1">&#39;entry&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="n">controller</span><span class="o">=</span><span class="s1">&#39;entry&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s1">&#39;xml&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries.xml&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="n">controller</span><span class="o">=</span><span class="s1">&#39;entry&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;create&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries&#39;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapper.add_actions">
+<code class="descname">add_actions</code><span class="sig-paren">(</span><em>actions</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.add_actions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapper.connect">
+<code class="descname">connect</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapper.create">
+<code class="descname">create</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the &#8220;create&#8221; action for a collection submapper.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapper.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the &#8220;delete&#8221; action for a collection member submapper.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapper.edit">
+<code class="descname">edit</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.edit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the &#8220;edit&#8221; link for a collection member submapper.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapper.index">
+<code class="descname">index</code><span class="sig-paren">(</span><em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the &#8220;index&#8221; action for a collection submapper.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapper.link">
+<code class="descname">link</code><span class="sig-paren">(</span><em>rel=None</em>, <em>name=None</em>, <em>action=None</em>, <em>method='GET'</em>, <em>formatted=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a named route for a subresource.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">routes.util</span> <span class="kn">import</span> <span class="n">url_for</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">(</span><span class="n">controller_scan</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="nb">map</span><span class="o">.</span><span class="n">collection</span><span class="p">(</span><span class="s1">&#39;entries&#39;</span><span class="p">,</span> <span class="s1">&#39;entry&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="s1">&#39;recent&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;recent_entries&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">member</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="s1">&#39;ping&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">formatted</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;entries&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;recent_entries&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries/recent&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;ping_entry&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries/1/ping&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;ping_entry&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s1">&#39;xml&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;/entries/1/ping.xml&#39;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapper.new">
+<code class="descname">new</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the &#8220;new&#8221; link for a collection submapper.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapper.show">
+<code class="descname">show</code><span class="sig-paren">(</span><em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the &#8220;show&#8221; action for a collection member submapper.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.SubMapper.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.SubMapper.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the &#8220;update&#8221; action for a collection member submapper.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="routes.mapper.Mapper">
+<em class="property">class </em><code class="descclassname">routes.mapper.</code><code class="descname">Mapper</code><span class="sig-paren">(</span><em>controller_scan=&lt;function controller_scan&gt;</em>, <em>directory=None</em>, <em>always_scan=False</em>, <em>register=True</em>, <em>explicit=True</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.Mapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mapper handles URL generation and URL recognition in a web
+application.</p>
+<p>Mapper is built handling dictionary&#8217;s. It is assumed that the web
+application will handle the dictionary returned by URL recognition
+to dispatch appropriately.</p>
+<p>URL generation is done by passing keyword parameters into the
+generate function, a URL is then returned.</p>
+<p>Create a new Mapper instance</p>
+<p>All keyword arguments are optional.</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">controller_scan</span></code></dt>
+<dd><p class="first">Function reference that will be used to return a list of
+valid controllers used during URL matching. If
+<code class="docutils literal"><span class="pre">directory</span></code> keyword arg is present, it will be passed
+into the function during its call. This option defaults to
+a function that will scan a directory for controllers.</p>
+<p class="last">Alternatively, a list of controllers or None can be passed
+in which are assumed to be the definitive list of
+controller names valid when matching &#8216;controller&#8217;.</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">directory</span></code></dt>
+<dd>Passed into controller_scan for the directory to scan. It
+should be an absolute path if using the default
+<code class="docutils literal"><span class="pre">controller_scan</span></code> function.</dd>
+<dt><code class="docutils literal"><span class="pre">always_scan</span></code></dt>
+<dd>Whether or not the <code class="docutils literal"><span class="pre">controller_scan</span></code> function should be
+run during every URL match. This is typically a good idea
+during development so the server won&#8217;t need to be restarted
+anytime a controller is added.</dd>
+<dt><code class="docutils literal"><span class="pre">register</span></code></dt>
+<dd>Boolean used to determine if the Mapper should use
+<code class="docutils literal"><span class="pre">request_config</span></code> to register itself as the mapper. Since
+it&#8217;s done on a thread-local basis, this is typically best
+used during testing though it won&#8217;t hurt in other cases.</dd>
+<dt><code class="docutils literal"><span class="pre">explicit</span></code></dt>
+<dd><p class="first">Boolean used to determine if routes should be connected
+with implicit defaults of:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s1">&#39;controller&#39;</span><span class="p">:</span><span class="s1">&#39;content&#39;</span><span class="p">,</span><span class="s1">&#39;action&#39;</span><span class="p">:</span><span class="s1">&#39;index&#39;</span><span class="p">,</span><span class="s1">&#39;id&#39;</span><span class="p">:</span><span class="bp">None</span><span class="p">}</span>
+</pre></div>
+</div>
+<p class="last">When set to True, these defaults will not be added to route
+connections and <code class="docutils literal"><span class="pre">url_for</span></code> will not use Route memory.</p>
+</dd>
+</dl>
+<p>Additional attributes that may be set after mapper
+initialization (ie, map.ATTRIBUTE = &#8216;something&#8217;):</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">encoding</span></code></dt>
+<dd>Used to indicate alternative encoding/decoding systems to
+use with both incoming URL&#8217;s, and during Route generation
+when passed a Unicode string. Defaults to &#8216;utf-8&#8217;.</dd>
+<dt><code class="docutils literal"><span class="pre">decode_errors</span></code></dt>
+<dd>How to handle errors in the encoding, generally ignoring
+any chars that don&#8217;t convert should be sufficient. Defaults
+to &#8216;ignore&#8217;.</dd>
+<dt><code class="docutils literal"><span class="pre">minimization</span></code></dt>
+<dd>Boolean used to indicate whether or not Routes should
+minimize URL&#8217;s and the generated URL&#8217;s, or require every
+part where it appears in the path. Defaults to True.</dd>
+<dt><code class="docutils literal"><span class="pre">hardcode_names</span></code></dt>
+<dd>Whether or not Named Routes result in the default options
+for the route being used <em>or</em> if they actually force url
+generation to use the route. Defaults to False.</dd>
+</dl>
+<dl class="method">
+<dt id="routes.mapper.Mapper.connect">
+<code class="descname">connect</code><span class="sig-paren">(</span><em>*args</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.Mapper.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and connect a new Route to the Mapper.</p>
+<p>Usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">m</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;:controller/:action/:id&#39;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;date/:year/:month/:day&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s2">&quot;blog&quot;</span><span class="p">,</span>
+          <span class="n">action</span><span class="o">=</span><span class="s2">&quot;view&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;archives/:page&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s2">&quot;blog&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;by_page&quot;</span><span class="p">,</span>
+<span class="n">requirements</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;page&#39;</span><span class="p">:</span><span class="s1">&#39;\d{1,2}&#39;</span> <span class="p">})</span>
+<span class="n">m</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;category_list&#39;</span><span class="p">,</span> <span class="s1">&#39;archives/category/:section&#39;</span><span class="p">,</span>
+          <span class="n">controller</span><span class="o">=</span><span class="s1">&#39;blog&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;category&#39;</span><span class="p">,</span>
+          <span class="n">section</span><span class="o">=</span><span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;list&#39;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s1">&#39;blog&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;view&#39;</span><span class="p">,</span>
+          <span class="n">section</span><span class="o">=</span><span class="s1">&#39;home&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.Mapper.create_regs">
+<code class="descname">create_regs</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.Mapper.create_regs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Atomically creates regular expressions for all connected
+routes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.Mapper.extend">
+<code class="descname">extend</code><span class="sig-paren">(</span><em>routes</em>, <em>path_prefix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.Mapper.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extends the mapper routes with a list of Route objects</p>
+<p>If a path_prefix is provided, all the routes will have their
+path prepended with the path_prefix.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">(</span><span class="n">controller_scan</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;splash&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">matchlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;home&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">routes</span> <span class="o">=</span> <span class="p">[</span><span class="n">Route</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="s1">&#39;/index.htm&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s1">&#39;home&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">action</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">routes</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="nb">map</span><span class="o">.</span><span class="n">matchlist</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">routes</span><span class="p">,</span> <span class="n">path_prefix</span><span class="o">=</span><span class="s1">&#39;/subapp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="nb">map</span><span class="o">.</span><span class="n">matchlist</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">map</span><span class="o">.</span><span class="n">matchlist</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">routepath</span> <span class="o">==</span> <span class="s1">&#39;/subapp/index.htm&#39;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function does not merely extend the mapper with the
+given list of routes, it actually creates new routes with
+identical calling arguments.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.Mapper.generate">
+<code class="descname">generate</code><span class="sig-paren">(</span><em>*args</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.Mapper.generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a route from a set of keywords</p>
+<p>Returns the url text, or None if no URL could be generated.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">m</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">controller</span><span class="o">=</span><span class="s1">&#39;content&#39;</span><span class="p">,</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;view&#39;</span><span class="p">,</span><span class="nb">id</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.Mapper.make_route">
+<code class="descname">make_route</code><span class="sig-paren">(</span><em>*args</em>, <em>**kargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.Mapper.make_route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a new Route object</p>
+<p>A subclass can override this method to use a custom Route class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.Mapper.match">
+<code class="descname">match</code><span class="sig-paren">(</span><em>url=None</em>, <em>environ=None</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.Mapper.match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Match a URL against against one of the routes contained.</p>
+<p>Will return None if no valid match is found.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">resultdict</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;/joe/sixpack&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.Mapper.redirect">
+<code class="descname">redirect</code><span class="sig-paren">(</span><em>match_path</em>, <em>destination_path</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.Mapper.redirect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a redirect route to the mapper</p>
+<p>Redirect routes bypass the wrapped WSGI application and instead
+result in a redirect being issued by the RoutesMiddleware. As
+such, this method is only meaningful when using
+RoutesMiddleware.</p>
+<p>By default, a 302 Found status code is used, this can be
+changed by providing a <code class="docutils literal"><span class="pre">_redirect_code</span></code> keyword argument
+which will then be used instead. Note that the entire status
+code string needs to be present.</p>
+<p>When using keyword arguments, all arguments that apply to
+matching will be used for the match, while generation specific
+options will be used during generation. Thus all options
+normally available to connected Routes may be used with
+redirect routes as well.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">()</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;/legacyapp/archives/{url:.*}, &#39;</span><span class="o">/</span><span class="n">archives</span><span class="o">/</span><span class="p">{</span><span class="n">url</span><span class="p">})</span>
+<span class="nb">map</span><span class="o">.</span><span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;/home/index&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+             <span class="n">_redirect_code</span><span class="o">=</span><span class="s1">&#39;301 Moved Permanently&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.Mapper.resource">
+<code class="descname">resource</code><span class="sig-paren">(</span><em>member_name</em>, <em>collection_name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.Mapper.resource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate routes for a controller resource</p>
+<p>The member_name name should be the appropriate singular version
+of the resource given your locale and used with members of the
+collection. The collection_name name will be used to refer to
+the resource collection methods and should be a plural version
+of the member_name argument. By default, the member_name name
+will also be assumed to map to a controller you create.</p>
+<p>The concept of a web resource maps somewhat directly to &#8216;CRUD&#8217;
+operations. The overlying things to keep in mind is that
+mapping a resource is about handling creating, viewing, and
+editing that resource.</p>
+<p>All keyword arguments are optional.</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">controller</span></code></dt>
+<dd>If specified in the keyword args, the controller will be
+the actual controller used, but the rest of the naming
+conventions used for the route names and URL paths are
+unchanged.</dd>
+<dt><code class="docutils literal"><span class="pre">collection</span></code></dt>
+<dd><p class="first">Additional action mappings used to manipulate/view the
+entire set of resources provided by the controller.</p>
+<p>Example:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;messages&#39;</span><span class="p">,</span> <span class="n">collection</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rss&#39;</span><span class="p">:</span><span class="s1">&#39;GET&#39;</span><span class="p">})</span>
+<span class="c1"># GET /message/rss (maps to the rss action)</span>
+<span class="c1"># also adds named route &quot;rss_message&quot;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal"><span class="pre">member</span></code></dt>
+<dd><p class="first">Additional action mappings used to access an individual
+&#8216;member&#8217; of this controllers resources.</p>
+<p>Example:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;messages&#39;</span><span class="p">,</span> <span class="n">member</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;mark&#39;</span><span class="p">:</span><span class="s1">&#39;POST&#39;</span><span class="p">})</span>
+<span class="c1"># POST /message/1/mark (maps to the mark action)</span>
+<span class="c1"># also adds named route &quot;mark_message&quot;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal"><span class="pre">new</span></code></dt>
+<dd><p class="first">Action mappings that involve dealing with a new member in
+the controller resources.</p>
+<p>Example:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;messages&#39;</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;preview&#39;</span><span class="p">:</span><span class="s1">&#39;POST&#39;</span><span class="p">})</span>
+<span class="c1"># POST /message/new/preview (maps to the preview action)</span>
+<span class="c1"># also adds a url named &quot;preview_new_message&quot;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal"><span class="pre">path_prefix</span></code></dt>
+<dd>Prepends the URL path for the Route with the path_prefix
+given. This is most useful for cases where you want to mix
+resources or relations between resources.</dd>
+<dt><code class="docutils literal"><span class="pre">name_prefix</span></code></dt>
+<dd><p class="first">Perpends the route names that are generated with the
+name_prefix given. Combined with the path_prefix option,
+it&#8217;s easy to generate route names and paths that represent
+resources that are in relations.</p>
+<p>Example:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;messages&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s1">&#39;categories&#39;</span><span class="p">,</span>
+    <span class="n">path_prefix</span><span class="o">=</span><span class="s1">&#39;/category/:category_id&#39;</span><span class="p">,</span>
+    <span class="n">name_prefix</span><span class="o">=</span><span class="s2">&quot;category_&quot;</span><span class="p">)</span>
+<span class="c1"># GET /category/7/message/1</span>
+<span class="c1"># has named route &quot;category_message&quot;</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal"><span class="pre">parent_resource</span></code></dt>
+<dd><p class="first">A <code class="docutils literal"><span class="pre">dict</span></code> containing information about the parent
+resource, for creating a nested resource. It should contain
+the <code class="docutils literal"><span class="pre">member_name</span></code> and <code class="docutils literal"><span class="pre">collection_name</span></code> of the parent
+resource. This <code class="docutils literal"><span class="pre">dict</span></code> will
+be available via the associated <code class="docutils literal"><span class="pre">Route</span></code> object which can
+be accessed during a request via
+<code class="docutils literal"><span class="pre">request.environ['routes.route']</span></code></p>
+<p>If <code class="docutils literal"><span class="pre">parent_resource</span></code> is supplied and <code class="docutils literal"><span class="pre">path_prefix</span></code>
+isn&#8217;t, <code class="docutils literal"><span class="pre">path_prefix</span></code> will be generated from
+<code class="docutils literal"><span class="pre">parent_resource</span></code> as
+&#8220;&lt;parent collection name&gt;/:&lt;parent member name&gt;_id&#8221;.</p>
+<p>If <code class="docutils literal"><span class="pre">parent_resource</span></code> is supplied and <code class="docutils literal"><span class="pre">name_prefix</span></code>
+isn&#8217;t, <code class="docutils literal"><span class="pre">name_prefix</span></code> will be generated from
+<code class="docutils literal"><span class="pre">parent_resource</span></code> as  &#8220;&lt;parent member name&gt;_&#8221;.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">routes.util</span> <span class="kn">import</span> <span class="n">url_for</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">,</span> <span class="s1">&#39;locations&#39;</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">parent_resource</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">member_name</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                <span class="n">collection_name</span><span class="o">=</span><span class="s1">&#39;regions&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># path_prefix is &quot;regions/:region_id&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># name prefix is &quot;region_&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;region_locations&#39;</span><span class="p">,</span> <span class="n">region_id</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="go">&#39;/regions/13/locations&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;region_new_location&#39;</span><span class="p">,</span> <span class="n">region_id</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="go">&#39;/regions/13/locations/new&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;region_location&#39;</span><span class="p">,</span> <span class="n">region_id</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="go">&#39;/regions/13/locations/60&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;region_edit_location&#39;</span><span class="p">,</span> <span class="n">region_id</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="go">&#39;/regions/13/locations/60/edit&#39;</span>
+</pre></div>
+</div>
+<p>Overriding generated <code class="docutils literal"><span class="pre">path_prefix</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">,</span> <span class="s1">&#39;locations&#39;</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">parent_resource</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">member_name</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                <span class="n">collection_name</span><span class="o">=</span><span class="s1">&#39;regions&#39;</span><span class="p">),</span>
+<span class="gp">... </span>           <span class="n">path_prefix</span><span class="o">=</span><span class="s1">&#39;areas/:area_id&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># name prefix is &quot;region_&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;region_locations&#39;</span><span class="p">,</span> <span class="n">area_id</span><span class="o">=</span><span class="mi">51</span><span class="p">)</span>
+<span class="go">&#39;/areas/51/locations&#39;</span>
+</pre></div>
+</div>
+<p>Overriding generated <code class="docutils literal"><span class="pre">name_prefix</span></code>:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">Mapper</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">,</span> <span class="s1">&#39;locations&#39;</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="n">parent_resource</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">member_name</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                <span class="n">collection_name</span><span class="o">=</span><span class="s1">&#39;regions&#39;</span><span class="p">),</span>
+<span class="gp">... </span>           <span class="n">name_prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># path_prefix is &quot;regions/:region_id&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;locations&#39;</span><span class="p">,</span> <span class="n">region_id</span><span class="o">=</span><span class="mi">51</span><span class="p">)</span>
+<span class="go">&#39;/regions/51/locations&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="routes.mapper.Mapper.routematch">
+<code class="descname">routematch</code><span class="sig-paren">(</span><em>url=None</em>, <em>environ=None</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.mapper.Mapper.routematch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Match a URL against against one of the routes contained.</p>
+<p>Will return None if no valid match is found, otherwise a
+result dict and a route object is returned.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">resultdict</span><span class="p">,</span> <span class="n">route_obj</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;/joe/sixpack&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">routes.mapper</span></code> &#8211; Mapper and Sub-Mapper</a><ul>
+<li><a class="reference internal" href="#module-contents">Module Contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="routes.html"
+                        title="previous chapter"><code class="docutils literal"><span class="pre">routes</span></code> &#8211; Routes Common Classes and Functions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="route.html"
+                        title="next chapter"><code class="docutils literal"><span class="pre">routes.route</span></code> &#8211; Route</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/mapper.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="route.html" title="routes.route – Route"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="routes.html" title="routes – Routes Common Classes and Functions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Routes 1.13 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Routes Modules</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2005-2015, Ben Bangert, Mike Orr.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

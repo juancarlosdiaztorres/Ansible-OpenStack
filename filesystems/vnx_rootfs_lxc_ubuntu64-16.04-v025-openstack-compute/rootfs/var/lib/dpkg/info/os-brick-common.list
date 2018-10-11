@@ -1,0 +1,11 @@
+/.
+/etc
+/etc/os-brick
+/etc/os-brick/rootwrap.d
+/etc/os-brick/rootwrap.d/os-brick.filters
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/os-brick-common
+/usr/share/doc/os-brick-common/changelog.Debian.gz
+/usr/share/doc/os-brick-common/copyright

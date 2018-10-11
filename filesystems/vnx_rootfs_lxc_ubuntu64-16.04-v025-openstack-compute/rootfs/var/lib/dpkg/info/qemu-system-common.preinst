@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+install|upgrade)
+    # Add the kvm group unless it's already there
+    if ! getent group kvm >/dev/null; then
+        addgroup --quiet --system kvm || true
+    fi
+esac
+
+# Automatically added by dh_installdeb
+dpkg-maintscript-helper rm_conffile /etc/init/qemu-kvm.conf 1:2.8+dfsg-1ubuntu1~ -- "$@"
+# End automatically added section
+# Automatically added by dh_installdeb
+dpkg-maintscript-helper rm_conffile /etc/init.d/qemu-kvm 1:2.8+dfsg-1ubuntu1~ -- "$@"
+# End automatically added section
+

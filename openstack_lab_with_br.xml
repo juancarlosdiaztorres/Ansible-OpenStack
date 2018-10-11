@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+~~~~~~~~~~~~~~~~~~~~~~
+ VNX Sample scenarios
+~~~~~~~~~~~~~~~~~~~~~~
+
+Name:        openstack_tutorial-ocata
+
+Description: This is an Openstack tutorial scenario designed to experiment with Openstack free and open-source 
+             software platform for cloud-computing. It is made of four LXC containers: 
+               - one controller
+               - one network node
+               - two compute nodes
+             Openstack version used: Ocata.
+             The network configuration is based on the one named "Classic with Open vSwitch" described here:
+                  http://docs.openstack.org/mitaka/networking-guide/scenario-classic-ovs.html
+
+Author:      David Fernandez (david@dit.upm.es)
+
+This file is part of the Virtual Networks over LinuX (VNX) Project distribution. 
+(www: http://www.dit.upm.es/vnx - e-mail: vnx@dit.upm.es) 
+
+Copyright (C) 2017 Departamento de Ingenieria de Sistemas Telematicos (DIT)
+	      Universidad Politecnica de Madrid (UPM)
+              SPAIN
+-->
+
+<vnx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="/usr/share/xml/vnx/vnx-2.00.xsd">
+  <global>
+    <version>2.0</version>
+    <scenario_name>openstack_tutorial-ocata</scenario_name>
+    <ssh_key>/root/.ssh/id_rsa.pub</ssh_key>
+    <automac offset="0"/>
+    <vm_mgmt type="none"/>
+    <vm_defaults>
+        <console id="0" display="no"/>
+        <console id="1" display="yes"/>
+    </vm_defaults>
+  </global>
+
+  <net name="br-mgmt" mode="virtual_bridge"/>
+  <net name="br-vxlan" mode="virtual_bridge"/>
+  <net name="br-storage" mode="virtual_bridge"/>
+  <net name="ExtNet"  mode="virtual_bridge"/>
+  <net name="br-vlan" mode="virtual_bridge"/>
+  <net name="virbr0"  mode="virtual_bridge"/>
+
+
+  <vm name="infra1" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/vnx_rootfs_lxc_ubuntu64-18.04-v025</filesystem>
+    <mem>2G</mem> 
+    <if id="1" net="br-mgmt">
+      <ipv4>172.29.236.11/24</ipv4>
+    </if>
+    <if id="2" net="br-vxlan">
+      <ipv4>172.29.240.11/24</ipv4>
+    </if>
+    <if id="3" net="br-vlan">
+    </if>
+    <if id="4" net="br-storage">
+      <ipv4>172.29.244.11/24</ipv4>
+    </if>
+    <if id="5" net="ExtNet">
+      <ipv4>172.29.232.11/24</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+     <!-- Copy /etc/hosts file and add kernel modules-->
+    <filetree seq="on_boot" root="/root/">conf/hosts</filetree> 
+    <exec seq="on_boot" type="verbatim">
+        cat /root/hosts >> /etc/hosts;
+        rm /root/hosts;
+	      echo 'bonding' >> /etc/modules
+	      echo '8021q' >> /etc/modules	
+    </exec> 
+  </vm>
+
+
+  <vm name="compute1" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/vnx_rootfs_lxc_ubuntu64-18.04-v025</filesystem>
+    <mem>2G</mem> 
+    <if id="1" net="br-mgmt">
+      <ipv4>172.29.236.12/24</ipv4>
+    </if>
+    <if id="2" net="br-vxlan">
+      <ipv4>172.29.240.12/24</ipv4>
+    </if>
+    <if id="3" net="br-vlan">
+    </if> 
+    <if id="4" net="br-storage">
+      <ipv4>172.29.244.12/24</ipv4>
+    </if>
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Copy /etc/hosts file -->
+    <filetree seq="on_boot" root="/root/">conf/hosts</filetree> 
+    <exec seq="on_boot" type="verbatim">
+        cat /root/hosts >> /etc/hosts;
+        rm /root/hosts;
+	      echo 'bonding' >> /etc/modules;
+	      echo '8021q' >> /etc/modules;
+        <!-- # Create /dev/net/tun device 
+        #mkdir -p /dev/net/
+        #mknod -m 666 /dev/net/tun  c 10 200
+        # Change br-mgmt and br-vxlan interfaces MTU
+        ifconfig eth1 mtu 1450
+        sed -i -e '/iface eth1 inet static/a \   mtu 1450' /etc/network/interfaces
+        ifconfig eth2 mtu 1450
+        sed -i -e '/iface eth2 inet static/a \   mtu 1450' /etc/network/interfaces
+        ifconfig eth3 mtu 1450
+        sed -i -e '/iface eth3 inet static/a \   mtu 1450' /etc/network/interfaces -->
+    </exec>
+    </vm>
+
+  <vm name="storage1" type="lxc" arch="x86_64">
+    <filesystem type="cow">/usr/share/vnx/filesystems/vnx_rootfs_lxc_ubuntu64-18.04-v025</filesystem>
+  <!--vm name="compute2" type="libvirt" subtype="kvm" os="linux" exec_mode="sdisk" arch="x86_64" vcpu="2"-->
+    <!--filesystem type="cow">filesystems/rootfs_kvm_ubuntu64-ostack-compute</filesystem!-->
+    <mem>1G</mem> 
+    <if id="1" net="br-mgmt">
+      <ipv4>172.29.236.13/24</ipv4>
+    </if>
+    <if id="2" net="br-storage">
+      <ipv4>172.29.244.13/24</ipv4>
+    </if>
+<!--     <if id="3" net="br-vlan">
+    </if> -->
+    <if id="9" net="virbr0">
+      <ipv4>dhcp</ipv4>
+    </if>
+
+    <!-- Copy /etc/hosts file -->
+    <filetree seq="on_boot" root="/root/">conf/hosts</filetree>
+    <exec seq="on_boot" type="verbatim">
+        cat /root/hosts >> /etc/hosts;
+        rm /root/hosts;
+	echo 'bonding' >> /etc/modules
+	echo '8021q' >> /etc/modules
+        <!-- # Create /dev/net/tun device 
+        #mkdir -p /dev/net/
+        #mknod -m 666 /dev/net/tun  c 10 200
+        # Change br-mgmt and br-vxlan interfaces MTU
+        ifconfig eth1 mtu 1450
+        sed -i -e '/iface eth1 inet static/a \   mtu 1450' /etc/network/interfaces
+        ifconfig eth2 mtu 1450
+        sed -i -e '/iface eth2 inet static/a \   mtu 1450' /etc/network/interfaces
+        ifconfig eth3 mtu 1450
+        sed -i -e '/iface eth3 inet static/a \   mtu 1450' /etc/network/interfaces -->
+    </exec>
+    </vm>
+
+
+  <host>
+    <hostif net="ExtNet">
+       <!-- <ipv4>10.0.10.1/24</ipv4> -->
+       <ipv4>172.29.232.1/24</ipv4>
+    </hostif>
+    <hostif net="br-mgmt">
+      <ipv4>172.29.236.1/24</ipv4>
+    </hostif>
+    <exec seq="step00" type="verbatim">
+    	echo "--\n-- Waiting for all VMs to be ssh ready...\n--"
+    </exec>
+    <exec seq="step00" type="verbatim">
+    	# Wait till ssh is accesible in all VMs
+    	while ! $( nc -z controller 22 ); do sleep 1; done
+    	while ! $( nc -z network 22 ); do sleep 1; done
+    	while ! $( nc -z compute1 22 ); do sleep 1; done
+    	while ! $( nc -z compute2 22 ); do sleep 1; done
+    </exec>
+    <exec seq="step00" type="verbatim">
+    	echo "-- ...OK\n--"
+    </exec>
+  </host>
+
+</vnx>

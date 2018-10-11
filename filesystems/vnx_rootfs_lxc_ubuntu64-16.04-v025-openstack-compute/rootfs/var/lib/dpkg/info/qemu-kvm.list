@@ -1,0 +1,15 @@
+/.
+/usr
+/usr/bin
+/usr/bin/kvm
+/usr/share
+/usr/share/doc
+/usr/share/doc/qemu-kvm
+/usr/share/doc/qemu-kvm/copyright
+/usr/share/doc/qemu-kvm/NEWS.Debian.gz
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/kvm.1.gz
+/usr/bin/kvm-spice
+/usr/bin/qemu-system-x86_64-spice
+/usr/share/doc/qemu-kvm/changelog.Debian.gz

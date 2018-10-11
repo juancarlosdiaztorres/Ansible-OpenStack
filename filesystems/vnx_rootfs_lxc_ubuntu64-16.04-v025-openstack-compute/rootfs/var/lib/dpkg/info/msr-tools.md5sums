@@ -1,0 +1,6 @@
+e5bd251aad9610b76e728441153aecc1  usr/sbin/rdmsr
+391d0f4e1036e49ecf7f63ea7d6a77f8  usr/sbin/wrmsr
+5aeaad992a348dce55772d21f7d5331b  usr/share/doc/msr-tools/changelog.Debian.gz
+9f5a7184154410b8d7a00e0eb6df2c3b  usr/share/doc/msr-tools/copyright
+8c415c4a3bde9a614b548f001d10a0f3  usr/share/man/man1/rdmsr.1.gz
+10131763a57bfb55b975533e9128d3f1  usr/share/man/man1/wrmsr.1.gz

@@ -1,0 +1,722 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>AMQP 1.0 Protocol Driver Deployment Guide &mdash; oslo.messaging  documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="oslo.messaging  documentation" href="index.html" />
+    <link rel="next" title="Pika Driver Deployment Guide" href="pika_driver.html" />
+    <link rel="prev" title="Supported Messaging Drivers" href="supported-messaging-drivers.html" /> 
+  </head>
+  <body role="document">
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="amqp-1-0-protocol-driver-deployment-guide">
+<h1>AMQP 1.0 Protocol Driver Deployment Guide<a class="headerlink" href="#amqp-1-0-protocol-driver-deployment-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The AMQP 1.0 Protocol Driver is a messaging transport backend
+supported in oslo.messaging. The driver maps the base oslo.messaging
+capabilities for RPC and Notification message exchange onto version
+1.0 of the Advanced Message Queuing Protocol (AMQP 1.0, ISO/IEC
+19464). The driver is intended to support any messaging intermediary
+(e.g. broker or router) that implements version 1.0 of the AMQP
+protocol.</p>
+<p>More detail regarding the AMQP 1.0 Protocol is available from the
+<a class="reference external" href="http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-overview-v1.0-os.html">AMQP specification</a>.</p>
+<p>More detail regarding the driver&#8217;s implementation is available from
+the <a class="reference external" href="https://git.openstack.org/cgit/openstack/oslo-specs/tree/specs/juno/amqp10-driver-implementation.rst">oslo specification</a>.</p>
+</div>
+<div class="section" id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>The AMQP 1.0 driver is one of a family of oslo.messaging backend
+drivers. It currently supports two types of message intermediaries.
+The first type is an AMQP 1.0 messaging broker and the second type is
+an AMQP 1.0 message router. The driver should support additional
+intermediary types in the future but may require additions to driver
+configuration parameters in order to do so.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="18%" />
+<col width="20%" />
+<col width="20%" />
+<col width="18%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Intermediary
+Type</td>
+<td>RPC
+Pattern</td>
+<td>Notify
+Pattern</td>
+<td>Message
+Treatment</td>
+<td>Topology</td>
+</tr>
+<tr class="row-even"><td>Message
+Router</td>
+<td>Yes</td>
+<td><a class="reference internal" href="#limited">Limited</a></td>
+<td>Direct
+Messaging</td>
+<td>Single or
+Mesh</td>
+</tr>
+<tr class="row-odd"><td>Message
+Broker</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Store and
+Forward</td>
+<td>Single or
+Cluster</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="direct-messaging">
+<h3>Direct Messaging<a class="headerlink" href="#direct-messaging" title="Permalink to this headline">¶</a></h3>
+<p>The direct messaging capabilities provided by the message router
+intermediary type are recommended for the oslo.messaging RPC
+messaging pattern.</p>
+<p id="limited">Additionally, the message router intermediary may be used for the
+Notification messaging pattern with the consideration that
+notification messages will be dropped when there is no active
+consumer. The message router does not provide durability or
+store-and-forward capabilities for notification messages.</p>
+<p>The driver can readily scale operation from working with a single
+instances of a message router to working with a large scale routed
+mesh interconnect topology.</p>
+</div>
+<div class="section" id="store-and-forward">
+<h3>Store and Forward<a class="headerlink" href="#store-and-forward" title="Permalink to this headline">¶</a></h3>
+<p>The store and forward capabilities provide by the message broker
+intermediary type are recommended for the oslo.message Notification
+messaging pattern. This driver is able to work with a single instance
+of a message broker or a clustered broker deployment.</p>
+<p>Oslo.messaging provides a mechanism to configure separate backends for
+RPC and Notification communications. This document provides deployment and
+configuration information for use of this driver in oslo.messaging.</p>
+</div>
+<div class="section" id="addressing">
+<h3>Addressing<a class="headerlink" href="#addressing" title="Permalink to this headline">¶</a></h3>
+<p>A new address syntax was added to the driver to support efficient
+direct message routing. This new syntax will also work with a broker
+intermediary backend but is not compatible with the address syntax
+previously used by the driver. In order to allow backward compatibility,
+the driver will attempt to identify the intermediary type for the
+backend in use and will automatically select the &#8216;legacy&#8217; syntax for
+broker-based backends or the new &#8216;routable&#8217; syntax for router-based
+backends. An <a class="reference internal" href="#address-mode">address mode</a> configuration option is provided to
+override this dynamic behavior and force the use of either the legacy
+or routable address syntax.</p>
+</div>
+<div class="section" id="message-acknowledgement">
+<h3>Message Acknowledgement<a class="headerlink" href="#message-acknowledgement" title="Permalink to this headline">¶</a></h3>
+<p>A primary functional difference between a router and a
+broker intermediary type is when message acknowledgement occurs.</p>
+<p>The router does not &#8220;store&#8221; the message hence it does not generate an
+acknowledgement. Instead the consuming endpoint is responsible for message
+acknowledgement and the router forwards the acknowledgement back to
+the sender. This is known as &#8216;end-to-end&#8217; acknowledgement. In contrast, a
+broker stores then forwards the message so that message acknowledgement is
+performed in two stages. In the first stage, a message
+acknowledgement occurs between the broker and the Sender. In the
+second stage, an acknowledgement occurs between the Server and
+the broker.</p>
+<p>This difference affects how long the Sender waits for the message
+transfer to complete.</p>
+<div class="highlight-python"><div class="highlight"><pre>                                                      +dispatch+
+                                                      |  (3)   |
+                                                      |        |
+                                                      |        v
++--------------+    (1)    +----------+    (2)     +--------------+
+|    Client    |----------&gt;|  Router  |-----------&gt;|    Server    |
+|   (Sender)   |&lt;----------| (Direct) |&lt;-----------|  (Listener)  |
++--------------+    (5)    +----------+    (4)     +--------------+
+</pre></div>
+</div>
+<p>For example when a router intermediary is used, the following sequence
+occurs:</p>
+<ol class="arabic simple">
+<li>The message is sent to the router</li>
+<li>The router forwards the message to the Server</li>
+<li>The Server dispatches  the message to the application</li>
+<li>The Server indicates the acknowledgement via the router</li>
+<li>The router forwards the acknowledgement to the Sender</li>
+</ol>
+<p>In this sequence, a Sender waits for the message acknowledgement until
+step (5) occurs.</p>
+<div class="highlight-python"><div class="highlight"><pre>                                                      +dispatch+
+                                                      |  (4)   |
+                                                      |        |
+                                                      |        v
++--------------+    (1)    +----------+    (3)     +--------------+
+|    Client    |----------&gt;|  Broker  |-----------&gt;|    Server    |
+|   (Sender)   |&lt;----------| (Queue)  |&lt;-----------|  (Listener)  |
++--------------+    (2)    +----------+    (5)     +--------------+
+</pre></div>
+</div>
+<p>And when a broker intermediary is used, the following sequence occurs:</p>
+<ol class="arabic simple">
+<li>The message is sent to the broker</li>
+<li>The broker stores the message and acknowledges the message to the
+Sender</li>
+<li>The broker sends the message to the Server</li>
+<li>The Server dispatches the message to the application</li>
+<li>The Server indicates the acknowledgement to the broker</li>
+</ol>
+<p>In this sequence, a Sender waits for the message acknowledgement until
+step (2) occurs.</p>
+<p>Therefore the broker-based Sender receives the acknowledgement
+earlier in the transfer than the routed case. However in the brokered
+case receipt of the acknowledgement does not signify that the message
+has been (or will ever be) received by the Server.</p>
+<div class="section" id="batched-notifications-note-well">
+<h4>Batched Notifications <strong>Note Well</strong><a class="headerlink" href="#batched-notifications-note-well" title="Permalink to this headline">¶</a></h4>
+<p>While the use of a router intermediary for oslo.messaging Notification is
+currently not recommended, it should be noted that the use of a router
+intermediary with batched notifications may exacerbate the acknowledgement
+wait time for a Sender.</p>
+<p>For example, when a batched notification configuration is used where
+batch size is set to 100, the Server will wait until 100 notification
+messages are buffered (or timeout occurs) before dispatching the
+notifications to the application for message acknowledgement. Since
+each notifier client can have at most one message outstanding
+(e.g. pending acknowledgement), then if the total number of notifying
+clients are less than 100 the batch limit will never be met. This will
+effectively pause all notifying clients until the batch timeout expires.</p>
+</div>
+</div>
+</div>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="protocol-engine">
+<h3>Protocol Engine<a class="headerlink" href="#protocol-engine" title="Permalink to this headline">¶</a></h3>
+<p>This driver uses the Apache QPID <a class="reference external" href="http://qpid.apache.org/proton/index.html">Proton</a> AMQP 1.0 protocol engine.
+This engine consists of a platform specific library and a python
+binding.  The driver does not directly interface with the engine API,
+as the API is a very low-level interface to the AMQP protocol.
+Instead, the driver uses the pure python <a class="reference external" href="https://github.com/kgiusti/pyngus">Pyngus</a> client API, which
+is layered on top of the protocol engine.</p>
+<p>In order to run the driver the Proton Python bindings, Proton
+library, Proton header files, and Pyngus must be installed. Pre-built
+packages for both Pyngus and the Proton protocol engine are available
+for various Linux distributions (see <a class="reference internal" href="#packages">packages</a> below). It is
+recommended to use the pre-built packages if they are available for
+your platform.</p>
+<p>The Proton package includes a C extension that links to the Proton
+library. If this library is not installed, then the Proton install
+script will attempt to download the necessary Proton C source files from
+the Apache repository and build the library locally.</p>
+<p>In order to build the Proton C source locally, there are a number of
+tools and libraries that need to be present:</p>
+<ul class="simple">
+<li>The tools and library necessary for Python development</li>
+<li>The <a class="reference external" href="http://www.swig.org/index.php">SWIG</a> wrapper generator</li>
+<li>The <a class="reference external" href="https://www.openssl.org">OpenSSL</a> development libraries and headers</li>
+<li>The <a class="reference external" href="https://cyrusimap.org">Cyrus SASL</a> development libraries and headers</li>
+</ul>
+<p><strong>Note well</strong>: Currently the Proton Pypi package only supports building
+the C extension on Linux systems.</p>
+</div>
+<div class="section" id="router-intermediary">
+<h3>Router Intermediary<a class="headerlink" href="#router-intermediary" title="Permalink to this headline">¶</a></h3>
+<p>This driver supports a <em>router</em> intermediary that supports version 1.0
+of the AMQP protocol. The direct messaging capabilities provided by
+this intermediary type are recommended for oslo.messaging RPC.</p>
+<p>The driver has been tested with <a class="reference external" href="http://qpid.apache.org/components/dispatch-router/">qpid-dispatch-router</a> router in a
+<a class="reference internal" href="#devstack">devstack</a> environment. The version of qpid-dispatch-router
+<strong>must</strong> be at least 0.6.0. The qpid-dispatch-router also uses the
+Proton engine for its AMQP 1.0 support, so the Proton library must be
+installed on the system hosting the qpid-dispatch-router daemon.</p>
+<p>Pre-built packages for the router are available. See <a class="reference internal" href="#packages">packages</a> below.</p>
+</div>
+<div class="section" id="broker-intermediary">
+<h3>Broker Intermediary<a class="headerlink" href="#broker-intermediary" title="Permalink to this headline">¶</a></h3>
+<p>This driver supports a <em>broker</em> intermediary that supports version 1.0
+of the AMQP protocol. The store and forward capabilities provided by
+this intermediary type are recommended for oslo.messaging Notifications.</p>
+<p>The driver has been tested with the <a class="reference external" href="http://qpid.apache.org/components/cpp-broker/index.html">qpidd</a> broker in a <a class="reference internal" href="#devstack">devstack</a>
+environment.  The version of qpidd <strong>must</strong> be at least
+0.34.  qpidd also uses the Proton engine for its AMQP 1.0 support, so
+the Proton library must be installed on the system hosting the qpidd
+daemon.</p>
+<p>Pre-built packages for the broker are available. See <a class="reference internal" href="#packages">packages</a> below.</p>
+<p>See the <a class="reference external" href="https://git.openstack.org/cgit/openstack/oslo-specs/tree/specs/juno/amqp10-driver-implementation.rst">oslo specification</a> for additional information regarding testing
+done on the driver.</p>
+</div>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="transport-url-enable">
+<h3>Transport URL Enable<a class="headerlink" href="#transport-url-enable" title="Permalink to this headline">¶</a></h3>
+<p>In oslo.messaging, the transport_url parameters define the OpenStack service
+backends for RPC and Notify. The url is of the form:</p>
+<blockquote>
+<div>transport://user:pass&#64;host1:port[,hostN:portN]/virtual_host</div></blockquote>
+<p>Where the transport value specifies the rpc or notification backend as
+one of <strong>amqp</strong>, rabbit, zmq, etc.</p>
+<p>To specify and enable the AMQP 1.0 driver for RPC, in the section
+[DEFAULT] of the service configuration file, specify the
+&#8216;transport_url&#8217; parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre>[DEFAULT]
+transport_url = amqp://username:password@routerhostname:5672
+</pre></div>
+</div>
+<p>To specify and enable the AMQP 1.0 driver for Notify, in the section
+[NOTIFICATIONS] of the service configuration file, specify the
+&#8216;transport_url&#8217; parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre>[NOTIFICATIONS]
+transport_url = amqp://username:password@brokerhostname:5672
+</pre></div>
+</div>
+<p>Note, that if a &#8216;transport_url&#8217; parameter is not specified in the
+[NOTIFICATIONS] section, the [DEFAULT] transport_url will be used
+for both RPC and Notify backends.</p>
+</div>
+<div class="section" id="driver-options">
+<h3>Driver Options<a class="headerlink" href="#driver-options" title="Permalink to this headline">¶</a></h3>
+<p>It is recommended that the default configuration options provided by
+the AMQP 1.0 driver be used. The configuration options can be modified
+in the oslo_messaging_amqp section of the service configuration file.</p>
+<div class="section" id="connection-options">
+<h4>Connection Options<a class="headerlink" href="#connection-options" title="Permalink to this headline">¶</a></h4>
+<p>In section [oslo_messaging_amqp]:</p>
+<ol class="arabic simple">
+<li>idle_timeout: Timeout in seconds for inactive connections.
+Default is disabled.</li>
+<li>connection_retry_interval: Seconds to pause before attempting to
+re-connect.</li>
+<li>connection_retry_backoff: Connection retry interval increment after
+unsuccessful failover attempt.</li>
+<li>connection_retry_interval_max: The maximum duration for a
+connection retry interval.</li>
+</ol>
+</div>
+<div class="section" id="message-send-options">
+<h4>Message Send Options<a class="headerlink" href="#message-send-options" title="Permalink to this headline">¶</a></h4>
+<p>In section [oslo_messaging_amqp]:</p>
+<ol class="arabic simple">
+<li>link_retry_delay: Time to pause between re-connecting to an AMQP 1.0 link.</li>
+<li>default_reply_timeout: The deadline for an rpc reply message delivery.</li>
+<li>default_send_timeout: The deadline for an rpc cast or call message delivery.</li>
+<li>default_notify_timeout: The deadline for a sent notification
+message delivery.</li>
+</ol>
+</div>
+<div class="section" id="addressing-options">
+<span id="address-mode"></span><h4>Addressing Options<a class="headerlink" href="#addressing-options" title="Permalink to this headline">¶</a></h4>
+<p>In section [oslo_messaging_amqp]:</p>
+<ol class="arabic simple">
+<li>addressing_mode: Indicates addressing mode used by the driver.</li>
+<li>server_request_prefix: Legacy address prefix used when sending to a
+specific server.</li>
+<li>broadcast_prefix: Legacy broadcast prefix used when broadcasting to
+all servers.</li>
+<li>group_request_prefix: Legacy address prefix when sending to any
+server in a group.</li>
+<li>rpc_address_prefix: Routable address prefix for all generated RPC addresses.</li>
+<li>notify_address_prefix: Routable address prefix for all generated
+Notification addresses.</li>
+<li>multicast_address: Appended to address prefix when sending a fanout address.</li>
+<li>unicast_address: Appended to address prefix when sending to a
+particular RPC/Notification server.</li>
+<li>anycast_address: Appended to address prefix when sending to a group
+of consumers.</li>
+<li>default_notification_exchange: Exchange name used in notification
+addresses if not supplied by the application.</li>
+<li>default_rpc_exchange: Exchange name used in RPC addresses if not
+supplied by the application.</li>
+</ol>
+</div>
+<div class="section" id="ssl-options">
+<h4>SSL Options<a class="headerlink" href="#ssl-options" title="Permalink to this headline">¶</a></h4>
+<p>In section [oslo_messaging_amqp]:</p>
+<ol class="arabic simple">
+<li>ssl_ca_file: A file containing the trusted Certificate Authority&#8217;s
+digital certificate (in PEM format). This certificate is used to
+authenticate the messaging backend.</li>
+<li>ssl_cert_file: A file containing a digital certificate (in PEM
+format) that is used to identify the driver with the messaging bus
+(i.e. client authentication).</li>
+<li>ssl_key_file:A file containing the private key used to sign the
+ssl_cert_file certificate (PEM format, optional if private key is
+stored in the certificate itself).</li>
+<li>ssl_key_password: The password used to decrypt the private key
+(not required if private key is not encrypted).</li>
+</ol>
+</div>
+<div class="section" id="sasl-options">
+<h4>SASL Options<a class="headerlink" href="#sasl-options" title="Permalink to this headline">¶</a></h4>
+<p>In section [oslo_messaging_amqp]:</p>
+<ol class="arabic simple">
+<li>sasl_config_dir: Path to the <em>directory</em> that contains the SASL
+configuration.</li>
+<li>sasl_config_name: The name of SASL configuration file (without
+.conf suffix) in sasl_config_dir</li>
+<li>username: SASL user identifier for authentication with the message
+bus. Can be overridden by URL.</li>
+<li>password: Password for username</li>
+</ol>
+</div>
+<div class="section" id="amqp-generic-options-note-well">
+<h4>AMQP Generic Options (<strong>Note Well</strong>)<a class="headerlink" href="#amqp-generic-options-note-well" title="Permalink to this headline">¶</a></h4>
+<p>The AMQP 1.0 driver currently does <strong>not</strong> support the generic <em>amqp</em>
+options used by pre-1.0 drivers such as <em>amqp_durable_queues</em> or
+<em>amqp_auto_delete</em>.</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>qpid-dispatch-router<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>First, verify that the Proton library has been installed and is
+imported by the qpid-dispatch-router intermediary. This can be checked
+by running:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ qdrouterd --help
+</pre></div>
+</div>
+<p>and looking for references to qpid-dispatch include and config path
+options in the help text. If no qpid-dispatch information is listed,
+verify that the Proton libraries are installed and that the version of
+the qdrouterd is greater than or equal to 0.6.0.</p>
+<p>Second, configure the address patterns used by the driver. This is
+done by adding the following to /etc/qpid-dispatch/qdrouterd.conf.</p>
+<p>If the legacy syntax for the addressing mode is required, include the
+following:</p>
+<div class="highlight-python"><div class="highlight"><pre>address {
+    prefix: unicast
+    distribution: closest
+}
+
+address {
+    prefix: exclusive
+    distribution: closest
+}
+
+address {
+    prefix: broadcast
+    distribution: multicast
+}
+</pre></div>
+</div>
+<p>For the routable syntax addressing mode, include the following:</p>
+<div class="highlight-python"><div class="highlight"><pre>address {
+    prefix: openstack.org/om/rpc/multicast
+    distribution: multicast
+}
+
+address {
+    prefix: openstack.org/om/rpc/unicast
+    distribution: closest
+}
+
+address {
+    prefix: openstack.org/om/rpc/anycast
+    distribution: balanced
+}
+
+address {
+    prefix: openstack.org/om/notify/multicast
+    distribution: multicast
+}
+
+address {
+    prefix: openstack.org/om/notify/unicast
+    distribution: closest
+}
+
+address {
+    prefix: openstack.org/om/notify/anycast
+    distribution: balanced
+}
+</pre></div>
+</div>
+<p><strong>Note well</strong>: For any customization of the <a class="reference internal" href="#address-mode">address mode</a> and syntax used,
+it is required that the address entity configurations in the
+/etc/qpid-dispatch/qdrouterd.conf be updated.</p>
+</div>
+<div class="section" id="id2">
+<h3>qpidd<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>First, verify that the Proton library has been installed and is
+imported by the qpidd broker.  This can checked by running:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ qpidd --help
+</pre></div>
+</div>
+<p>and looking for the AMQP 1.0 options in the help text.  If no AMQP 1.0
+options are listed, verify that the Proton libraries are installed and
+that the version of qpidd is greater than or equal to 0.34.</p>
+<p>Second, configure the default address patterns used by the
+driver for a broker-based backend. This is done by adding the
+following to /etc/qpid/qpidd.conf:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">queue</span><span class="o">-</span><span class="n">patterns</span><span class="o">=</span><span class="n">exclusive</span>
+<span class="n">queue</span><span class="o">-</span><span class="n">patterns</span><span class="o">=</span><span class="n">unicast</span>
+<span class="n">topic</span><span class="o">-</span><span class="n">patterns</span><span class="o">=</span><span class="n">broadcast</span>
+</pre></div>
+</div>
+<p>These patterns, <em>exclusive</em>, <em>unicast</em>, and <em>broadcast</em> are the
+legacy addressing  values used by the driver.  These can be overridden via the
+driver configuration options if desired (see above).  If manually overridden,
+update the qpidd.conf values to match.</p>
+</div>
+</div>
+<div class="section" id="devstack-support">
+<span id="devstack"></span><h2>DevStack Support<a class="headerlink" href="#devstack-support" title="Permalink to this headline">¶</a></h2>
+<p>The plugin for the AMQP 1.0 oslo.messaging driver is supported by
+DevStack. The plugin supports the use of either the broker or router
+intermediary.</p>
+<p>In local.conf [localrc] section, the <a class="reference external" href="https://github.com/openstack/devstack-plugin-amqp1.git">devstack-plugin-amqp1</a>  plugin
+repository must be enabled. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>[[local|localrc]]
+enable_plugin amqp1 https://git.openstack.org/openstack/devstack-plugin-amqp1
+</pre></div>
+</div>
+<p>Set the username and password variables if needed for the
+configuration:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">AMQP1_USERNAME</span><span class="o">=</span><span class="n">queueuser</span>
+<span class="n">AMQP1_PASSWORD</span><span class="o">=</span><span class="n">queuepassword</span>
+</pre></div>
+</div>
+<p>To configure DevStack for operation of the router intermediary, set
+the AMQP1 service variable to &#8220;qdr&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">AMQP1_SERVICE</span><span class="o">=</span><span class="n">qdr</span>
+</pre></div>
+</div>
+<p>Alternatively, to configure DevStack for operation of the broker
+intermediary, set the AMQP1 service variable to &#8220;qpid&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">AMQP1_SERVICE</span><span class="o">=</span><span class="n">qpid</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="platforms-and-packages">
+<span id="packages"></span><h2>Platforms and Packages<a class="headerlink" href="#platforms-and-packages" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pypi">
+<h3>PyPi<a class="headerlink" href="#pypi" title="Permalink to this headline">¶</a></h3>
+<p>Packages for <a class="reference external" href="https://pypi.python.org/pypi/pyngus">Pyngus pypi</a> and the <a class="reference external" href="https://pypi.python.org/pypi/python-qpid-proton">Proton pypi</a> engine are available on Pypi.</p>
+</div>
+<div class="section" id="rhel-and-fedora">
+<h3>RHEL and Fedora<a class="headerlink" href="#rhel-and-fedora" title="Permalink to this headline">¶</a></h3>
+<p>Packages exist in EPEL for RHEL/Centos 7, and Fedora 24+.
+Unfortunately, RHEL/Centos 6 base packages include a very old version
+of qpidd that does not support AMQP 1.0.  EPEL&#8217;s policy does not allow
+a newer version of qpidd for RHEL/Centos 6.</p>
+<p>The following packages must be installed on the system running the
+intermediary daemon:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Intermediary</td>
+<td>Package</td>
+</tr>
+<tr class="row-even"><td>qdrouterd</td>
+<td>qpid-dispatch-router
+python-qpid-proton</td>
+</tr>
+<tr class="row-odd"><td>qpidd</td>
+<td>qpid-cpp-server
+qpid-proton-c</td>
+</tr>
+</tbody>
+</table>
+<p>qpidd daemon:</p>
+<ul class="simple">
+<li>qpid-cpp-server (version 0.26+)</li>
+<li>qpid-proton-c</li>
+</ul>
+<p>The following packages must be installed on the systems running the
+services that use the new driver:</p>
+<ul class="simple">
+<li>Proton libraries: qpid-proton-c-devel</li>
+<li>Proton python bindings: python-qpid-proton</li>
+<li>pyngus (via Pypi)</li>
+</ul>
+</div>
+<div class="section" id="debian-and-ubuntu">
+<h3>Debian and Ubuntu<a class="headerlink" href="#debian-and-ubuntu" title="Permalink to this headline">¶</a></h3>
+<p>Packages for the Proton library, headers, and Python bindings are
+available in the Debian/Testing repository.  Proton packages are not
+yet available in the Ubuntu repository.  The version of qpidd on both
+platforms is too old and does not support AMQP 1.0.</p>
+<p>Until the proper package version arrive the latest packages can be
+pulled from the <a class="reference external" href="https://launchpad.net/~qpid/+archive/ubuntu/released">Apache Qpid PPA</a> on Launchpad:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo add-apt-repository ppa:qpid/released
+</pre></div>
+</div>
+<p>The following packages must be installed on the system running the
+qdrouterd daemon:</p>
+<ul class="simple">
+<li>qdrouterd (version 0.6.0+)</li>
+</ul>
+<p>The following packages must be installed on the system running the
+qpidd daemon:</p>
+<ul class="simple">
+<li>qpidd (version 0.34+)</li>
+</ul>
+<p>The following packages must be installed on the systems running the
+services that use the new driver:</p>
+<ul class="simple">
+<li>Proton libraries: libqpid-proton2-dev</li>
+<li>Proton python bindings: python-qpid-proton</li>
+<li>pyngus (via Pypi)</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">AMQP 1.0 Protocol Driver Deployment Guide</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#abstract">Abstract</a><ul>
+<li><a class="reference internal" href="#direct-messaging">Direct Messaging</a></li>
+<li><a class="reference internal" href="#store-and-forward">Store and Forward</a></li>
+<li><a class="reference internal" href="#addressing">Addressing</a></li>
+<li><a class="reference internal" href="#message-acknowledgement">Message Acknowledgement</a><ul>
+<li><a class="reference internal" href="#batched-notifications-note-well">Batched Notifications <strong>Note Well</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a><ul>
+<li><a class="reference internal" href="#protocol-engine">Protocol Engine</a></li>
+<li><a class="reference internal" href="#router-intermediary">Router Intermediary</a></li>
+<li><a class="reference internal" href="#broker-intermediary">Broker Intermediary</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#transport-url-enable">Transport URL Enable</a></li>
+<li><a class="reference internal" href="#driver-options">Driver Options</a><ul>
+<li><a class="reference internal" href="#connection-options">Connection Options</a></li>
+<li><a class="reference internal" href="#message-send-options">Message Send Options</a></li>
+<li><a class="reference internal" href="#addressing-options">Addressing Options</a></li>
+<li><a class="reference internal" href="#ssl-options">SSL Options</a></li>
+<li><a class="reference internal" href="#sasl-options">SASL Options</a></li>
+<li><a class="reference internal" href="#amqp-generic-options-note-well">AMQP Generic Options (<strong>Note Well</strong>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">qpid-dispatch-router</a></li>
+<li><a class="reference internal" href="#id2">qpidd</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#devstack-support">DevStack Support</a></li>
+<li><a class="reference internal" href="#platforms-and-packages">Platforms and Packages</a><ul>
+<li><a class="reference internal" href="#pypi">PyPi</a></li>
+<li><a class="reference internal" href="#rhel-and-fedora">RHEL and Fedora</a></li>
+<li><a class="reference internal" href="#debian-and-ubuntu">Debian and Ubuntu</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="supported-messaging-drivers.html"
+                                  title="previous chapter">Supported Messaging Drivers</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="pika_driver.html"
+                                  title="next chapter">Pika Driver Deployment Guide</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/AMQP1.0.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pika_driver.html" title="Pika Driver Deployment Guide"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="supported-messaging-drivers.html" title="Supported Messaging Drivers"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">oslo.messaging  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, OpenStack Foundation.
+      Last updated on February 27, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/oslo.messaging");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

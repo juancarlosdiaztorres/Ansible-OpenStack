@@ -1,0 +1,11 @@
+d0d073314e6c2100c1bfcd164262151d  usr/lib/python2.7/dist-packages/logutils-0.3.3.egg-info
+6636775d29f52fd8f7f581121386be24  usr/lib/python2.7/dist-packages/logutils/__init__.py
+f0ce9a280500df4cb8f1dcf1ea28acbf  usr/lib/python2.7/dist-packages/logutils/adapter.py
+7c7dd81ba5dbcd9385b337a53194ebb0  usr/lib/python2.7/dist-packages/logutils/colorize.py
+90d14b937d8b8a876a48bf2130ecb46d  usr/lib/python2.7/dist-packages/logutils/dictconfig.py
+cf206c1118224d4782760353aa4ee02e  usr/lib/python2.7/dist-packages/logutils/http.py
+382b033bb6d365341f2bc1635774cc86  usr/lib/python2.7/dist-packages/logutils/queue.py
+17035e7f98b1d4bf32a6eaa17be19597  usr/lib/python2.7/dist-packages/logutils/redis.py
+a03784fb4fcab4ade8d108e507bcd1cd  usr/lib/python2.7/dist-packages/logutils/testing.py
+309532d32d246276f0447470036f03b0  usr/share/doc/python-logutils/changelog.Debian.gz
+d401b2d1e9c6efb5b28b9e4875dd32d1  usr/share/doc/python-logutils/copyright

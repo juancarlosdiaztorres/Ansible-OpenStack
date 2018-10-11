@@ -1,0 +1,15 @@
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/python-sqlalchemy-ext
+/usr/share/doc/python-sqlalchemy-ext/NEWS.Debian.gz
+/usr/share/doc/python-sqlalchemy-ext/copyright
+/usr/share/doc/python-sqlalchemy-ext/changelog.Debian.gz
+/usr/lib
+/usr/lib/python2.7
+/usr/lib/python2.7/dist-packages
+/usr/lib/python2.7/dist-packages/sqlalchemy
+/usr/lib/python2.7/dist-packages/sqlalchemy/cresultproxy.x86_64-linux-gnu.so
+/usr/lib/python2.7/dist-packages/sqlalchemy/cprocessors.x86_64-linux-gnu.so
+/usr/lib/python2.7/dist-packages/sqlalchemy/cutils.x86_64-linux-gnu.so

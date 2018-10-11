@@ -1,0 +1,13 @@
+/.
+/usr
+/usr/lib
+/usr/lib/x86_64-linux-gnu
+/usr/lib/x86_64-linux-gnu/qemu
+/usr/lib/x86_64-linux-gnu/qemu/block-curl.so
+/usr/lib/x86_64-linux-gnu/qemu/block-rbd.so
+/usr/lib/x86_64-linux-gnu/qemu/block-iscsi.so
+/usr/share
+/usr/share/doc
+/usr/share/doc/qemu-block-extra
+/usr/share/doc/qemu-block-extra/changelog.Debian.gz
+/usr/share/doc/qemu-block-extra/copyright

@@ -1,0 +1,6 @@
+2018-09-17 22:24:28.445 19537 INFO neutron.common.config [-] Logging enabled!
+2018-09-17 22:24:28.445 19537 INFO neutron.common.config [-] /usr/bin/neutron-ovs-cleanup version 10.0.7
+2018-09-17 22:24:28.454 19537 WARNING neutron.agent.ovsdb.native.vlog [-] tcp:127.0.0.1:6640: send error: Connection refused
+2018-09-17 22:24:28.870 19537 INFO neutron.agent.ovsdb.native.vlog [-] tcp:127.0.0.1:6640: connecting...
+2018-09-17 22:24:28.870 19537 INFO neutron.agent.ovsdb.native.vlog [-] tcp:127.0.0.1:6640: connected
+2018-09-17 22:24:28.874 19537 INFO neutron.cmd.ovs_cleanup [-] OVS cleanup completed successfully

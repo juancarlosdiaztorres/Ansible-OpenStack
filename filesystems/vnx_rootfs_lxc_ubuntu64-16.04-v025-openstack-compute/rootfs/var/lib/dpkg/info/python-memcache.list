@@ -1,0 +1,16 @@
+/.
+/usr
+/usr/lib
+/usr/lib/python2.7
+/usr/lib/python2.7/dist-packages
+/usr/lib/python2.7/dist-packages/memcache.py
+/usr/lib/python2.7/dist-packages/python_memcached-1.53.egg-info
+/usr/lib/python2.7/dist-packages/python_memcached-1.53.egg-info/dependency_links.txt
+/usr/lib/python2.7/dist-packages/python_memcached-1.53.egg-info/top_level.txt
+/usr/lib/python2.7/dist-packages/python_memcached-1.53.egg-info/PKG-INFO
+/usr/lib/python2.7/dist-packages/python_memcached-1.53.egg-info/requires.txt
+/usr/share
+/usr/share/doc
+/usr/share/doc/python-memcache
+/usr/share/doc/python-memcache/copyright
+/usr/share/doc/python-memcache/changelog.Debian.gz

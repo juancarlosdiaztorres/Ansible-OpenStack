@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Notification Driver &mdash; oslo.messaging  documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="oslo.messaging  documentation" href="index.html" />
+    <link rel="next" title="Notification Listener" href="notification_listener.html" />
+    <link rel="prev" title="Notifier" href="notifier.html" /> 
+  </head>
+  <body role="document">
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-oslo_messaging.notify.messaging">
+<span id="notification-driver"></span><h1>Notification Driver<a class="headerlink" href="#module-oslo_messaging.notify.messaging" title="Permalink to this headline">¶</a></h1>
+<p>Notification drivers for sending notifications via messaging.</p>
+<p>The messaging drivers publish notification messages to notification
+listeners.</p>
+<p>The driver will block the notifier&#8217;s thread until the notification message has
+been passed to the messaging transport.  There is no guarantee that the
+notification message will be consumed by a notification listener.</p>
+<p>Notification messages are sent &#8216;at-most-once&#8217; - ensuring that they are not
+duplicated.</p>
+<p>If the connection to the messaging service is not active when a notification is
+sent this driver will block waiting for the connection to complete.  If the
+connection fails to complete, the driver will try to re-establish that
+connection. By default this will continue indefinitely until the connection
+completes. However, the retry parameter can be used to have the notification
+send fail with a MessageDeliveryFailure after the given number of retries.</p>
+<dl class="class">
+<dt id="oslo_messaging.notify.messaging.MessagingDriver">
+<em class="property">class </em><code class="descclassname">oslo_messaging.notify.messaging.</code><code class="descname">MessagingDriver</code><span class="sig-paren">(</span><em>conf</em>, <em>topics</em>, <em>transport</em>, <em>version=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.notify.messaging.MessagingDriver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send notifications using the 1.0 message format.</p>
+<p>This driver sends notifications over the configured messaging transport,
+but without any message envelope (also known as message format 1.0).</p>
+<p>This driver should only be used in cases where there are existing consumers
+deployed which do not support the 2.0 message format.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="oslo_messaging.notify.messaging.MessagingV2Driver">
+<em class="property">class </em><code class="descclassname">oslo_messaging.notify.messaging.</code><code class="descname">MessagingV2Driver</code><span class="sig-paren">(</span><em>conf</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.notify.messaging.MessagingV2Driver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send notifications using the 2.0 message format.</p>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">oslo_messaging.notify.notifier.</code><code class="descname">Driver</code><span class="sig-paren">(</span><em>conf</em>, <em>topics</em>, <em>transport</em><span class="sig-paren">)</span></dt>
+<dd><p>Base driver for Notifications</p>
+<dl class="method">
+<dt>
+<code class="descname">notify</code><span class="sig-paren">(</span><em>ctxt</em>, <em>msg</em>, <em>priority</em>, <em>retry</em><span class="sig-paren">)</span></dt>
+<dd><p>send a single notification with a specific priority</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ctxt</strong> &#8211; current request context</li>
+<li><strong>msg</strong> (<em>str</em>) &#8211; message to be sent</li>
+<li><strong>priority</strong> (<em>str</em>) &#8211; priority of the message</li>
+<li><strong>retry</strong> (<em>int</em>) &#8211; connection retries configuration (used by the messaging
+driver):
+None or -1 means to retry forever.
+0 means no retry is attempted.
+N means attempt at most N retries.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="notifier.html"
+                                  title="previous chapter">Notifier</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="notification_listener.html"
+                                  title="next chapter">Notification Listener</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/notification_driver.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="notification_listener.html" title="Notification Listener"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="notifier.html" title="Notifier"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">oslo.messaging  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, OpenStack Foundation.
+      Last updated on February 27, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/oslo.messaging");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

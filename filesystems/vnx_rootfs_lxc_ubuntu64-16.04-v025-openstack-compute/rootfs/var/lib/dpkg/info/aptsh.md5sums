@@ -1,0 +1,8 @@
+3568d5595542986f5326331027428683  usr/bin/aptsh
+2954f43d722e3c6eb4985362a2f4fb3c  usr/lib/aptsh/aptsh_ls
+4055bcf0c40338045af82fb124837106  usr/lib/aptsh/aptsh_printer
+934d2f4d6322480f888e6b21f1db3318  usr/lib/aptsh/aptsh_rls
+e8c9ac371c8db3d731a3d80e0d4886ed  usr/share/doc/aptsh/HOWTO.gz
+574bc14de6fa3822958ce1ff943ca26c  usr/share/doc/aptsh/changelog.gz
+fc14704c935b9eb8cd08ffd19c19ccc7  usr/share/doc/aptsh/copyright
+32efe3fb83df3bbb4234b7418c6f4642  usr/share/man/man1/aptsh.1.gz

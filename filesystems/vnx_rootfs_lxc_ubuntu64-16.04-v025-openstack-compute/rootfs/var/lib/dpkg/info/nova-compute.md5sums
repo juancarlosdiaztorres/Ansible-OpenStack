@@ -1,0 +1,5 @@
+0b695fea5dad1eb0c4aed1cd94d361a6  lib/systemd/system/nova-compute.service
+d9cafbfe3ce8295e8392bf7a09ca73c5  usr/bin/nova-compute
+c571b563e0351a02792ebf4a1c4a59b7  usr/bin/nova-idmapshift
+d801f220f370e591b1064296edd4f76d  usr/share/doc/nova-compute/copyright
+f574ece23ec444e51200360b4a3d3356  usr/share/man/man1/nova-compute.1.gz

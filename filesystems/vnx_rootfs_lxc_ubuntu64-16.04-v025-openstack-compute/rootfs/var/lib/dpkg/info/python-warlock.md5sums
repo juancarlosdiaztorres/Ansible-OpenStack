@@ -1,0 +1,12 @@
+b60763a4076523d29afdf09f33a9d52a  usr/lib/python2.7/dist-packages/warlock-1.1.0.egg-info/PKG-INFO
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/warlock-1.1.0.egg-info/dependency_links.txt
+d41d8cd98f00b204e9800998ecf8427e  usr/lib/python2.7/dist-packages/warlock-1.1.0.egg-info/requires.txt
+d3175e8c95e346b74d643ad206e51101  usr/lib/python2.7/dist-packages/warlock-1.1.0.egg-info/top_level.txt
+128d63abfa7091e0f1d540ef09ed0922  usr/lib/python2.7/dist-packages/warlock/__init__.py
+03240963bf8cc1936292087e3556607e  usr/lib/python2.7/dist-packages/warlock/core.py
+0a5509a74ea4fa9c18dc3df7debeeb5d  usr/lib/python2.7/dist-packages/warlock/exceptions.py
+8c8d2456b88576b4da3066067b106e85  usr/lib/python2.7/dist-packages/warlock/model.py
+97b002bcda83d22e7d3fd1427688a6a6  usr/share/doc/python-warlock/README.md
+2fd64901dd59f8b015300b9188a60945  usr/share/doc/python-warlock/changelog.Debian.gz
+7e90150c8b4b988e3af52b5a8e936e81  usr/share/doc/python-warlock/copyright
+9ce023b753c92392a7970879c6e28b29  usr/share/doc/python-warlock/requirements.txt

@@ -1,0 +1,443 @@
+Package: bcmwl-kernel-source
+Description-md5: 9da890d8409fb430fa6f9a0c8a37934a
+Description-es: Código fuente del controlador inalámbrico Broadcom 802.11 Linux STA
+ Este paquete contienen los controladores inalámbricos Broadcom 802.11
+ Linux STA para su uso con BCM4311-, BCM4312-, BCM4313-, BCM4321-,
+ BCM4322-, BCM43224-, y BCM43225-, BCM43227- y BCM43228.
+
+Package: nvidia-304
+Description-md5: 40726bbad84df17ed525b3b51d8bf938
+Description-es: NVIDIA legacy binary driver - version 304.131
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Se soportan las GPU como las de la serie 6 de GeForce o posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-amd64-304.131-driver.html
+
+Package: nvidia-304-dev
+Description-md5: ef3b76d980ecacaf3116114549ba70ca
+Description-es: Archivos de desarrollo de controlador Xorg binario NVIDIA
+ Este paquete contiene los archivos de desarrollo de controlador Xorg
+ binario NVIDIA.
+ .
+ Para más información acerca de este paquete fuente, visite la página web
+ de NVIDIA en http://www.nvidia.com/ .
+
+Package: nvidia-304-updates
+Description-md5: 40726bbad84df17ed525b3b51d8bf938
+Description-es: NVIDIA legacy binary driver - version 304.131
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Se soportan las GPU como las de la serie 6 de GeForce o posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-amd64-304.131-driver.html
+
+Package: nvidia-304-updates-dev
+Description-md5: ef3b76d980ecacaf3116114549ba70ca
+Description-es: Archivos de desarrollo de controlador Xorg binario NVIDIA
+ Este paquete contiene los archivos de desarrollo de controlador Xorg
+ binario NVIDIA.
+ .
+ Para más información acerca de este paquete fuente, visite la página web
+ de NVIDIA en http://www.nvidia.com/ .
+
+Package: nvidia-310
+Description-md5: 71fd3b39f30cd22971fb924c229ef762
+Description-es: Paquete de transición para nvidia-310
+ Este es un paquete de transición para nvidia-310, y se puede eliminar con
+ seguridad después de la instalación.
+
+Package: nvidia-310-dev
+Description-md5: b786dbb4304bdba4a01249d2cb9c570d
+Description-es: Paquete de transición para nvidia-310-dev
+ Este es un paquete de transición para nvidia-310-dev, y se puede eliminar
+ con seguridad después de la instalación.
+
+Package: nvidia-310-updates
+Description-md5: d0b5d6ebc02c0abe3e96e2bf0e0edd47
+Description-es: Paquete de transición para nvidia-310-updates
+ Este es un paquete de transición para nvidia-310-updates, y se puede
+ eliminar con seguridad después de la instalación.
+
+Package: nvidia-310-updates-dev
+Description-md5: 5cbc214a6e831c34d71b8cd018b512b3
+Description-es: Paquete de transición para nvidia-310-updates-dev
+ Este es un paquete de transición para nvidia-310-updates-dev, y se puede
+ eliminar con seguridad después de la instalación.
+
+Package: nvidia-313-updates
+Description-md5: e3d79d10b894478a883ba6961ffdffc6
+Description-es: Paquete de transición para nvidia-313-updates
+ Este es un paquete de transición para nvidia-313-updates, y se puede
+ eliminar con seguridad después de la instalación.
+
+Package: nvidia-313-updates-dev
+Description-md5: b71f95db04e18943f6ceda0eed1e962d
+Description-es: Paquete de transición para nvidia-313-updates-dev
+ Este es un paquete de transición para nvidia-313-updates-dev, y se puede
+ eliminar con seguridad después de la instalación.
+
+Package: nvidia-340
+Description-md5: 911bd6d47736c2778a81638fd879b5b9
+Description-es: NVIDIA binary driver - version 340.96
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-amd64-340.96-driver.html
+
+Package: nvidia-340-dev
+Description-md5: ef3b76d980ecacaf3116114549ba70ca
+Description-es: Archivos de desarrollo de controlador Xorg binario NVIDIA
+ Este paquete contiene los archivos de desarrollo de controlador Xorg
+ binario NVIDIA.
+ .
+ Para más información acerca de este paquete fuente, visite la página web
+ de NVIDIA en http://www.nvidia.com/ .
+
+Package: nvidia-340-updates
+Description-md5: 911bd6d47736c2778a81638fd879b5b9
+Description-es: NVIDIA binary driver - version 340.96
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-amd64-340.96-driver.html
+
+Package: nvidia-340-updates-dev
+Description-md5: ef3b76d980ecacaf3116114549ba70ca
+Description-es: Archivos de desarrollo de controlador Xorg binario NVIDIA
+ Este paquete contiene los archivos de desarrollo de controlador Xorg
+ binario NVIDIA.
+ .
+ Para más información acerca de este paquete fuente, visite la página web
+ de NVIDIA en http://www.nvidia.com/ .
+
+Package: nvidia-361
+Description-md5: 2f2445ec5e04329593078984a32bc2ae
+Description-es: NVIDIA binary driver - version 361.42
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-amd64-361.42-driver.html
+
+Package: nvidia-361-dev
+Description-md5: ef3b76d980ecacaf3116114549ba70ca
+Description-es: Archivos de desarrollo de controlador Xorg binario NVIDIA
+ Este paquete contiene los archivos de desarrollo de controlador Xorg
+ binario NVIDIA.
+ .
+ Para más información acerca de este paquete fuente, visite la página web
+ de NVIDIA en http://www.nvidia.com/ .
+
+Package: nvidia-361-updates
+Description-md5: 2f2445ec5e04329593078984a32bc2ae
+Description-es: NVIDIA binary driver - version 361.42
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-amd64-361.42-driver.html
+
+Package: nvidia-361-updates-dev
+Description-md5: ef3b76d980ecacaf3116114549ba70ca
+Description-es: Archivos de desarrollo de controlador Xorg binario NVIDIA
+ Este paquete contiene los archivos de desarrollo de controlador Xorg
+ binario NVIDIA.
+ .
+ Para más información acerca de este paquete fuente, visite la página web
+ de NVIDIA en http://www.nvidia.com/ .
+
+Package: nvidia-current
+Description-md5: cfae43419e26e7ddd43b755f8d4bc71a
+Description-es: Paquete de transición para nvidia-current
+ Este es un paquete de transición para nvidia-current, que puede
+ desinstalarse con seguridad después de que se complete la instalación.
+
+Package: nvidia-current-dev
+Description-md5: d7f80b7df0e8d90395b8393509321e23
+Description-es: Paquete de transición para nvidia-current-dev
+ Este es un paquete de transición para nvidia-current-dev, que puede
+ desinstalarse con seguridad después de que se complete la instalación.
+
+Package: nvidia-current-updates
+Description-md5: 64b398e30c3f43a0c784ba95d34f6b3b
+Description-es: Paquete de transición para nvidia-current-updates
+ Este es un paquete de transición para nvidia-current-updates, que puede
+ desinstalarse con seguridad después de que se complete la instalación.
+
+Package: nvidia-current-updates-dev
+Description-md5: 6b612e1ecc06ee4f74b872b04cc4a80d
+Description-es: Paquete de transición para nvidia-current-updates-dev
+ Este es un paquete de transición para nvidia-current-updates-dev, que
+ puede desinstalarse con seguridad después de que se complete la
+ instalación.
+
+Package: nvidia-experimental-304
+Description-md5: dee43da3e9b5bec833f2645c8d53b85e
+Description-es: Paquete de transición para nvidia-experimental-304
+ Este es un paquete de transición para nvidia-experimental-304, y se puede
+ eliminar con seguridad después de la instalación.
+
+Package: nvidia-experimental-304-dev
+Description-md5: 11ccac8060b1032f1df8047b447e2153
+Description-es: Paquete de transición para nvidia-experimental-304-dev
+ Este es un paquete de transición para nvidia-experimental-304-dev, y se
+ puede eliminar con seguridad después de la instalación.
+
+Package: nvidia-experimental-310
+Description-md5: 8ee99c0b64f9c65100bb2e22bd5daf30
+Description-es: Paquete de transición para nvidia-experimental-310
+ Este es un paquete de transición para nvidia-experimental-310, y se puede
+ eliminar con seguridad después de la instalación.
+
+Package: nvidia-experimental-310-dev
+Description-md5: 6e2522193c4c51af83214f2d55f373fb
+Description-es: Paquete de transición para nvidia-experimental-310-dev
+ Este es un paquete de transición para nvidia-experimental-310-dev, y se
+ puede eliminar con seguridad después de la instalación.
+
+Package: nvidia-340
+Description-md5: dc57b211681f868e48cdb31e03a2c96f
+Description-es: NVIDIA binary driver - version 340.96
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-32bit-arm-340.96-driver.html
+
+Package: nvidia-340-updates
+Description-md5: dc57b211681f868e48cdb31e03a2c96f
+Description-es: NVIDIA binary driver - version 340.96
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-32bit-arm-340.96-driver.html
+
+Package: nvidia-361
+Description-md5: 8c409a7efee2a404e15f59334b432592
+Description-es: NVIDIA binary driver - version 361.42
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-32bit-arm-361.42-driver.html
+
+Package: nvidia-361-updates
+Description-md5: 8c409a7efee2a404e15f59334b432592
+Description-es: NVIDIA binary driver - version 361.42
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-32bit-arm-361.42-driver.html
+
+Package: nvidia-304
+Description-md5: 21808af702bbfb38515f6b18f95d1971
+Description-es: NVIDIA legacy binary driver - version 304.131
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Se soportan las GPU como las de la serie 6 de GeForce o posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-ia32-304.131-driver.html
+
+Package: nvidia-304-updates
+Description-md5: 21808af702bbfb38515f6b18f95d1971
+Description-es: NVIDIA legacy binary driver - version 304.131
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Se soportan las GPU como las de la serie 6 de GeForce o posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-ia32-304.131-driver.html
+
+Package: nvidia-340
+Description-md5: d37c6c4b199d93cfe0ac00376bd74c74
+Description-es: NVIDIA binary driver - version 340.96
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-ia32-340.96-driver.html
+
+Package: nvidia-340-updates
+Description-md5: d37c6c4b199d93cfe0ac00376bd74c74
+Description-es: NVIDIA binary driver - version 340.96
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-ia32-340.96-driver.html
+
+Package: nvidia-361
+Description-md5: 292fd957d692b8a08fdf517141970232
+Description-es: NVIDIA binary driver - version 361.42
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-ia32-361.42-driver.html
+
+Package: nvidia-361-updates
+Description-md5: 292fd957d692b8a08fdf517141970232
+Description-es: NVIDIA binary driver - version 361.42
+ Controlador binario que proporciona aceleración optimizada por hardware
+ para aplicaciones OpenGL a través de la renderización directa en el
+ servidor X. También se soportan monitores AGP, PCIe, SLI, TV-out y
+ pantallas planas.
+ .
+ Este paquete también incluye el código fuente para compilar el módulo del
+ núcleo requerido por el controlador Xorg, y proporciona la implementación
+ de NVIDIA de decodificación de vídeo y API de presentación. El último
+ permite aceleración de vídeo h264 para tarjetas Geforce 8 y series
+ posteriores.
+ .
+ Release Notes and supported GPUs: http://www.nvidia.com/object/linux-
+ display-ia32-361.42-driver.html
+
+Package: sl-modem-daemon
+Description-md5: dd33edc29e8f6ca6bd7aaea974c49391
+Description-es: demonio del módem de software SmartLink
+ El demonio del módem de software SmartLink es la parte de aplicación del
+ controlador producido por Smart Link Ltd. para módems recientes.
+ .
+ Este paquete reemplaza (además de los controladores de acceso a hardware)
+ la antigua generación de controladores (2.7.x) que consistía únicamente en
+ módulos del núcleo.
+ .
+ Necesita un controlador de núcleo para acceder al hardware. Esto puede ser
+ un ALSA reciente (incluido en un núcleo más reciente (>=2.6.4) con
+ compatibilidad con ALSA y el módulo snd-intel8x0m) que es suficiente para
+ operaciones básicas y conexiones de datos/Internet; o bien el controlador
+ de núcleo SmartLink, que lo proporcionan paquetes separados que puede
+ compilar usando el código fuente del paquete sl-modem-dkms.
+

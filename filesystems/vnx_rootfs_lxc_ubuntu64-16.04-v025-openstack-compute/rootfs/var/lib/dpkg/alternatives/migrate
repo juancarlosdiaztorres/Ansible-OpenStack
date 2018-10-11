@@ -1,0 +1,6 @@
+auto
+/usr/bin/migrate
+
+/usr/bin/python2-migrate
+300
+

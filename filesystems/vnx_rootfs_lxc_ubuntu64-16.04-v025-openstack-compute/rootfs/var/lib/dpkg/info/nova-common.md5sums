@@ -1,0 +1,9 @@
+bdf9225a407e410c630cdf54b9d13bc2  usr/bin/nova-manage
+ff6282b95a4fbc49db6a1552d9da88ad  usr/bin/nova-policy
+0f0b6136516e0b768b9a3b3dcee9aeff  usr/bin/nova-rootwrap
+1004d02a4ee5eb742fc856f1074a9425  usr/bin/nova-rootwrap-daemon
+14962723e19c20d392afb1eaa9e4863b  usr/bin/nova-status
+d801f220f370e591b1064296edd4f76d  usr/share/doc/nova-common/copyright
+f0e4e22b16359909df71cb96775b37f6  usr/share/man/man1/nova-manage.1.gz
+2708c93833fd1796b29c41ee26fe2094  usr/share/man/man1/nova-rootwrap.1.gz
+d6caf72c22506f27cd56f2a6bc670e99  usr/share/nova/policy.yaml.sample

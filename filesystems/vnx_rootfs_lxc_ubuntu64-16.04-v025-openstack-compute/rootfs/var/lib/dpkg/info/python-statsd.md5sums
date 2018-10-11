@@ -1,0 +1,11 @@
+1bd6ecda5350ec4cf1feaff6a6771f5a  usr/lib/python2.7/dist-packages/statsd-3.2.1.egg-info/PKG-INFO
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/statsd-3.2.1.egg-info/dependency_links.txt
+14238f9014777a2a972d4205b75fc6d4  usr/lib/python2.7/dist-packages/statsd-3.2.1.egg-info/top_level.txt
+096d06f2399152ca61136afda8b04fbc  usr/lib/python2.7/dist-packages/statsd/__init__.py
+f5638ffc78cce667be5e93fb655f5194  usr/lib/python2.7/dist-packages/statsd/client.py
+9156fc8fe43281857319cd08829d21aa  usr/lib/python2.7/dist-packages/statsd/defaults/__init__.py
+a112839f395abbd21c956eb07a017230  usr/lib/python2.7/dist-packages/statsd/defaults/django.py
+cc144a3a5717e97e5d7d42c545b00271  usr/lib/python2.7/dist-packages/statsd/defaults/env.py
+0e3c2c7e4350876a07e41988645897d8  usr/lib/python2.7/dist-packages/statsd/tests.py
+2480c335238d6bd3e833a38e108b74de  usr/share/doc/python-statsd/changelog.Debian.gz
+2416cd6e694d45c7b1b0e8ccb8b2c918  usr/share/doc/python-statsd/copyright

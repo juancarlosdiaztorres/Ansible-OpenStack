@@ -1,0 +1,3 @@
+
+[fixtures]
+fixtures>=3.0.0 # Apache-2.0/BSD

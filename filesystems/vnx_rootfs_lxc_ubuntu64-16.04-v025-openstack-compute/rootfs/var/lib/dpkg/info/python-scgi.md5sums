@@ -1,0 +1,11 @@
+b88bb29a4fd6d2824e11f28734dba87a  usr/lib/python2.7/dist-packages/scgi-1.13.egg-info
+099d6258ef946ff93b41831f4eb53d8b  usr/lib/python2.7/dist-packages/scgi/__init__.py
+5d49d73b03745926ba4492802e464eea  usr/lib/python2.7/dist-packages/scgi/passfd.so
+eaedd656cec802ad28f1df242a8f3c6f  usr/lib/python2.7/dist-packages/scgi/quixote_handler.py
+791e3a5ef59aff12d51a81ffeadc6e94  usr/lib/python2.7/dist-packages/scgi/scgi_server.py
+aefd5da231f70f251761adea5bed8028  usr/lib/python2.7/dist-packages/scgi/test_passfd.py
+231be2e279c0c2429be24182c7c0fcc4  usr/share/doc/python-scgi/README.txt
+874ae65464e4b8033acbb67c37ee098c  usr/share/doc/python-scgi/changelog.Debian.gz
+e6b38485d553d83444e5b3a3d7267cb0  usr/share/doc/python-scgi/copyright
+2270cf83aac45ad55dcdd7362363c56a  usr/share/doc/python-scgi/examples/cgi2scgi.c
+39df169cc45db767e44c59a503a77d06  usr/share/doc/python-scgi/guide.html

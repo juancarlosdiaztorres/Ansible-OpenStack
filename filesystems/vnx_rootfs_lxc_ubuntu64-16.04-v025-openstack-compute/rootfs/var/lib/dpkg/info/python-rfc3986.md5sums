@@ -1,0 +1,13 @@
+8711e574f7efc0b4b9657403302ac587  usr/lib/python2.7/dist-packages/rfc3986-0.3.1.egg-info/PKG-INFO
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/rfc3986-0.3.1.egg-info/dependency_links.txt
+c29db8dbe104c7aaf217b7230b447d5e  usr/lib/python2.7/dist-packages/rfc3986-0.3.1.egg-info/top_level.txt
+4a5d7ff169e1826aa6677b9f3cbcf54f  usr/lib/python2.7/dist-packages/rfc3986/__init__.py
+f0352cdad3f3630fce31f0bd11108e0c  usr/lib/python2.7/dist-packages/rfc3986/api.py
+58c42ca4a27dcecca5eb3032da6f2c98  usr/lib/python2.7/dist-packages/rfc3986/compat.py
+183ff30aa8b4bb1cdd15fd9f46be06a2  usr/lib/python2.7/dist-packages/rfc3986/exceptions.py
+7f4883804be6b01c8cdfe2b738e8cfef  usr/lib/python2.7/dist-packages/rfc3986/misc.py
+3508b6dd4d6bb4f7a5b066f98c0384d2  usr/lib/python2.7/dist-packages/rfc3986/normalizers.py
+4c8723978492686aa1fc2e1ea5588651  usr/lib/python2.7/dist-packages/rfc3986/parseresult.py
+82ba724e2896a2e986948e87d8eed4d8  usr/lib/python2.7/dist-packages/rfc3986/uri.py
+ec897c019ef915941dcab190fab2c3f1  usr/share/doc/python-rfc3986/changelog.Debian.gz
+1437a7f7998f1f4e8679c70d33ef4f2c  usr/share/doc/python-rfc3986/copyright

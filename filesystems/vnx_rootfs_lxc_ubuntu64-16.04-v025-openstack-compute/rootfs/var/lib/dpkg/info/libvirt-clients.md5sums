@@ -1,0 +1,13 @@
+ab55ed891583785a62028ce63cc72b63  usr/bin/virsh
+58fc19ce1a8d17d5647745348aa196d7  usr/bin/virt-admin
+9aa81a175e377c48961a2a1bd9fa6e51  usr/bin/virt-host-validate
+54f956e19225eee32abc4cea3aed6af2  usr/bin/virt-login-shell
+7f6287d322e0ee07daf78c02478b39f8  usr/bin/virt-pki-validate
+841bed7eb5992fd753210c3532f579c6  usr/bin/virt-xml-validate
+d7eb8265a2aba126927a064617dd9e61  usr/share/doc/libvirt-clients/copyright
+9465561df233316d23e11611a57c311e  usr/share/man/man1/virsh.1.gz
+ed8b969436dcb0053c3e7a472881584b  usr/share/man/man1/virt-admin.1.gz
+f372727220ee9329c7660ed6642e9768  usr/share/man/man1/virt-host-validate.1.gz
+d6c8c3df5108474d3cc362ff278a4afe  usr/share/man/man1/virt-login-shell.1.gz
+3c9265b82ab7b964f28e85c0e243b4c5  usr/share/man/man1/virt-pki-validate.1.gz
+4f643f3b75be17beed70580eb1cc7be7  usr/share/man/man1/virt-xml-validate.1.gz

@@ -1,0 +1,14 @@
+11254ece295f3adc5cb4539d81f50605  usr/lib/python2.7/dist-packages/oslo.context-2.12.1.egg-info/PKG-INFO
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/oslo.context-2.12.1.egg-info/dependency_links.txt
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/oslo.context-2.12.1.egg-info/not-zip-safe
+d41d8cd98f00b204e9800998ecf8427e  usr/lib/python2.7/dist-packages/oslo.context-2.12.1.egg-info/requires.txt
+c2d5f452d139329571bfdf3b05888d55  usr/lib/python2.7/dist-packages/oslo.context-2.12.1.egg-info/top_level.txt
+d41d8cd98f00b204e9800998ecf8427e  usr/lib/python2.7/dist-packages/oslo_context/__init__.py
+7678376b1b7b370af5bb8c7c94588ce8  usr/lib/python2.7/dist-packages/oslo_context/context.py
+a61918139fdf1c1d882cf47418927264  usr/lib/python2.7/dist-packages/oslo_context/fixture.py
+d41d8cd98f00b204e9800998ecf8427e  usr/lib/python2.7/dist-packages/oslo_context/tests/__init__.py
+6fbf89b286c1c1566c6a3e42d92de283  usr/lib/python2.7/dist-packages/oslo_context/tests/test_context.py
+43ccdde077bef57090dc47f9dec45c4c  usr/lib/python2.7/dist-packages/oslo_context/tests/test_fixture.py
+58851f26a7c1683834afee084fe2aa82  usr/lib/python2.7/dist-packages/oslo_context/version.py
+444f2698d23bddf067c4fdb4e1d97602  usr/share/doc/python-oslo.context/changelog.Debian.gz
+d8cb9a6a1d2db02a1f958325d19b448c  usr/share/doc/python-oslo.context/copyright

@@ -1,0 +1,5 @@
+426999b62155d4aafb9d88b57ee9897d  usr/share/doc/python-pastedeploy-tpl/changelog.Debian.gz
+b0ace3e62b849b9bfc5da35a03a850df  usr/share/doc/python-pastedeploy-tpl/copyright
+61e37a80f5ea8d1440cac33a54ce6d37  usr/share/paster_templates/paste_deploy/+package+/sampleapp.py_tmpl
+262092b3faa5127cbdc97f4cbefdd0e7  usr/share/paster_templates/paste_deploy/+package+/wsgiapp.py_tmpl
+2281a827ce7b99f9090bc19fe4c0ed0f  usr/share/paster_templates/paste_deploy/docs/devel_config.ini_tmpl

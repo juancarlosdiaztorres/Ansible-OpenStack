@@ -1,0 +1,5 @@
+dc30bfb4e8b979e70ee7a8904e330302  usr/share/GeoIP/GeoIPASNum.dat
+ce7494fa9fdf64a98700f9fa8bb12860  usr/share/GeoIP/GeoIPCity.dat
+07df03b33e07f9efb980a2775a743de7  usr/share/doc/geoip-database-extra/changelog.Debian.gz
+d6a01dc4f7b88f7cc1ba6864f2b25a1a  usr/share/doc/geoip-database-extra/copyright
+4a182634cab5ec98033cea4a764ffdce  usr/share/lintian/overrides/geoip-database-extra

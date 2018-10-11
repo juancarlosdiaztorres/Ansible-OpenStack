@@ -1,0 +1,208 @@
+May  7 00:40:51 vnx_rootfs_lxc_ubuntu-16 kernel: [25260.448010] lxcbr0: port 1(veth0NBJMO) entered forwarding state
+May  7 00:51:36 vnx_rootfs_lxc_ubuntu-16 kernel: [25905.504013] lxcbr0: port 1(vethT1Q7ON) entered forwarding state
+May  7 12:50:37 vnx kernel: [14317.983011] lxcbr0: port 1(veth985TLA) entered forwarding state
+Dec  4 00:58:15 vnx kernel: [48475.288325] lxcbr0: port 1(vethICBMU8) entered disabled state
+Dec  4 00:58:15 vnx kernel: [48475.290847] device vethICBMU8 left promiscuous mode
+Dec  4 00:58:15 vnx kernel: [48475.290850] lxcbr0: port 1(vethICBMU8) entered disabled state
+Dec  4 00:58:15 vnx kernel: [48475.488159] userif-4: sent link down event.
+Dec  4 00:58:15 vnx kernel: [48475.488162] userif-4: sent link up event.
+Dec  5 23:47:02 vnx kernel: [216992.784787] virbr0: port 4(controller-e9) entered disabled state
+Dec  5 23:47:02 vnx kernel: [216992.802621] device controller-e2 left promiscuous mode
+Dec  5 23:47:02 vnx kernel: [216992.802960] device controller-e1 left promiscuous mode
+Dec  5 23:47:03 vnx kernel: [216993.439677] device network-e9 left promiscuous mode
+Dec  5 23:47:04 vnx kernel: [216994.606964] userif-4: sent link up event.
+Dec  5 23:47:04 vnx kernel: [216994.849614] qbre36383de-45: port 2(tape36383de-45) entered disabled state
+Dec  5 23:47:05 vnx kernel: [216995.547266] device compute2-e3 left promiscuous mode
+Dec  5 23:47:06 vnx kernel: [216996.017988] userif-4: sent link down event.
+Dec  5 23:49:14 vnx kernel: [217124.838588] device ovs-system left promiscuous mode
+Dec  5 23:53:11 vnx kernel: [217361.528790] lxcbr0: port 3(vethWUESIP) entered disabled state
+Dec  5 23:53:11 vnx kernel: [217361.726343] userif-4: sent link down event.
+Dec  5 23:53:11 vnx kernel: [217361.726345] userif-4: sent link up event.
+Feb 11 17:26:02 vnx kernel: [354824.509096] FW1-R0: port 2(fw1-e2) entered disabled state
+Feb 11 17:26:02 vnx kernel: [354824.547271] dmz1: port 2(fw1-e3) entered disabled state
+Feb 11 17:26:02 vnx kernel: [354824.553005] dmz1: port 2(fw1-e3) entered disabled state
+Feb 11 17:26:05 vnx kernel: [354826.980822] Internet: port 2(ra-e1) entered disabled state
+Feb 11 17:26:05 vnx kernel: [354827.139326] userif-4: sent link up event.
+Feb 11 17:26:06 vnx kernel: [354828.792795] device att1-e1 left promiscuous mode
+Feb 11 17:26:06 vnx kernel: [354828.949871] userif-4: sent link down event.
+Feb 11 17:26:07 vnx kernel: [354829.625865] userif-4: sent link down event.
+Feb 11 17:26:08 vnx kernel: [354830.085232] Internet: port 1(Internet-e00) entered disabled state
+Feb 11 17:26:08 vnx kernel: [354830.274027] userif-4: sent link up event.
+Feb 11 17:26:08 vnx kernel: [354830.318109] FW1-R0: port 1(FW1-R0-e00) entered disabled state
+Feb 11 17:26:11 vnx kernel: [354833.022107] device Internet-e00 entered promiscuous mode
+Feb 11 17:26:11 vnx kernel: [354833.025353] IPv6: ADDRCONF(NETDEV_UP): Internet-e00: link is not ready
+Feb 11 17:26:11 vnx kernel: [354833.115224] IPv6: ADDRCONF(NETDEV_UP): FW1-R0-e00: link is not ready
+Feb 11 17:26:11 vnx kernel: [354833.164824] dmz1: port 1(dmz1-e00) entered forwarding state
+Feb 11 17:26:11 vnx kernel: [354833.231328] userif-4: sent link down event.
+Feb 11 17:26:12 vnx kernel: [354834.013419] IntNet1: port 1(IntNet1-e00) entered disabled state
+Feb 11 17:26:12 vnx kernel: [354834.013746] dmz1: port 1(dmz1-e00) entered disabled state
+Feb 11 17:26:12 vnx kernel: [354834.832969] eth0: renamed from vethTF015G
+Feb 11 17:26:13 vnx kernel: [354835.927392] device s1-e1 entered promiscuous mode
+Feb 11 17:26:13 vnx kernel: [354835.927568] IPv6: ADDRCONF(NETDEV_UP): s1-e1: link is not ready
+Feb 11 17:26:13 vnx kernel: [354835.927572] dmz1: port 3(s1-e1) entered forwarding state
+Feb 11 17:26:13 vnx kernel: [354835.927595] dmz1: port 3(s1-e1) entered forwarding state
+Feb 11 17:26:14 vnx kernel: [354836.865404] userif-4: sent link up event.
+Feb 11 17:26:15 vnx kernel: [354837.769522] IntNet1: port 3(pc1-e1) entered forwarding state
+Feb 11 17:26:15 vnx kernel: [354837.945444] userif-4: sent link down event.
+Feb 11 17:26:16 vnx kernel: [354838.741501] eth1: renamed from veth83AW6W
+Feb 11 17:26:16 vnx kernel: [354838.761509] Internet: port 2(ra-e1) entered forwarding state
+Feb 11 17:26:17 vnx kernel: [354839.704238] IPv6: ADDRCONF(NETDEV_UP): sca-e0: link is not ready
+Feb 11 17:26:17 vnx kernel: [354839.710655] device sca-e1 entered promiscuous mode
+Feb 11 17:26:17 vnx kernel: [354839.715049] IPv6: ADDRCONF(NETDEV_UP): sca-e1: link is not ready
+Feb 11 17:26:17 vnx kernel: [354839.715054] Internet: port 3(sca-e1) entered forwarding state
+Feb 11 17:26:17 vnx kernel: [354839.715079] Internet: port 3(sca-e1) entered forwarding state
+Feb 11 17:26:18 vnx kernel: [354840.209453] IPv6: ADDRCONF(NETDEV_CHANGE): sca-e0: link becomes ready
+Feb 11 17:26:27 vnx kernel: [354849.924676] FW1-R0: port 2(fw1-e2) entered forwarding state
+Feb 11 17:28:40 vnx kernel: [354982.634089] IntNet1: port 2(fw1-e1) entered disabled state
+Feb 11 17:28:40 vnx kernel: [354982.744323] dmz1: port 2(fw1-e3) entered disabled state
+Feb 11 17:28:40 vnx kernel: [354982.802434] userif-4: sent link down event.
+Feb 11 17:28:41 vnx kernel: [354983.674713] userif-4: sent link up event.
+Feb 11 17:28:43 vnx kernel: [354985.136134] Internet: port 2(ra-e1) entered disabled state
+Feb 11 17:28:44 vnx kernel: [354986.327917] Internet: port 3(sca-e1) entered disabled state
+Feb 11 17:28:44 vnx kernel: [354986.495443] userif-4: sent link down event.
+Feb 11 17:28:45 vnx kernel: [354987.262740] userif-4: sent link down event.
+Feb 11 17:28:47 vnx kernel: [354989.486963] userif-4: sent link down event.
+Feb 11 17:28:47 vnx kernel: [354989.659168] device IntNet1-e00 left promiscuous mode
+Feb 11 17:32:20 vnx kernel: [355202.352896] IPv6: ADDRCONF(NETDEV_UP): Internet-e00: link is not ready
+Feb 11 17:32:20 vnx kernel: [355202.381856] IPv6: ADDRCONF(NETDEV_UP): IntNet1-e00: link is not ready
+Feb 11 17:32:20 vnx kernel: [355202.388670] IPv6: ADDRCONF(NETDEV_UP): IntNet1-e00: link is not ready
+Feb 11 17:32:20 vnx kernel: [355202.464544] IPv6: ADDRCONF(NETDEV_UP): dmz1-e00: link is not ready
+Feb 11 17:32:20 vnx kernel: [355202.468466] IPv6: ADDRCONF(NETDEV_UP): dmz1-e00: link is not ready
+Feb 11 17:32:21 vnx kernel: [355203.186401] device fw1-e1 entered promiscuous mode
+Feb 11 17:32:21 vnx kernel: [355203.186540] IPv6: ADDRCONF(NETDEV_UP): fw1-e1: link is not ready
+Feb 11 17:32:21 vnx kernel: [355203.186543] IntNet1: port 2(fw1-e1) entered forwarding state
+Feb 11 17:32:21 vnx kernel: [355203.186562] IntNet1: port 2(fw1-e1) entered forwarding state
+Feb 11 17:32:21 vnx kernel: [355203.345060] IntNet1: port 2(fw1-e1) entered disabled state
+Feb 11 17:32:21 vnx kernel: [355203.345242] virbr0: port 1(fw1-e9) entered disabled state
+Feb 11 17:32:21 vnx kernel: [355203.412199] eth0: renamed from vethE7VPU9
+Feb 11 17:32:22 vnx kernel: [355204.228845] dmz1: port 3(s1-e1) entered disabled state
+Feb 11 17:32:22 vnx kernel: [355204.244824] dmz1: port 3(s1-e1) entered forwarding state
+Feb 11 17:32:22 vnx kernel: [355204.265326] userif-4: sent link down event.
+Feb 11 17:32:22 vnx kernel: [355204.265328] userif-4: sent link up event.
+Feb 11 17:32:22 vnx kernel: [355204.818701] IntNet1: port 3(pc1-e1) entered forwarding state
+Feb 11 17:32:23 vnx kernel: [355204.948825] IntNet1: port 3(pc1-e1) entered disabled state
+Feb 11 17:32:23 vnx kernel: [355204.964752] IntNet1: port 3(pc1-e1) entered forwarding state
+Feb 11 17:32:23 vnx kernel: [355205.523440] Internet: port 2(ra-e1) entered forwarding state
+Feb 11 17:32:23 vnx kernel: [355205.760632] Internet: port 2(ra-e1) entered forwarding state
+Feb 11 17:32:23 vnx kernel: [355205.763428] FW1-R0: port 3(ra-e2) entered forwarding state
+Feb 11 17:32:24 vnx kernel: [355206.340407] device sca-e1 entered promiscuous mode
+Feb 11 17:32:24 vnx kernel: [355206.340642] IPv6: ADDRCONF(NETDEV_UP): sca-e1: link is not ready
+Feb 11 17:32:24 vnx kernel: [355206.340645] Internet: port 3(sca-e1) entered forwarding state
+Feb 11 17:32:24 vnx kernel: [355206.340667] Internet: port 3(sca-e1) entered forwarding state
+Feb 11 17:32:25 vnx kernel: [355207.204519] eth1: renamed from vethKO0N1Y
+Feb 11 17:59:19 vnx kernel: [356821.274450] userif-4: sent link down event.
+Feb 11 17:59:20 vnx kernel: [356821.983621] dmz1: port 3(s1-e1) entered disabled state
+Feb 11 17:59:22 vnx kernel: [356824.052718] device sca-e1 left promiscuous mode
+Feb 11 17:59:22 vnx kernel: [356824.212358] userif-4: sent link down event.
+Feb 11 17:59:23 vnx kernel: [356824.878245] userif-4: sent link down event.
+Feb 11 17:59:23 vnx kernel: [356825.797003] device Internet-e00 left promiscuous mode
+Feb 11 17:59:24 vnx kernel: [356825.898738] IntNet1: port 1(IntNet1-e00) entered disabled state
+Feb 11 17:59:24 vnx kernel: [356826.011579] device FW1-R0-e00 left promiscuous mode
+Feb 11 17:59:24 vnx kernel: [356826.131295] dmz1: port 1(dmz1-e00) entered disabled state
+Feb 11 17:59:26 vnx kernel: [356828.712476] device Internet-e00 entered promiscuous mode
+Feb 11 17:59:26 vnx kernel: [356828.716595] IPv6: ADDRCONF(NETDEV_UP): Internet-e00: link is not ready
+Feb 11 17:59:26 vnx kernel: [356828.762283] IntNet1: port 1(IntNet1-e00) entered forwarding state
+Feb 11 17:59:26 vnx kernel: [356828.762329] IntNet1: port 1(IntNet1-e00) entered forwarding state
+Feb 11 17:59:26 vnx kernel: [356828.764683] IPv6: ADDRCONF(NETDEV_UP): IntNet1-e00: link is not ready
+Feb 11 17:59:26 vnx kernel: [356828.832697] device dmz1-e00 entered promiscuous mode
+Feb 11 17:59:27 vnx kernel: [356828.922047] userif-4: sent link down event.
+Feb 11 17:59:27 vnx kernel: [356828.922049] userif-4: sent link up event.
+Feb 11 17:59:27 vnx kernel: [356829.578126] device fw1-e1 entered promiscuous mode
+Feb 11 17:59:27 vnx kernel: [356829.578209] IPv6: ADDRCONF(NETDEV_UP): fw1-e1: link is not ready
+Feb 11 17:59:27 vnx kernel: [356829.578211] IntNet1: port 2(fw1-e1) entered forwarding state
+Feb 11 17:59:27 vnx kernel: [356829.578226] IntNet1: port 2(fw1-e1) entered forwarding state
+Feb 11 17:59:27 vnx kernel: [356829.579975] device fw1-e2 entered promiscuous mode
+Feb 11 17:59:27 vnx kernel: [356829.580184] IPv6: ADDRCONF(NETDEV_UP): fw1-e2: link is not ready
+Feb 11 17:59:27 vnx kernel: [356829.580186] FW1-R0: port 2(fw1-e2) entered forwarding state
+Feb 11 17:59:27 vnx kernel: [356829.580209] FW1-R0: port 2(fw1-e2) entered forwarding state
+Feb 11 17:59:27 vnx kernel: [356829.750042] IntNet1: port 1(IntNet1-e00) entered disabled state
+Feb 11 17:59:27 vnx kernel: [356829.750142] FW1-R0: port 1(FW1-R0-e00) entered disabled state
+Feb 11 17:59:27 vnx kernel: [356829.750233] dmz1: port 1(dmz1-e00) entered disabled state
+Feb 11 17:59:27 vnx kernel: [356829.750357] IntNet1: port 2(fw1-e1) entered disabled state
+Feb 11 17:59:27 vnx kernel: [356829.750423] FW1-R0: port 2(fw1-e2) entered disabled state
+Feb 11 17:59:27 vnx kernel: [356829.750489] dmz1: port 2(fw1-e3) entered disabled state
+Feb 11 17:59:27 vnx kernel: [356829.750560] virbr0: port 1(fw1-e9) entered disabled state
+Feb 11 17:59:27 vnx kernel: [356829.802069] eth1: renamed from vethUHUOC5
+Feb 11 17:59:28 vnx kernel: [356830.602357] eth0: renamed from vethFOEL1B
+Feb 11 17:59:28 vnx kernel: [356830.661633] userif-4: sent link down event.
+Feb 11 17:59:29 vnx kernel: [356831.375266] eth1: renamed from vethL07179
+Feb 11 17:59:29 vnx kernel: [356831.390049] IntNet1: port 3(pc1-e1) entered forwarding state
+Feb 11 17:59:30 vnx kernel: [356832.166382] eth1: renamed from veth8WKOMB
+Feb 11 17:59:30 vnx kernel: [356832.205975] Internet: port 2(ra-e1) entered forwarding state
+Feb 11 17:59:30 vnx kernel: [356832.365924] userif-4: sent link up event.
+Feb 11 17:59:31 vnx kernel: [356833.667586] eth0: renamed from vethKASD4B
+Feb 11 17:59:32 vnx kernel: [356833.921584] virbr0: topology change detected, propagating
+Feb 11 17:59:46 vnx kernel: [356847.977095] Internet: port 3(sca-e1) entered forwarding state
+Jul 30 16:31:41 vnx kernel: [188383.818352] audit: type=1400 audit(1501432301.591:936): apparmor="DENIED" operation="mount" info="failed flags match" error=-13 profile="lxc-container-default-with-nesting" name="/run/netns/" pid=10442 comm="ip" flags="rw, rshared"
+Jul 30 16:33:36 vnx kernel: [188498.834096] audit: type=1400 audit(1501432416.608:937): apparmor="DENIED" operation="mount" info="failed flags match" error=-13 profile="lxc-container-default-with-nesting" name="/run/netns/" pid=11970 comm="ip" flags="rw, rshared"
+Jul 30 16:34:03 vnx kernel: [188526.169947] userif-5: sent link down event.
+Jul 30 16:34:03 vnx kernel: [188526.169968] userif-0: sent link down event.
+Jul 30 16:34:11 vnx kernel: [188533.505812] audit: type=1400 audit(1501432451.280:938): apparmor="DENIED" operation="mount" info="failed flags match" error=-13 profile="lxc-container-default-with-nesting" name="/run/netns/" pid=12826 comm="ip" flags="rw, rshared"
+Jul 30 16:34:18 vnx kernel: [188540.997286] lxcbr0: port 1(vethF4X5N4) entered forwarding state
+Jul 30 16:38:31 vnx kernel: [188794.048317] userif-5: sent link down event.
+Jul 30 16:38:31 vnx kernel: [188794.048320] userif-0: sent link down event.
+Jul 30 16:38:31 vnx kernel: [188794.048322] userif-5: sent link up event.
+Jul 30 16:38:31 vnx kernel: [188794.048323] userif-0: sent link up event.
+Jul 30 16:38:31 vnx kernel: [188794.218193] IPv6: ADDRCONF(NETDEV_UP): controller-e1: link is not ready
+Jul 30 16:38:31 vnx kernel: [188794.219297] IPv6: ADDRCONF(NETDEV_UP): controller-e2: link is not ready
+Jul 30 16:38:31 vnx kernel: [188794.220638] device controller-e9 entered promiscuous mode
+Jul 30 16:38:31 vnx kernel: [188794.220811] IPv6: ADDRCONF(NETDEV_UP): controller-e9: link is not ready
+Jul 30 16:38:31 vnx kernel: [188794.220813] virbr0: port 2(controller-e9) entered listening state
+Jul 30 16:38:31 vnx kernel: [188794.220835] virbr0: port 2(controller-e9) entered listening state
+Jul 30 16:38:32 vnx kernel: [188794.418178] userif-5: sent link down event.
+Jul 30 16:38:32 vnx kernel: [188794.418180] userif-5: sent link up event.
+Jul 30 16:38:32 vnx kernel: [188794.418188] userif-0: sent link down event.
+Jul 30 16:38:32 vnx kernel: [188794.418189] userif-0: sent link up event.
+Jul 30 16:38:32 vnx kernel: [188794.425993] eth1: renamed from vethRAGSBG
+Jul 30 16:38:32 vnx kernel: [188794.449898] eth2: renamed from vethG3M9C4
+Jul 30 16:38:32 vnx kernel: [188794.465890] eth9: renamed from vethEM59EH
+Jul 30 16:38:32 vnx kernel: [188794.687016] userif-0: sent link down event.
+Jul 30 16:38:32 vnx kernel: [188794.687019] userif-0: sent link up event.
+Jul 30 16:38:32 vnx kernel: [188794.687243] userif-5: sent link down event.
+Jul 30 16:38:32 vnx kernel: [188794.687246] userif-5: sent link up event.
+Jul 30 16:38:32 vnx kernel: [188795.048650] IPv6: ADDRCONF(NETDEV_UP): network-e0: link is not ready
+Jul 30 16:38:32 vnx kernel: [188795.051979] IPv6: ADDRCONF(NETDEV_UP): network-e2: link is not ready
+Jul 30 16:38:32 vnx kernel: [188795.054806] IPv6: ADDRCONF(NETDEV_UP): network-e4: link is not ready
+Jul 30 16:38:32 vnx kernel: [188795.056720] device network-e9 entered promiscuous mode
+Jul 30 16:38:32 vnx kernel: [188795.056905] IPv6: ADDRCONF(NETDEV_UP): network-e9: link is not ready
+Jul 30 16:38:32 vnx kernel: [188795.056907] virbr0: port 3(network-e9) entered listening state
+Jul 30 16:38:32 vnx kernel: [188795.056926] virbr0: port 3(network-e9) entered listening state
+Jul 30 16:38:33 vnx kernel: [188795.224444] userif-5: sent link down event.
+Jul 30 16:38:33 vnx kernel: [188795.224844] userif-0: sent link up event.
+Jul 30 16:38:33 vnx kernel: [188795.317878] eth3: renamed from veth7EBWCB
+Jul 30 16:38:33 vnx kernel: [188795.370467] IPv6: ADDRCONF(NETDEV_CHANGE): network-e0: link becomes ready
+Jul 30 16:38:33 vnx kernel: [188795.370654] IPv6: ADDRCONF(NETDEV_CHANGE): network-e2: link becomes ready
+Jul 30 16:38:33 vnx kernel: [188795.370769] IPv6: ADDRCONF(NETDEV_CHANGE): network-e4: link becomes ready
+Jul 30 16:38:33 vnx kernel: [188795.370863] virbr0: port 3(network-e9) entered listening state
+Jul 30 16:38:33 vnx kernel: [188795.955237] IPv6: ADDRCONF(NETDEV_UP): compute1-e0: link is not ready
+Jul 30 16:38:33 vnx kernel: [188795.957414] IPv6: ADDRCONF(NETDEV_UP): compute1-e1: link is not ready
+Jul 30 16:38:33 vnx kernel: [188795.964635] virbr0: port 4(compute1-e9) entered listening state
+Jul 30 16:38:33 vnx kernel: [188796.213924] eth9: renamed from vethJ73POH
+Jul 30 16:38:34 vnx kernel: [188796.225901] IPv6: ADDRCONF(NETDEV_CHANGE): compute1-e2: link becomes ready
+Jul 30 16:38:34 vnx kernel: [188796.806933] device compute2-e9 entered promiscuous mode
+Jul 30 16:38:34 vnx kernel: [188796.807135] IPv6: ADDRCONF(NETDEV_UP): compute2-e9: link is not ready
+Jul 30 16:38:34 vnx kernel: [188796.807138] virbr0: port 5(compute2-e9) entered listening state
+Jul 30 16:38:34 vnx kernel: [188796.807158] virbr0: port 5(compute2-e9) entered listening state
+Jul 30 16:38:34 vnx kernel: [188797.017975] eth1: renamed from vethFC6DJ9
+Jul 30 16:38:34 vnx kernel: [188797.061916] eth3: renamed from vethC8ELMS
+Jul 30 16:38:34 vnx kernel: [188797.102799] IPv6: ADDRCONF(NETDEV_CHANGE): compute2-e9: link becomes ready
+Jul 30 16:38:35 vnx kernel: [188797.756376] device compute1-e3 entered promiscuous mode
+Jul 30 16:38:35 vnx kernel: [188797.770448] device compute2-e1 entered promiscuous mode
+Jul 30 16:38:35 vnx kernel: [188797.781737] device compute2-e2 entered promiscuous mode
+Jul 30 16:38:38 vnx kernel: [188800.813722] virbr0: topology change detected, propagating
+Jul 30 16:38:38 vnx kernel: [188800.813751] virbr0: port 5(compute2-e9) entered forwarding state
+Jul 30 22:54:28 vnx kernel: [211350.888037] userif-5: sent link down event.
+Aug  2 23:10:56 vnx kernel: [81043.592169] lxcbr0: port 1(veth3S1O0R) entered disabled state
+Aug  2 23:10:56 vnx kernel: [81043.792188] userif-0: sent link down event.
+Aug  2 23:10:56 vnx kernel: [81043.792191] userif-5: sent link down event.
+Aug  2 23:10:56 vnx kernel: [81043.792193] userif-0: sent link up event.
+Aug  2 23:10:56 vnx kernel: [81043.792194] userif-5: sent link up event.
+Aug  2 23:18:22 vnx kernel: [81489.766596] device br-provider entered promiscuous mode
+Aug  2 23:18:24 vnx kernel: [81491.176128] lxcbr0: port 2(vethRYML1O) entered disabled state
+Aug  2 23:18:24 vnx kernel: [81491.178593] device vethRYML1O left promiscuous mode
+Aug  2 23:18:24 vnx kernel: [81491.178596] lxcbr0: port 2(vethRYML1O) entered disabled state
+Aug  2 23:18:24 vnx kernel: [81491.398469] device ovs-system left promiscuous mode
+Sep 17 22:09:18 vnx kernel: [463536.773898] lxcbr0: port 1(vethUQDY4D) entered forwarding state
+Sep 17 22:23:39 vnx kernel: [464397.738540] virbr0: port 1(virbr0-nic) entered listening state
+Sep 17 22:23:39 vnx kernel: [464397.738546] virbr0: port 1(virbr0-nic) entered listening state
+Sep 17 22:23:41 vnx kernel: [464398.957992] virbr0: port 1(virbr0-nic) entered disabled state

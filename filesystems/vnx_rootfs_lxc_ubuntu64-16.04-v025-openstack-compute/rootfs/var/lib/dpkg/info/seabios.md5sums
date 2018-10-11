@@ -1,0 +1,17 @@
+b064343a9ac50895ef9a027e882df569  usr/share/doc/seabios/changelog.Debian.gz
+a6d5433e31b947be620257beca20cdd2  usr/share/doc/seabios/copyright
+a45198764a2a249a0493cdd243329b44  usr/share/seabios/acpi-dsdt.aml
+42fdcb44bca8d372d98f81f9edc76c78  usr/share/seabios/bios-256k.bin
+00c8a91aeb5955adcd680e11a5897667  usr/share/seabios/bios.bin
+a1158939643234245431f557f3cc6533  usr/share/seabios/extboot.bin
+094b3ea0e0e45348f684a4c581aca087  usr/share/seabios/kvmvapic.bin
+ab40dea9ff35ec29b506fdae5bf11463  usr/share/seabios/linuxboot.bin
+fb60f7138b7997cf45f12f8b07dee450  usr/share/seabios/linuxboot_dma.bin
+552a0c03c40bb3ec292f5349ea29cf86  usr/share/seabios/multiboot.bin
+ae75c4fdf8b605221d76238a2ecd3f7c  usr/share/seabios/q35-acpi-dsdt.aml
+8c0c41006675563aec7a1016143cfbd1  usr/share/seabios/vgabios-cirrus.bin
+920455a6746eefcda034e70b11aa635e  usr/share/seabios/vgabios-isavga.bin
+5b8400c850463ae9238a846d4f87d0eb  usr/share/seabios/vgabios-qxl.bin
+57df8daf14b558a91c1d3669f958b60a  usr/share/seabios/vgabios-stdvga.bin
+1b31394b300c8a660f4e4e6bcb7f4368  usr/share/seabios/vgabios-virtio.bin
+efcf6467a8d7d7e948aa3d310ca9b16d  usr/share/seabios/vgabios-vmware.bin

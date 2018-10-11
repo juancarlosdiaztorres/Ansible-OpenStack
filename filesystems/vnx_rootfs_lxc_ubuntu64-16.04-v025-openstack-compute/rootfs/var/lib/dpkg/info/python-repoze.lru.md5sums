@@ -1,0 +1,16 @@
+ca27106d1b0c82db26ee1063c85e143d  usr/lib/python2.7/dist-packages/repoze.lru-0.6-nspkg.pth
+46b9aeb7d6503cbcbacb6db81510c0b5  usr/lib/python2.7/dist-packages/repoze.lru-0.6.egg-info/PKG-INFO
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/repoze.lru-0.6.egg-info/dependency_links.txt
+a127fd1f86e4ab650f2216f09992afa4  usr/lib/python2.7/dist-packages/repoze.lru-0.6.egg-info/entry_points.txt
+f2ba38b76cbb5cedb237937fab275de1  usr/lib/python2.7/dist-packages/repoze.lru-0.6.egg-info/namespace_packages.txt
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/repoze.lru-0.6.egg-info/not-zip-safe
+03aa00a4fb90ff2094a4434842418b49  usr/lib/python2.7/dist-packages/repoze.lru-0.6.egg-info/requires.txt
+f2ba38b76cbb5cedb237937fab275de1  usr/lib/python2.7/dist-packages/repoze.lru-0.6.egg-info/top_level.txt
+36a7505e6d4c4bdf4f7f0b93b0cdf0a8  usr/lib/python2.7/dist-packages/repoze/lru/__init__.py
+55f399c0b84696c334090bf33210d8f9  usr/lib/python2.7/dist-packages/repoze/lru/tests.py
+b902efea0852925cbdd5b63f6a004588  usr/share/doc/python-repoze.lru/CHANGES.txt
+614e972bec3279f0e551a33493954b34  usr/share/doc/python-repoze.lru/COPYRIGHT.txt
+dea1806e38d6f5068f1db8076e081537  usr/share/doc/python-repoze.lru/README.txt
+206181dd1cd13089fa61e0c74a1bd83b  usr/share/doc/python-repoze.lru/changelog.Debian.gz
+e9481aeb8f266e918c9dd7881a6e0436  usr/share/doc/python-repoze.lru/copyright
+f2ba38b76cbb5cedb237937fab275de1  usr/share/python/ns/python-repoze.lru

@@ -1,0 +1,33 @@
+# Template used to create this container: /usr/share/lxc/templates/lxc-ubuntu
+# Parameters passed to the template:
+# For additional config options, please look at lxc.container.conf(5)
+
+# Uncomment the following line to support nesting containers:
+#lxc.include = /usr/share/lxc/config/nesting.conf
+# (Be aware this has security implications)
+
+
+# Common configuration
+lxc.include = /usr/share/lxc/config/ubuntu.common.conf
+
+# Container specific configuration
+lxc.utsname = vnx_rootfs_lxc_ubuntu64-16.04-v025
+lxc.arch = amd64
+
+# Network configuration
+lxc.network.type = veth
+lxc.network.link = lxcbr0
+lxc.network.flags = up
+lxc.network.hwaddr = 00:16:3e:00:52:65
+
+lxc.rootfs = /home/openstack/vnx-lab-openstack-ocata/openstack_lab-ocata_4n_classic_ovs/filesystems/vnx_rootfs_lxc_ubuntu64-16.04-v025-openstack-compute/rootfs
+lxc.mount = /home/openstack/vnx-lab-openstack-ocata/openstack_lab-ocata_4n_classic_ovs/filesystems/vnx_rootfs_lxc_ubuntu64-16.04-v025-openstack-compute/fstab
+
+
+# Create /dev/net/tun
+lxc.cgroup.devices.allow = c 10:200 rwm
+lxc.hook.autodev = sh -c "modprobe tun; cd ${LXC_ROOTFS_MOUNT}/dev; mkdir net; mknod net/tun c 10 200; chmod 0666 net/tun"
+
+# Create /dev/kvm
+lxc.cgroup.devices.allow = c 10:232 rwm
+lxc.hook.autodev = sh -c "cd ${LXC_ROOTFS_MOUNT}/dev; mknod -m 660 kvm c 10 232; chown root:$(grep kvm ${LXC_ROOTFS_MOUNT}/etc/group | awk -F ':' '{print $3}') kvm"

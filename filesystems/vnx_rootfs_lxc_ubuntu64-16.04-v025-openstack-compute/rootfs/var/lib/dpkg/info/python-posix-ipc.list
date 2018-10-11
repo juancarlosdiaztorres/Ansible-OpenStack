@@ -1,0 +1,12 @@
+/.
+/usr
+/usr/lib
+/usr/lib/python2.7
+/usr/lib/python2.7/dist-packages
+/usr/lib/python2.7/dist-packages/posix_ipc-0.9.8.egg-info
+/usr/lib/python2.7/dist-packages/posix_ipc.so
+/usr/share
+/usr/share/doc
+/usr/share/doc/python-posix-ipc
+/usr/share/doc/python-posix-ipc/copyright
+/usr/share/doc/python-posix-ipc/changelog.Debian.gz

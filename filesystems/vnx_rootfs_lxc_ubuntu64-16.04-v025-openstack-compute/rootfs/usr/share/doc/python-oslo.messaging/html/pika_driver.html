@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Pika Driver Deployment Guide &mdash; oslo.messaging  documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="oslo.messaging  documentation" href="index.html" />
+    <link rel="next" title="ZeroMQ Driver Deployment Guide" href="zmq_driver.html" />
+    <link rel="prev" title="AMQP 1.0 Protocol Driver Deployment Guide" href="AMQP1.0.html" /> 
+  </head>
+  <body role="document">
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pika-driver-deployment-guide">
+<h1>Pika Driver Deployment Guide<a class="headerlink" href="#pika-driver-deployment-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Pika is a pure-Python implementation of the AMQP 0-9-1 protocol including
+RabbitMQ&#8217;s extensions. It is very actively supported and recommended by
+RabbitMQ developers</p>
+</div>
+<div class="section" id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>PikaDriver is one of oslo.messaging backend drivers. It supports RPC and Notify
+patterns. Currently it could be the only oslo.messaging driver across the
+OpenStack cluster. This document provides deployment information for this
+driver in oslo_messaging.</p>
+<p>This driver is able to work with single instance of RabbitMQ server or
+RabbitMQ cluster.</p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="enabling-mandatory">
+<h3>Enabling (mandatory)<a class="headerlink" href="#enabling-mandatory" title="Permalink to this headline">¶</a></h3>
+<p>To enable the driver, in the section [DEFAULT] of the conf file,
+the &#8216;transport_url&#8217; parameter  should be set to
+<cite>pika://user:pass&#64;host1:port[,hostN:portN]</cite></p>
+<blockquote>
+<div>[DEFAULT]
+transport_url = pika://guest:guest&#64;localhost:5672</div></blockquote>
+</div>
+<div class="section" id="connection-options-optional">
+<h3>Connection options (optional)<a class="headerlink" href="#connection-options-optional" title="Permalink to this headline">¶</a></h3>
+<p>In section [oslo_messaging_pika]:
+#. channel_max - Maximum number of channels to allow,</p>
+<ol class="arabic simple">
+<li>frame_max (default - pika default value): The maximum byte size for
+an AMQP frame,</li>
+<li>heartbeat_interval (default=1): How often to send heartbeats for
+consumer&#8217;s connections in seconds. If 0 - disable heartbeats,</li>
+<li>ssl (default=False): Enable SSL if True,</li>
+<li>ssl_options (default=None): Arguments passed to ssl.wrap_socket,</li>
+<li>socket_timeout (default=0.25): Set timeout for opening new connection&#8217;s
+socket,</li>
+<li>tcp_user_timeout (default=0.25): Set TCP_USER_TIMEOUT in seconds for
+connection&#8217;s socket,</li>
+<li>host_connection_reconnect_delay (default=0.25): Set delay for reconnection
+to some host after connection error</li>
+</ol>
+</div>
+<div class="section" id="connection-pool-options-optional">
+<h3>Connection pool options (optional)<a class="headerlink" href="#connection-pool-options-optional" title="Permalink to this headline">¶</a></h3>
+<p>In section [oslo_messaging_pika]:</p>
+<ol class="arabic simple">
+<li>pool_max_size (default=10): Maximum number of connections to keep queued,</li>
+<li>pool_max_overflow (default=0): Maximum number of connections to create above
+<cite>pool_max_size</cite>,</li>
+<li>pool_timeout (default=30): Default number of seconds to wait for a
+connections to available,</li>
+<li>pool_recycle (default=600): Lifetime of a connection (since creation) in
+seconds or None for no recycling. Expired connections are closed on acquire,</li>
+<li>pool_stale (default=60): Threshold at which inactive (since release)
+connections are considered stale in seconds or None for no staleness.
+Stale connections are closed on acquire.&#8221;)</li>
+</ol>
+</div>
+<div class="section" id="rpc-related-options-optional">
+<h3>RPC related options (optional)<a class="headerlink" href="#rpc-related-options-optional" title="Permalink to this headline">¶</a></h3>
+<p>In section [oslo_messaging_pika]:</p>
+<ol class="arabic simple">
+<li>rpc_queue_expiration (default=60): Time to live for rpc queues without
+consumers in seconds,</li>
+<li>default_rpc_exchange (default=&#8221;${control_exchange}_rpc&#8221;): Exchange name for
+sending RPC messages,</li>
+<li>rpc_reply_exchange&#8217;, default=(&#8220;${control_exchange}_rpc_reply&#8221;): Exchange
+name for receiving RPC replies,</li>
+<li>rpc_listener_prefetch_count (default=100): Max number of not acknowledged
+message which RabbitMQ can send to rpc listener,</li>
+<li>rpc_reply_listener_prefetch_count (default=100): Max number of not
+acknowledged message which RabbitMQ can send to rpc reply listener,</li>
+<li>rpc_reply_retry_attempts (default=-1): Reconnecting retry count in case of
+connectivity problem during sending reply. -1 means infinite retry during
+rpc_timeout,</li>
+<li>rpc_reply_retry_delay (default=0.25) Reconnecting retry delay in case of
+connectivity problem during sending reply,</li>
+<li>default_rpc_retry_attempts (default=-1): Reconnecting retry count in case of
+connectivity problem during sending RPC message, -1 means infinite retry. If
+actual retry attempts in not 0 the rpc request could be processed more than
+one time,</li>
+<li>rpc_retry_delay (default=0.25): Reconnecting retry delay in case of
+connectivity problem during sending RPC message</li>
+</ol>
+<p>$control_exchange in this code is value of [DEFAULT].control_exchange option,
+which is &#8220;openstack&#8221; by default</p>
+</div>
+<div class="section" id="notification-related-options-optional">
+<h3>Notification related options (optional)<a class="headerlink" href="#notification-related-options-optional" title="Permalink to this headline">¶</a></h3>
+<p>In section [oslo_messaging_pika]:</p>
+<ol class="arabic">
+<li><p class="first">notification_persistence (default=False): Persist notification messages,</p>
+</li>
+<li><p class="first">default_notification_exchange (default=&#8221;${control_exchange}_notification&#8221;):
+Exchange name for for sending notifications,</p>
+</li>
+<li><p class="first">notification_listener_prefetch_count (default=100): Max number of not
+acknowledged message which RabbitMQ can send to notification listener,</p>
+</li>
+<li><dl class="first docutils">
+<dt>default_notification_retry_attempts (default=-1): Reconnecting retry count</dt>
+<dd><p class="first last">in case of connectivity problem during sending notification, -1 means
+infinite retry,</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">notification_retry_delay (default=0.25): Reconnecting retry delay in case of
+connectivity problem during sending notification message</p>
+</li>
+</ol>
+<p>$control_exchange in this code is value of [DEFAULT].control_exchange option,
+which is &#8220;openstack&#8221; by default</p>
+</div>
+<div class="section" id="devstack-support">
+<h3>DevStack Support<a class="headerlink" href="#devstack-support" title="Permalink to this headline">¶</a></h3>
+<p>Pika driver is supported by DevStack. To enable it you should edit
+local.conf [localrc] section and add next there:</p>
+<blockquote>
+<div>enable_plugin pika <a class="reference external" href="https://git.openstack.org/openstack/devstack-plugin-pika">https://git.openstack.org/openstack/devstack-plugin-pika</a></div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">Pika Driver Deployment Guide</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#enabling-mandatory">Enabling (mandatory)</a></li>
+<li><a class="reference internal" href="#connection-options-optional">Connection options (optional)</a></li>
+<li><a class="reference internal" href="#connection-pool-options-optional">Connection pool options (optional)</a></li>
+<li><a class="reference internal" href="#rpc-related-options-optional">RPC related options (optional)</a></li>
+<li><a class="reference internal" href="#notification-related-options-optional">Notification related options (optional)</a></li>
+<li><a class="reference internal" href="#devstack-support">DevStack Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="AMQP1.0.html"
+                                  title="previous chapter">AMQP 1.0 Protocol Driver Deployment Guide</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="zmq_driver.html"
+                                  title="next chapter">ZeroMQ Driver Deployment Guide</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/pika_driver.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="zmq_driver.html" title="ZeroMQ Driver Deployment Guide"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="AMQP1.0.html" title="AMQP 1.0 Protocol Driver Deployment Guide"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">oslo.messaging  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, OpenStack Foundation.
+      Last updated on February 27, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/oslo.messaging");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

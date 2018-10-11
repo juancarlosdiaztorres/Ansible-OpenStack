@@ -1,0 +1,4 @@
+d73d57584823979c159d11df66e890c8  usr/bin/kvm
+6502481914066b1cdd15a9358bef32ff  usr/share/doc/qemu-kvm/NEWS.Debian.gz
+d9cefe8260949104e3a13af15375fb0b  usr/share/doc/qemu-kvm/copyright
+c3ddfd5e04efc8ed599a43089ff3ab86  usr/share/man/man1/kvm.1.gz

@@ -1,0 +1,15 @@
+/.
+/etc
+/etc/pycadf
+/etc/pycadf/ceilometer_api_audit_map.conf
+/etc/pycadf/glance_api_audit_map.conf
+/etc/pycadf/nova_api_audit_map.conf
+/etc/pycadf/neutron_api_audit_map.conf
+/etc/pycadf/cinder_api_audit_map.conf
+/etc/pycadf/trove_api_audit_map.conf
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/pycadf-common
+/usr/share/doc/pycadf-common/changelog.Debian.gz
+/usr/share/doc/pycadf-common/copyright

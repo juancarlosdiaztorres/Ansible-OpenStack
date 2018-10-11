@@ -1,0 +1,15 @@
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/conntrack
+/usr/share/doc/conntrack/examples
+/usr/share/doc/conntrack/examples/cli
+/usr/share/doc/conntrack/examples/cli/test.sh
+/usr/share/doc/conntrack/copyright
+/usr/share/doc/conntrack/changelog.Debian.gz
+/usr/share/man
+/usr/share/man/man8
+/usr/share/man/man8/conntrack.8.gz
+/usr/sbin
+/usr/sbin/conntrack

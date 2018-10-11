@@ -1,0 +1,15 @@
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/python-appdirs
+/usr/share/doc/python-appdirs/copyright
+/usr/share/doc/python-appdirs/changelog.Debian.gz
+/usr/lib
+/usr/lib/python2.7
+/usr/lib/python2.7/dist-packages
+/usr/lib/python2.7/dist-packages/appdirs.py
+/usr/lib/python2.7/dist-packages/appdirs-1.4.0.egg-info
+/usr/lib/python2.7/dist-packages/appdirs-1.4.0.egg-info/PKG-INFO
+/usr/lib/python2.7/dist-packages/appdirs-1.4.0.egg-info/dependency_links.txt
+/usr/lib/python2.7/dist-packages/appdirs-1.4.0.egg-info/top_level.txt

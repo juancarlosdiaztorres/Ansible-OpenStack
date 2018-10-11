@@ -1,0 +1,15 @@
+/.
+/usr
+/usr/lib
+/usr/lib/python2.7
+/usr/lib/python2.7/dist-packages
+/usr/lib/python2.7/dist-packages/greenlet.x86_64-linux-gnu.so
+/usr/lib/python2.7/dist-packages/greenlet-0.4.9.egg-info
+/usr/share
+/usr/share/doc
+/usr/share/doc/python-greenlet
+/usr/share/doc/python-greenlet/NEWS.gz
+/usr/share/doc/python-greenlet/AUTHORS
+/usr/share/doc/python-greenlet/copyright
+/usr/share/doc/python-greenlet/changelog.Debian.gz
+/usr/share/doc/python-greenlet/README.rst

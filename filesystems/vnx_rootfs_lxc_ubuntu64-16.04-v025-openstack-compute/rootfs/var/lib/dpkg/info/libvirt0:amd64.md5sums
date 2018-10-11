@@ -1,0 +1,6 @@
+b1af2eff34a953c12fc9aa0c9a4dcecf  usr/lib/x86_64-linux-gnu/libvirt-admin.so.0.2005.0
+cfa7a500db82f0883b0c45aa6854ba8a  usr/lib/x86_64-linux-gnu/libvirt-lxc.so.0.2005.0
+961c37b81636dd0cf664c6932b8af39a  usr/lib/x86_64-linux-gnu/libvirt-qemu.so.0.2005.0
+1c05e4060bd3a08596359e45e0967843  usr/lib/x86_64-linux-gnu/libvirt.so.0.2005.0
+632739d8eae6d93f8093e30970a27a55  usr/share/doc/libvirt0/changelog.Debian.gz
+d7eb8265a2aba126927a064617dd9e61  usr/share/doc/libvirt0/copyright

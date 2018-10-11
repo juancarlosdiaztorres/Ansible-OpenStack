@@ -1,0 +1,8 @@
+98305fdd3c6065ad1ccb323d65dd7fcc  usr/bin/update-oui
+526526b89bd1df32e024181201265af1  usr/share/doc/ieee-data/README.Debian
+a0840595393e35a8fe520841988915d5  usr/share/doc/ieee-data/changelog.gz
+63e23a6b679783bb188148b9c971f7d3  usr/share/doc/ieee-data/copyright
+4a73bdd58439397c6ee38fadd634a66d  usr/share/ieee-data/.lastupdate
+4deab2b933c149dbc66863d773fbe04c  usr/share/ieee-data/iab.txt
+fcfb27a49c8eae0f196fbddc084b3940  usr/share/ieee-data/oui.txt
+65d54862c7aedfff83b0c0b965100671  usr/share/man/man8/update-oui.8.gz

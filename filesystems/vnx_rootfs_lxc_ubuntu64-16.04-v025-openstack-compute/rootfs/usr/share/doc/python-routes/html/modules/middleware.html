@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>routes.middleware – Routes WSGI Middleware &mdash; Routes 1.13 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.13',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Routes 1.13 documentation" href="../index.html" />
+    <link rel="up" title="Routes Modules" href="index.html" />
+    <link rel="next" title="routes.util – URL Generator and utility functions" href="util.html" />
+    <link rel="prev" title="routes.route – Route" href="route.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="util.html" title="routes.util – URL Generator and utility functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="route.html" title="routes.route – Route"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Routes 1.13 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Routes Modules</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-routes.middleware">
+<span id="routes-middleware-routes-wsgi-middleware"></span><h1><a class="reference internal" href="#module-routes.middleware" title="routes.middleware"><code class="xref py py-mod docutils literal"><span class="pre">routes.middleware</span></code></a> &#8211; Routes WSGI Middleware<a class="headerlink" href="#module-routes.middleware" title="Permalink to this headline">¶</a></h1>
+<p>Routes WSGI Middleware</p>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="routes.middleware.RoutesMiddleware">
+<em class="property">class </em><code class="descclassname">routes.middleware.</code><code class="descname">RoutesMiddleware</code><span class="sig-paren">(</span><em>wsgi_app</em>, <em>mapper</em>, <em>use_method_override=True</em>, <em>path_info=True</em>, <em>singleton=True</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.middleware.RoutesMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd><p>Routing middleware that handles resolving the PATH_INFO in
+addition to optionally recognizing method overriding.</p>
+<p>Create a Route middleware object</p>
+<p>Using the use_method_override keyword will require Paste to be
+installed, and your application should use Paste&#8217;s WSGIRequest
+object as it will properly handle POST issues with wsgi.input
+should Routes check it.</p>
+<p>If path_info is True, then should a route var contain
+path_info, the SCRIPT_NAME and PATH_INFO will be altered
+accordingly. This should be used with routes like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">map</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;blog/*path_info&#39;</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="s1">&#39;blog&#39;</span><span class="p">,</span> <span class="n">path_info</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="routes.middleware.is_form_post">
+<code class="descclassname">routes.middleware.</code><code class="descname">is_form_post</code><span class="sig-paren">(</span><em>environ</em><span class="sig-paren">)</span><a class="headerlink" href="#routes.middleware.is_form_post" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine whether the request is a POSTed html form</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">routes.middleware</span></code> &#8211; Routes WSGI Middleware</a><ul>
+<li><a class="reference internal" href="#module-contents">Module Contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="route.html"
+                        title="previous chapter"><code class="docutils literal"><span class="pre">routes.route</span></code> &#8211; Route</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="util.html"
+                        title="next chapter"><code class="docutils literal"><span class="pre">routes.util</span></code> &#8211; URL Generator and utility functions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/modules/middleware.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="util.html" title="routes.util – URL Generator and utility functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="route.html" title="routes.route – Route"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Routes 1.13 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Routes Modules</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2005-2015, Ben Bangert, Mike Orr.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

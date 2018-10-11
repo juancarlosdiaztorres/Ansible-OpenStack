@@ -1,0 +1,7 @@
+2018-09-17T22:24:26.462Z|00001|vlog|INFO|opened log file /var/log/openvswitch/ovs-vswitchd.log
+2018-09-17T22:24:26.467Z|00002|ovs_numa|INFO|Discovered 8 CPU cores on NUMA node 0
+2018-09-17T22:24:26.467Z|00003|ovs_numa|INFO|Discovered 1 NUMA nodes and 8 CPU cores
+2018-09-17T22:24:26.467Z|00004|reconnect|INFO|unix:/var/run/openvswitch/db.sock: connecting...
+2018-09-17T22:24:26.467Z|00005|reconnect|INFO|unix:/var/run/openvswitch/db.sock: connected
+2018-09-17T22:24:26.469Z|00006|bridge|INFO|ovs-vswitchd (Open vSwitch) 2.6.1
+2018-09-17T22:24:30.887Z|00002|daemon_unix(monitor)|INFO|pid 19405 died, exit status 0, exiting

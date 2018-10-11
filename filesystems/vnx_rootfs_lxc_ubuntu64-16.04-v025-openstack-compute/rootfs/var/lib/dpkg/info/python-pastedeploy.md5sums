@@ -1,0 +1,17 @@
+12c944e015e27d0bf1e343c9d897fd1b  usr/lib/python2.7/dist-packages/PasteDeploy-1.5.2.egg-info/PKG-INFO
+a3f00b2b2a96a5b99cb7eea6e4d5edbb  usr/lib/python2.7/dist-packages/PasteDeploy-1.5.2.egg-info/SOURCES.txt
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/PasteDeploy-1.5.2.egg-info/dependency_links.txt
+82874385f44ea1299d3ce74d17f6fb47  usr/lib/python2.7/dist-packages/PasteDeploy-1.5.2.egg-info/entry_points.txt
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/PasteDeploy-1.5.2.egg-info/not-zip-safe
+c2ef8f6bd52fd44b9b9965e25d1da866  usr/lib/python2.7/dist-packages/PasteDeploy-1.5.2.egg-info/requires.txt
+4d4dbebc149e1886a91a46878384c950  usr/lib/python2.7/dist-packages/PasteDeploy-1.5.2.egg-info/top_level.txt
+b3e820038f0c213319eab0c341f85aaa  usr/lib/python2.7/dist-packages/paste/deploy/__init__.py
+64dcef3a78a240472196e3cc0c6a63b3  usr/lib/python2.7/dist-packages/paste/deploy/compat.py
+62767af6921e29e0c63b3b357e5c09b9  usr/lib/python2.7/dist-packages/paste/deploy/config.py
+22646511f2db24c941797dff2da66c3a  usr/lib/python2.7/dist-packages/paste/deploy/converters.py
+c3cf84877d0aa38421e6804eb9af9b8e  usr/lib/python2.7/dist-packages/paste/deploy/loadwsgi.py
+d138a5e0d6746cdcdd0c04ab6a660c18  usr/lib/python2.7/dist-packages/paste/deploy/paster_templates.py
+a936c2dc36c759a1e93513d9b260031f  usr/lib/python2.7/dist-packages/paste/deploy/util.py
+b0ace3e62b849b9bfc5da35a03a850df  usr/share/doc/python-pastedeploy/copyright
+6cbff9b2432d6ad6edff68c65c4aea47  usr/share/doc/python-pastedeploy/docs/index.html
+66fe2213be8085e373e5397309e7aa1d  usr/share/doc/python-pastedeploy/docs/news.html

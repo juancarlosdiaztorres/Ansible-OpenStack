@@ -1,0 +1,72 @@
+# Vim 7.4 generó este archivo "viminfo".
+# Puede editarlo, ¡sólo si tiene cuidado!
+
+# Valor de 'encoding' cuando se escribió este archivo
+*encoding=utf-8
+
+
+# hlsearch on (H) or off (h):
+~h
+# Historia de Línea de órdenes (de lo más nuevo a lo más antiguo):
+:q!
+:q
+:w!
+
+# Historia de Cadena de búsqueda (de lo más nuevo a lo más antiguo):
+
+# Historia de Expresión (de lo más nuevo a lo más antiguo):
+
+# Historia de Línea de entrada (de lo más nuevo a lo más antiguo):
+
+# Historia de Línea de entrada (de lo más nuevo a lo más antiguo):
+
+# Registros:
+""-	CHAR	0
+	_rootfs_lxc_ubuntu-16.04-v025
+
+# Marcas en el archivo:
+'0  9  0  /etc/network/interfaces
+'1  1  2  /etc/hostname
+'2  2  14  /etc/hosts
+
+# Lista de saltos (el más reciente va primero):
+-'  9  0  /etc/network/interfaces
+-'  1  0  /etc/network/interfaces
+-'  1  2  /etc/hostname
+-'  2  14  /etc/hosts
+-'  1  0  /etc/hosts
+-'  2  14  /etc/hosts
+-'  1  0  /etc/hosts
+-'  1  2  /etc/hostname
+-'  2  14  /etc/hosts
+-'  1  0  /etc/hosts
+-'  2  14  /etc/hosts
+-'  1  0  /etc/hosts
+-'  1  2  /etc/hostname
+-'  2  14  /etc/hosts
+-'  1  0  /etc/hosts
+-'  2  14  /etc/hosts
+-'  1  0  /etc/hosts
+-'  1  2  /etc/hostname
+-'  2  14  /etc/hosts
+-'  1  0  /etc/hosts
+-'  2  14  /etc/hosts
+-'  1  0  /etc/hosts
+
+# Historia de las marcas en los archivos (de la más reciente a la más antigua):
+
+> /etc/network/interfaces
+	"	9	0
+	^	9	1
+	.	9	0
+	+	9	0
+
+> /etc/hostname
+	"	1	2
+	.	1	2
+	+	1	2
+
+> /etc/hosts
+	"	2	14
+	.	2	14
+	+	2	14

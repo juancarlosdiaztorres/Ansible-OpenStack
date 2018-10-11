@@ -1,0 +1,994 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.11: http://docutils.sourceforge.net/" />
+<title>Paste Deployment</title>
+<meta name="author" content="Ian Bicking &lt;ianb&#64;colorstudy.com&gt;" />
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7614 2013-02-21 15:55:51Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="paste-deployment">
+<h1 class="title">Paste Deployment</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Author:</th>
+<td>Ian Bicking &lt;<a class="reference external" href="mailto:ianb&#37;&#52;&#48;colorstudy&#46;com">ianb<span>&#64;</span>colorstudy<span>&#46;</span>com</a>&gt;</td></tr>
+</tbody>
+</table>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#introduction" id="id3">Introduction</a></li>
+<li><a class="reference internal" href="#status" id="id4">Status</a></li>
+<li><a class="reference internal" href="#installation" id="id5">Installation</a></li>
+<li><a class="reference internal" href="#from-the-user-perspective" id="id6">From the User Perspective</a><ul>
+<li><a class="reference internal" href="#the-config-file" id="id7">The Config File</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#basic-usage" id="id8">Basic Usage</a></li>
+<li><a class="reference internal" href="#config-uris" id="id9"><tt class="docutils literal">config:</tt> URIs</a><ul>
+<li><a class="reference internal" href="#config-format" id="id10">Config Format</a></li>
+<li><a class="reference internal" href="#applications" id="id11">Applications</a></li>
+<li><a class="reference internal" href="#configuration" id="id12">Configuration</a></li>
+<li><a class="reference internal" href="#global-configuration" id="id13">Global Configuration</a></li>
+<li><a class="reference internal" href="#composite-applications" id="id14">Composite Applications</a></li>
+<li><a class="reference internal" href="#other-objects" id="id15">Other Objects</a></li>
+<li><a class="reference internal" href="#filter-composition" id="id16">Filter Composition</a></li>
+<li><a class="reference internal" href="#getting-configuration" id="id17">Getting Configuration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#egg-uris" id="id18"><tt class="docutils literal">egg:</tt> URIs</a></li>
+<li><a class="reference internal" href="#defining-factories" id="id19">Defining Factories</a><ul>
+<li><a class="reference internal" href="#paste-app-factory" id="id20"><tt class="docutils literal">paste.app_factory</tt></a></li>
+<li><a class="reference internal" href="#paste-composite-factory" id="id21"><tt class="docutils literal">paste.composite_factory</tt></a></li>
+<li><a class="reference internal" href="#paste-filter-factory" id="id22"><tt class="docutils literal">paste.filter_factory</tt></a></li>
+<li><a class="reference internal" href="#paste-filter-app-factory" id="id23"><tt class="docutils literal">paste.filter_app_factory</tt></a></li>
+<li><a class="reference internal" href="#paste-server-factory" id="id24"><tt class="docutils literal">paste.server_factory</tt></a></li>
+<li><a class="reference internal" href="#paste-server-runner" id="id25"><tt class="docutils literal">paste.server_runner</tt></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#outstanding-issues" id="id26">Outstanding Issues</a></li>
+</ul>
+</div>
+<p>Documents:</p>
+<div class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<tt class="docutils">docs/./index.txt</tt>, line 10)</p>
+<p>Unknown directive type &quot;toctree&quot;.</p>
+<pre class="literal-block">
+.. toctree::
+   :maxdepth: 1
+
+   news
+   modules/loadwsgi
+   modules/config
+   modules/converters
+   license
+
+</pre>
+</div>
+<!-- comment:
+The names used in sections should be more concrete, and it should
+be clearer that they are just arbitrary names. -->
+<div class="section" id="introduction">
+<h1>Introduction</h1>
+<p>Paste Deployment is a system for finding and configuring WSGI
+applications and servers.  For WSGI application consumers it provides
+a single, simple function (<tt class="docutils literal">loadapp</tt>) for loading a WSGI application
+from a configuration file or a Python Egg.  For WSGI application
+providers it only asks for a single, simple entry point to your
+application, so that application users don't need to be exposed to the
+implementation details of your application.</p>
+<p>The result is something a system administrator can install and manage
+without knowing any Python, or the details of the WSGI application or
+its container.</p>
+<p>Paste Deployment currently does not require other parts of <a class="reference external" href="http://pythonpaste.org">Paste</a>, and is distributed as a separate package.</p>
+<p>To see updates that have been made to Paste Deploy see the <a class="reference external" href="news.html">news file</a>.</p>
+<p>Paste Deploy is released under the <a class="reference external" href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>.</p>
+</div>
+<div class="section" id="status">
+<h1>Status</h1>
+<p>Paste Deploy has passed version 1.0.  Paste Script is an actively
+maintained project.  As of 1.0, we'll make a strong effort to maintain
+backward compatibility (this actually started happening long before
+1.0, but now it is explicit).  This will include deprecation warnings
+when necessary.  Major changes will take place under new functions or
+with new entry points.</p>
+<p>Note that the most key aspect of Paste Deploy is the entry points it
+defines (such as <tt class="docutils literal">paste.app_factory</tt>).  Paste Deploy is not the only
+consumer of these entry points, and many extensions can best take
+place by utilizing the entry points instead of using Paste Deploy
+directly.  The entry points will not change; if changes are necessary,
+new entry points will be defined.</p>
+</div>
+<div class="section" id="installation">
+<h1>Installation</h1>
+<p>First make sure you have either
+<a class="reference external" href="http://peak.telecommunity.com/DevCenter/setuptools">setuptools</a> or its
+modern replacement
+<a class="reference external" href="http://pypi.python.org/pypi/distribute">distribute</a> installed.
+For Python 3.x you need distribute as setuptools does not work on it.</p>
+<p>Then you can install Paste Deployment using <a class="reference external" href="http://www.pip-installer.org/en/latest/installing.html">pip</a> by running:</p>
+<pre class="literal-block">
+$ sudo pip install PasteDeploy
+</pre>
+<p>If you want to track development, do:</p>
+<pre class="literal-block">
+$ hg clone http://bitbucket.org/ianb/pastedeploy
+$ cd pastedeploy
+$ sudo python setup.py develop
+</pre>
+<p>This will install the package globally, but will load the files in the
+checkout.  You can also simply install <tt class="docutils literal"><span class="pre">PasteDeploy==dev</span></tt>.</p>
+<p>For downloads and other information see the <a class="reference external" href="http://cheeseshop.python.org/pypi/PasteDeploy">Cheese Shop PasteDeploy
+page</a>.</p>
+<p>A complimentary package is <a class="reference external" href="/script/">Paste Script</a>.  To install
+that, use <tt class="docutils literal">pip install PasteScript</tt> (or <tt class="docutils literal">pip install
+<span class="pre">PasteScript==dev</span></tt>).</p>
+</div>
+<div class="section" id="from-the-user-perspective">
+<h1>From the User Perspective</h1>
+<p>In the following sections, the Python API for using Paste Deploy is
+given.  This isn't what users will be using (but it is useful for
+Python developers and useful for setting up tests fixtures).</p>
+<p>The primary interaction with Paste Deploy is through its configuration
+files.  The primary thing you want to do with a configuration file is
+serve it.  To learn about serving configuration files, see <cite>the
+``paster serve`</cite> command
+&lt;<a class="reference external" href="http://pythonpaste.org/script/#paster-serve">http://pythonpaste.org/script/#paster-serve</a>&gt;`_.</p>
+<div class="section" id="the-config-file">
+<h2>The Config File</h2>
+<p>A config file has different sections.  The only sections Paste Deploy
+cares about have prefixes, like <tt class="docutils literal">app:main</tt> or <tt class="docutils literal">filter:errors</tt> --
+the part after the <tt class="docutils literal">:</tt> is the &quot;name&quot; of the section, and the part
+before gives the &quot;type&quot;.  Other sections are ignored.</p>
+<p>The format is a simple <a class="reference external" href="http://en.wikipedia.org/wiki/INI_file">INI format</a>: <tt class="docutils literal">name = value</tt>.  You can
+extend the value by indenting subsequent lines.  <tt class="docutils literal">#</tt> is a comment.</p>
+<p>Typically you have one or two sections, named &quot;main&quot;: an application
+section (<tt class="docutils literal">[app:main]</tt>) and a server section (<tt class="docutils literal">[server:main]</tt>).
+<tt class="docutils literal"><span class="pre">[composite:...]</span></tt> signifies something that dispatches to multiple
+applications (example below).</p>
+<p>Here's a typical configuration file that also shows off mounting
+multiple applications using <a class="reference external" href="http://pythonpaste.org/module-paste.urlmap.html">paste.urlmap</a>:</p>
+<pre class="literal-block">
+[composite:main]
+use = egg:Paste#urlmap
+/ = home
+/blog = blog
+/wiki = wiki
+/cms = config:cms.ini
+
+[app:home]
+use = egg:Paste#static
+document_root = %(here)s/htdocs
+
+[filter-app:blog]
+use = egg:Authentication#auth
+next = blogapp
+roles = admin
+htpasswd = /home/me/users.htpasswd
+
+[app:blogapp]
+use = egg:BlogApp
+database = sqlite:/home/me/blog.db
+
+[app:wiki]
+use = call:mywiki.main:application
+database = sqlite:/home/me/wiki.db
+</pre>
+<p>I'll explain each section in detail now:</p>
+<pre class="literal-block">
+[composite:main]
+use = egg:Paste#urlmap
+/ = home
+/blog = blog
+/cms = config:cms.ini
+</pre>
+<p>That this is a <tt class="docutils literal">composite</tt> section means it dispatches the request
+to other applications.  <tt class="docutils literal">use = egg:Paste#urlmap</tt> means to use the
+composite application named <tt class="docutils literal">urlmap</tt> from the <tt class="docutils literal">Paste</tt> package.
+<tt class="docutils literal">urlmap</tt> is a particularly common composite application -- it uses a
+path prefix to map your request to another application.  These are
+the applications like &quot;home&quot;, &quot;blog&quot;, &quot;wiki&quot; and &quot;config:cms.ini&quot;.  The last
+one just refers to another file <tt class="docutils literal">cms.ini</tt> in the same directory.</p>
+<p>Next up:</p>
+<pre class="literal-block">
+[app:home]
+use = egg:Paste#static
+document_root = %(here)s/htdocs
+</pre>
+<p><tt class="docutils literal">egg:Paste#static</tt> is another simple application, in this case it
+just serves up non-dynamic files.  It takes one bit of configuration:
+<tt class="docutils literal">document_root</tt>.  You can use variable substitution, which will pull
+variables from the section <tt class="docutils literal">[DEFAULT]</tt> (case sensitive!) with
+markers like <tt class="docutils literal">%(var_name)s</tt>.  The special variable <tt class="docutils literal">%(here)s</tt> is
+the directory containing the configuration file; you should use that
+in lieu of relative filenames (which depend on the current directory,
+which can change depending how the server is run).</p>
+<p>Then:</p>
+<pre class="literal-block">
+[filter-app:blog]
+use = egg:Authentication#auth
+next = blogapp
+roles = admin
+htpasswd = /home/me/users.htpasswd
+
+[app:blogapp]
+use = egg:BlogApp
+database = sqlite:/home/me/blog.db
+</pre>
+<p>The <tt class="docutils literal"><span class="pre">[filter-app:blog]</span></tt> section means that you want an application
+with a filter applied.  The application being filtered is indicated
+with <tt class="docutils literal">next</tt> (which refers to the next section).  The
+<tt class="docutils literal">egg:Authentication#auth</tt> filter doesn't actually exist, but one
+could imagine it logs people in and checks permissions.</p>
+<p>That last section is just a reference to an application that you
+probably installed with <tt class="docutils literal">pip install BlogApp</tt>, and one bit of
+configuration you passed to it (<tt class="docutils literal">database</tt>).</p>
+<p>Lastly:</p>
+<pre class="literal-block">
+[app:wiki]
+use = call:mywiki.main:application
+database = sqlite:/home/me/wiki.db
+</pre>
+<p>This section is similar to the previous one, with one important difference.
+Instead of an entry point in an egg, it refers directly to the <tt class="docutils literal">application</tt>
+variable in the <tt class="docutils literal">mywiki.main</tt> module. The reference consist of two parts,
+separated by a colon. The left part is the full name of the module and the
+right part is the path to the variable, as a Python expression relative to the
+containing module.</p>
+<p>So, that's most of the features you'll use.</p>
+</div>
+</div>
+<div class="section" id="basic-usage">
+<h1>Basic Usage</h1>
+<p>The basic way you'll use Paste Deployment is to load <a class="reference external" href="http://www.python.org/peps/pep-3333.html">WSGI</a> applications.  Many
+Python frameworks now support WSGI, so applications written for these
+frameworks should be usable.</p>
+<p>The primary function is <tt class="docutils literal">paste.deploy.loadapp</tt>.  This loads an
+application given a URI.  You can use it like:</p>
+<pre class="literal-block">
+from paste.deploy import loadapp
+wsgi_app = loadapp('config:/path/to/config.ini')
+</pre>
+<p>There's two URI formats currently supported: <tt class="docutils literal">config:</tt> and <tt class="docutils literal">egg:</tt>.</p>
+</div>
+<div class="section" id="config-uris">
+<h1><tt class="docutils literal">config:</tt> URIs</h1>
+<p>URIs that being with <tt class="docutils literal">config:</tt> refer to configuration files.  These
+filenames can be relative if you pass the <tt class="docutils literal">relative_to</tt> keyword
+argument to <tt class="docutils literal">loadapp()</tt>.</p>
+<div class="note">
+<p class="first admonition-title">Note</p>
+<p class="last">Filenames are never considered relative to the current working
+directory, as that is a unpredictable location.  Generally when
+a URI has a context it will be seen as relative to that context;
+for example, if you have a <tt class="docutils literal">config:</tt> URI inside another
+configuration file, the path is considered relative to the
+directory that contains that configuration file.</p>
+</div>
+<div class="section" id="config-format">
+<h2>Config Format</h2>
+<p>Configuration files are in the INI format.  This is a simple format
+that looks like:</p>
+<pre class="literal-block">
+[section_name]
+key = value
+another key = a long value
+    that extends over multiple lines
+</pre>
+<p>All values are strings (no quoting is necessary).  The keys and
+section names are case-sensitive, and may contain punctuation and
+spaces (though both keys and values are stripped of leading and
+trailing whitespace).  Lines can be continued with leading whitespace.</p>
+<p>Lines beginning with <tt class="docutils literal">#</tt> (preferred) or <tt class="docutils literal">;</tt> are considered
+comments.</p>
+</div>
+<div class="section" id="applications">
+<h2>Applications</h2>
+<p>You can define multiple applications in a single file; each
+application goes in its own section.  Even if you have just one
+application, you must put it in a section.</p>
+<p>Each section name defining an application should be prefixed with
+<tt class="docutils literal">app:</tt>.  The &quot;main&quot; section (when just defining one application)
+would go in <tt class="docutils literal">[app:main]</tt> or just <tt class="docutils literal">[app]</tt>.</p>
+<p>There's two ways to indicate the Python code for the application.  The
+first is to refer to another URI or name:</p>
+<pre class="literal-block">
+[app:myapp]
+use = config:another_config_file.ini#app_name
+
+# or any URI:
+[app:myotherapp]
+use = egg:MyApp
+
+# or a callable from a module:
+[app:mythirdapp]
+use = call:my.project:myapplication
+
+# or even another section:
+[app:mylastapp]
+use = myotherapp
+</pre>
+<p>It would seem at first that this was pointless; just a way to point to
+another location.  However, in addition to loading the application
+from that location, you can also add or change the configuration.</p>
+<p>The other way to define an application is to point exactly to some
+Python code:</p>
+<pre class="literal-block">
+[app:myapp]
+paste.app_factory = myapp.modulename:app_factory
+</pre>
+<p>You must give an explicit <em>protocol</em> (in this case
+<tt class="docutils literal">paste.app_factory</tt>), and the value is something to import.  In
+this case the module <tt class="docutils literal">myapp.modulename</tt> is loaded, and the
+<tt class="docutils literal">app_factory</tt> object retrieved from it.</p>
+<p>See <a class="reference internal" href="#defining-factories">Defining Factories</a> for more about the protocols.</p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration</h2>
+<p>Configuration is done through keys besides <tt class="docutils literal">use</tt> (or the protocol
+names).  Any other keys found in the section will be passed as keyword
+arguments to the factory.  This might look like:</p>
+<pre class="literal-block">
+[app:blog]
+use = egg:MyBlog
+database = mysql://localhost/blogdb
+blogname = This Is My Blog!
+</pre>
+<p>You can override these in other sections, like:</p>
+<pre class="literal-block">
+[app:otherblog]
+use = blog
+blogname = The other face of my blog
+</pre>
+<p>This way some settings could be defined in a generic configuration
+file (if you have <tt class="docutils literal">use = config:other_config_file</tt>) or you can
+publish multiple (more specialized) applications just by adding a
+section.</p>
+</div>
+<div class="section" id="global-configuration">
+<h2>Global Configuration</h2>
+<p>Often many applications share the same configuration.  While you can
+do that a bit by using other config sections and overriding values,
+often you want that done for a bunch of disparate configuration
+values.  And typically applications can't take &quot;extra&quot; configuration
+parameters; with global configuration you do something equivalent to
+&quot;if this application wants to know the admin email, this is it&quot;.</p>
+<p>Applications are passed the global configuration separately, so they
+must specifically pull values out of it; typically the global
+configuration serves as the basis for defaults when no local
+configuration is passed in.</p>
+<p>Global configuration to apply to every application defined in a file
+should go in a special section named <tt class="docutils literal">[DEFAULT]</tt>.  You can override
+global configuration locally like:</p>
+<pre class="literal-block">
+[DEFAULT]
+admin_email = webmaster&#64;example.com
+
+[app:main]
+use = ...
+set admin_email = bob&#64;example.com
+</pre>
+<p>That is, by using <tt class="docutils literal">set</tt> in front of the key.</p>
+</div>
+<div class="section" id="composite-applications">
+<h2>Composite Applications</h2>
+<p>&quot;Composite&quot; applications are things that act like applications, but
+are made up of other applications.  One example would be a URL mapper,
+where you mount applications at different URL paths.  This might look
+like:</p>
+<pre class="literal-block">
+[composite:main]
+use = egg:Paste#urlmap
+/ = mainapp
+/files = staticapp
+
+[app:mainapp]
+use = egg:MyApp
+
+[app:staticapp]
+use = egg:Paste#static
+document_root = /path/to/docroot
+</pre>
+<p>The composite application &quot;main&quot; is just like any other application
+from the outside (you load it with <tt class="docutils literal">loadapp</tt> for instance), but it
+has access to other applications defined in the configuration file.</p>
+</div>
+<div class="section" id="other-objects">
+<h2>Other Objects</h2>
+<p>In addition to sections with <tt class="docutils literal">app:</tt>, you can define filters and
+servers in a configuration file, with <tt class="docutils literal">server:</tt> and <tt class="docutils literal">filter:</tt>
+prefixes.  You load these with <tt class="docutils literal">loadserver</tt> and <tt class="docutils literal">loadfilter</tt>.  The
+configuration works just the same; you just get back different kinds
+of objects.</p>
+</div>
+<div class="section" id="filter-composition">
+<h2>Filter Composition</h2>
+<p>There are several ways to apply filters to applications.  It mostly
+depends on how many filters, and in what order you want to apply them.</p>
+<p>The first way is to use the <tt class="docutils literal"><span class="pre">filter-with</span></tt> setting, like:</p>
+<pre class="literal-block">
+[app:main]
+use = egg:MyEgg
+filter-with = printdebug
+
+[filter:printdebug]
+use = egg:Paste#printdebug
+# and you could have another filter-with here, and so on...
+</pre>
+<p>Also, two special section types exist to apply filters to your
+applications: <tt class="docutils literal"><span class="pre">[filter-app:...]</span></tt> and <tt class="docutils literal"><span class="pre">[pipeline:...]</span></tt>.  Both of
+these sections define applications, and so can be used wherever an
+application is needed.</p>
+<p><tt class="docutils literal"><span class="pre">filter-app</span></tt> defines a filter (just like you would in a
+<tt class="docutils literal"><span class="pre">[filter:...]</span></tt> section), and then a special key <tt class="docutils literal">next</tt> which
+points to the application to apply the filter to.</p>
+<p><tt class="docutils literal">pipeline:</tt> is used when you need apply a number of filters.  It
+takes <em>one</em> configuration key <tt class="docutils literal">pipeline</tt> (plus any global
+configuration overrides you want).  <tt class="docutils literal">pipeline</tt> is a list of filters
+ended by an application, like:</p>
+<pre class="literal-block">
+[pipeline:main]
+pipeline = filter1 egg:FilterEgg#filter2 filter3 app
+
+[filter:filter1]
+...
+</pre>
+</div>
+<div class="section" id="getting-configuration">
+<h2>Getting Configuration</h2>
+<p>If you want to get the configuration without creating the application,
+you can use the <tt class="docutils literal">appconfig(uri)</tt> function, which is just like the
+<tt class="docutils literal">loadapp()</tt> function except it returns the configuration that would
+be used, as a dictionary.  Both global and local configuration is
+combined into a single dictionary, but you can look at just one or the
+other with the attributes <tt class="docutils literal">.local_conf</tt> and <tt class="docutils literal">.global_conf</tt>.</p>
+</div>
+</div>
+<div class="section" id="egg-uris">
+<h1><tt class="docutils literal">egg:</tt> URIs</h1>
+<div class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<tt class="docutils">docs/./index.txt</tt>, line 2); <em><a href="#id2">backlink</a></em></p>
+Duplicate explicit target name: &quot;distribute&quot;.</div>
+<p><a class="reference external" href="http://peak.telecommunity.com/DevCenter/PythonEggs">Python Eggs</a>
+are a distribution and installation format produced by <a class="reference external" href="http://peak.telecommunity.com/DevCenter/setuptools">setuptools</a> and
+<a class="reference external" href="http://packages.python.org/distribute/">distribute</a> that adds metadata to a
+normal Python package (among other things).</p>
+<p>You don't need to understand a whole lot about Eggs to use them.  If
+you have a <a class="reference external" href="http://python.org/doc/current/lib/module-distutils.html">distutils</a>
+<tt class="docutils literal">setup.py</tt> script, just change:</p>
+<pre class="literal-block">
+from distutils.core import setup
+</pre>
+<p>to:</p>
+<pre class="literal-block">
+from setuptools import setup
+</pre>
+<p>Now when you install the package it will be installed as an egg.</p>
+<p>The first important part about an Egg is that it has a
+<em>specification</em>.  This is formed from the name of your distribution
+(the <tt class="docutils literal">name</tt> keyword argument to <tt class="docutils literal">setup()</tt>), and you can specify a
+specific version.  So you can have an egg named <tt class="docutils literal">MyApp</tt>, or
+<tt class="docutils literal"><span class="pre">MyApp==0.1</span></tt> to specify a specific version.</p>
+<p>The second is <em>entry points</em>.  These are references to Python objects
+in your packages that are named and have a specific protocol.
+&quot;Protocol&quot; here is just a way of saying that we will call them with
+certain arguments, and expect a specific return value.  We'll talk
+more about the protocols <a class="reference internal" href="#defining-factories">later</a>.</p>
+<p>The important part here is how we define entry points.  You'll add an
+argument to <tt class="docutils literal">setup()</tt> like:</p>
+<pre class="literal-block">
+setup(
+    name='MyApp',
+    ...
+    entry_points={
+        'paste.app_factory': [
+            'main=myapp.mymodule:app_factory',
+            'ob2=myapp.mymodule:ob_factory'],
+        },
+    )
+</pre>
+<p>This defines two applications named <tt class="docutils literal">main</tt> and <tt class="docutils literal">ob2</tt>.  You can
+then refer to these by <tt class="docutils literal">egg:MyApp#main</tt> (or just <tt class="docutils literal">egg:MyApp</tt>,
+since <tt class="docutils literal">main</tt> is the default) and <tt class="docutils literal">egg:MyApp#ob2</tt>.</p>
+<p>The values are instructions for importing the objects.  <tt class="docutils literal">main</tt> is
+located in the <tt class="docutils literal">myapp.mymodule</tt> module, in an object named
+<tt class="docutils literal">app_factory</tt>.</p>
+<p>There's no way to add configuration to objects imported as Eggs.</p>
+</div>
+<div class="section" id="defining-factories">
+<h1>Defining Factories</h1>
+<p>This lets you point to factories (that obey the specific protocols we
+mentioned).  But that's not much use unless you can create factories
+for your applications.</p>
+<p>There's a few protocols: <tt class="docutils literal">paste.app_factory</tt>,
+<tt class="docutils literal">paste.composite_factory</tt>, <tt class="docutils literal">paste.filter_factory</tt>, and lastly
+<tt class="docutils literal">paste.server_factory</tt>.  Each of these expects a callable (like a
+function, method, or class).</p>
+<div class="section" id="paste-app-factory">
+<h2><tt class="docutils literal">paste.app_factory</tt></h2>
+<p>The application is the most common.  You define one like:</p>
+<pre class="literal-block">
+def app_factory(global_config, **local_conf):
+    return wsgi_app
+</pre>
+<p>The <tt class="docutils literal">global_config</tt> is a dictionary, and local configuration is
+passed as keyword arguments.  The function returns a WSGI application.</p>
+</div>
+<div class="section" id="paste-composite-factory">
+<h2><tt class="docutils literal">paste.composite_factory</tt></h2>
+<p>Composites are just slightly more complex:</p>
+<pre class="literal-block">
+def composite_factory(loader, global_config, **local_conf):
+    return wsgi_app
+</pre>
+<p>The <tt class="docutils literal">loader</tt> argument is an object that has a couple interesting
+methods.  <tt class="docutils literal">get_app(name_or_uri, global_conf=None)</tt> return a WSGI
+application with the given name.  <tt class="docutils literal">get_filter</tt> and <tt class="docutils literal">get_server</tt>
+work the same way.</p>
+<p>A more interesting example might be a composite factory that does
+something.  For instance, consider a &quot;pipeline&quot; application:</p>
+<pre class="literal-block">
+def pipeline_factory(loader, global_config, pipeline):
+    # space-separated list of filter and app names:
+    pipeline = pipeline.split()
+    filters = [loader.get_filter(n) for n in pipeline[:-1]]
+    app = loader.get_app(pipeline[-1])
+    filters.reverse() # apply in reverse order!
+    for filter in filters:
+        app = filter(app)
+    return app
+</pre>
+<p>Then we use it like:</p>
+<pre class="literal-block">
+[composite:main]
+use = &lt;pipeline_factory_uri&gt;
+pipeline = egg:Paste#printdebug session myapp
+
+[filter:session]
+use = egg:Paste#session
+store = memory
+
+[app:myapp]
+use = egg:MyApp
+</pre>
+</div>
+<div class="section" id="paste-filter-factory">
+<h2><tt class="docutils literal">paste.filter_factory</tt></h2>
+<p>Filter factories are just like app factories (same signature), except
+they return filters.  Filters are callables that take a WSGI
+application as the only argument, and return a &quot;filtered&quot; version of
+that application.</p>
+<p>Here's an example of a filter that checks that the <tt class="docutils literal">REMOTE_USER</tt> CGI
+variable is set, creating a really simple authentication filter:</p>
+<pre class="literal-block">
+def auth_filter_factory(global_conf, req_usernames):
+    # space-separated list of usernames:
+    req_usernames = req_usernames.split()
+    def filter(app):
+        return AuthFilter(app, req_usernames)
+    return filter
+
+class AuthFilter(object):
+    def __init__(self, app, req_usernames):
+        self.app = app
+        self.req_usernames = req_usernames
+
+    def __call__(self, environ, start_response):
+        if environ.get('REMOTE_USER') in self.req_usernames:
+            return self.app(environ, start_response)
+        start_response(
+            '403 Forbidden', [('Content-type', 'text/html')])
+        return ['You are forbidden to view this resource']
+</pre>
+</div>
+<div class="section" id="paste-filter-app-factory">
+<h2><tt class="docutils literal">paste.filter_app_factory</tt></h2>
+<p>This is very similar to <tt class="docutils literal">paste.filter_factory</tt>, except that it also
+takes a <tt class="docutils literal">wsgi_app</tt> argument, and returns a WSGI application.  So if
+you changed the above example to:</p>
+<pre class="literal-block">
+class AuthFilter(object):
+    def __init__(self, app, global_conf, req_usernames):
+        ....
+</pre>
+<p>Then <tt class="docutils literal">AuthFilter</tt> would serve as a filter_app_factory
+(<tt class="docutils literal">req_usernames</tt> is a required local configuration key in this
+case).</p>
+</div>
+<div class="section" id="paste-server-factory">
+<h2><tt class="docutils literal">paste.server_factory</tt></h2>
+<p>This takes the same signature as applications and filters, but returns
+a server.</p>
+<p>A server is a callable that takes a single argument, a WSGI
+application.  It then serves the application.</p>
+<p>An example might look like:</p>
+<pre class="literal-block">
+def server_factory(global_conf, host, port):
+    port = int(port)
+    def serve(app):
+        s = Server(app, host=host, port=port)
+        s.serve_forever()
+    return serve
+</pre>
+<p>The implementation of <tt class="docutils literal">Server</tt> is left to the user.</p>
+</div>
+<div class="section" id="paste-server-runner">
+<h2><tt class="docutils literal">paste.server_runner</tt></h2>
+<p>Like <tt class="docutils literal">paste.server_factory</tt>, except <tt class="docutils literal">wsgi_app</tt> is passed as the
+first argument, and the server should run immediately.</p>
+</div>
+</div>
+<div class="section" id="outstanding-issues">
+<h1>Outstanding Issues</h1>
+<ul>
+<li><p class="first">Should there be a &quot;default&quot; protocol for each type of object?  Since
+there's currently only one protocol, it seems like it makes sense
+(in the future there could be multiple).  Except that
+<tt class="docutils literal">paste.app_factory</tt> and <tt class="docutils literal">paste.composite_factory</tt> overlap
+considerably.</p>
+</li>
+<li><p class="first">ConfigParser's INI parsing is kind of annoying.  I'd like it both
+more constrained and less constrained.  Some parts are sloppy (like
+the way it interprets <tt class="docutils literal">[DEFAULT]</tt>).</p>
+</li>
+<li><p class="first"><tt class="docutils literal">config:</tt> URLs should be potentially relative to other locations,
+e.g., <tt class="docutils literal"><span class="pre">config:$docroot/...</span></tt>.  Maybe using variables from
+<tt class="docutils literal">global_conf</tt>?</p>
+</li>
+<li><p class="first">Should other variables have access to <tt class="docutils literal">global_conf</tt>?</p>
+</li>
+<li><p class="first">Should objects be Python-syntax, instead of always strings?  Lots of
+code isn't usable with Python strings without a thin wrapper to
+translate objects into their proper types.</p>
+</li>
+<li><p class="first">Some short-form for a filter/app, where the filter refers to the
+&quot;next app&quot;.  Maybe like:</p>
+<pre class="literal-block">
+[app-filter:app_name]
+use = egg:...
+next = next_app
+
+[app:next_app]
+...
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</body>
+</html>

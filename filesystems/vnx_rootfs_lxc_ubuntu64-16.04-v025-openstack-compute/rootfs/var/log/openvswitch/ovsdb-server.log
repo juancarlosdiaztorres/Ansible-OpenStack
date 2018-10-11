@@ -1,0 +1,3 @@
+2018-09-17T22:24:26.449Z|00001|vlog|INFO|opened log file /var/log/openvswitch/ovsdb-server.log
+2018-09-17T22:24:26.452Z|00002|ovsdb_server|INFO|ovsdb-server (Open vSwitch) 2.6.1
+2018-09-17T22:24:30.990Z|00002|daemon_unix(monitor)|INFO|pid 19394 died, exit status 0, exiting

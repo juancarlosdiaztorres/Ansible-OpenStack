@@ -1,0 +1,12 @@
+/.
+/usr
+/usr/bin
+/usr/bin/wireshark-gtk
+/usr/share
+/usr/share/applications
+/usr/share/applications/wireshark-gtk.desktop
+/usr/share/doc
+/usr/share/doc/wireshark-gtk
+/usr/share/doc/wireshark-gtk/copyright
+/usr/share/doc/wireshark-gtk/README.Debian
+/usr/share/doc/wireshark-gtk/changelog.Debian.gz

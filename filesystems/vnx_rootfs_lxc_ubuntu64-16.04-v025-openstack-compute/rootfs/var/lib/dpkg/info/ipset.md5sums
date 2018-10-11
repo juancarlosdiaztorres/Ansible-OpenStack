@@ -1,0 +1,6 @@
+12fba4cd9d2d9f9cb5f996462c73bba5  sbin/ipset
+ee0283102bed0dee18680d1bd84df9fd  usr/share/bash-completion/completions/ipset
+18d2d08bf7d325f91cdac81ba9b8d4f5  usr/share/doc/ipset/README
+1f1e72c30bcfbcc4fcf7dd5930a685c0  usr/share/doc/ipset/copyright
+3f94ffda3190f833f4ddedbcfab8bc62  usr/share/lintian/overrides/ipset
+aeac7739fc137c260a8209c3dfe1396d  usr/share/man/man8/ipset.8.gz

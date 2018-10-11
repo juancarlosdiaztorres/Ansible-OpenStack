@@ -1,0 +1,39 @@
+Metadata-Version: 1.1
+Name: Routes
+Version: 2.2
+Summary: Routing Recognition and Generation Tools
+Home-page: http://routes.readthedocs.org/
+Author: Ben Bangert
+Author-email: ben@groovie.org
+License: MIT
+Description: Routes is a Python re-implementation of the Rails routes system for mapping
+        URL's to Controllers/Actions and generating URL's. Routes makes it easy to
+        create pretty and concise URL's that are RESTful with little effort.
+        
+        Speedy and dynamic URL generation means you get a URL with minimal cruft
+        (no big dangling query args). Shortcut features like Named Routes cut down
+        on repetitive typing.
+        
+        See `the documentation for installation and usage of Routes <http://readthedocs.org/docs/routes/en/latest/>`_.
+        
+        .. image:: https://secure.travis-ci.org/bbangert/routes.png?branch=master
+           :alt: Build Status
+           :target: https://secure.travis-ci.org/bbangert/routes
+        
+Keywords: routes webob dispatch
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4

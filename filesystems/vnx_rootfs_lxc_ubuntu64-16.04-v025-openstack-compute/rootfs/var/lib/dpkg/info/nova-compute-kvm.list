@@ -1,0 +1,10 @@
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/nova-compute-kvm
+/usr/share/doc/nova-compute-kvm/copyright
+/etc
+/etc/nova
+/etc/nova/nova-compute.conf
+/usr/share/doc/nova-compute-kvm/changelog.Debian.gz

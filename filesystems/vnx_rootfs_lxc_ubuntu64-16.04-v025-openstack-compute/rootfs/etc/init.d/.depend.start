@@ -1,0 +1,18 @@
+TARGETS = rsyslog lvm2-lvmpolld lvm2-lvmetad uuidd unattended-upgrades killprocs apache2 single virtlogd openvswitch-switch virtlockd ssh cron dbus rsync libvirtd neutron-ovs-cleanup nova-compute libvirt-guests neutron-openvswitch-agent rc.local ondemand
+INTERACTIVE = apache2
+apache2: rsyslog
+single: killprocs
+virtlogd: rsyslog
+openvswitch-switch: rsyslog
+virtlockd: rsyslog
+ssh: rsyslog
+cron: rsyslog
+dbus: rsyslog
+rsync: rsyslog
+libvirtd: rsyslog virtlogd
+neutron-ovs-cleanup: rsyslog openvswitch-switch
+nova-compute: rsyslog neutron-ovs-cleanup
+libvirt-guests: libvirtd
+neutron-openvswitch-agent: rsyslog neutron-ovs-cleanup
+rc.local: libvirtd rsyslog virtlogd neutron-ovs-cleanup openvswitch-switch nova-compute lvm2-lvmpolld virtlockd lvm2-lvmetad libvirt-guests uuidd unattended-upgrades apache2 ssh cron dbus rsync neutron-openvswitch-agent
+ondemand: libvirtd rsyslog virtlogd neutron-ovs-cleanup openvswitch-switch nova-compute lvm2-lvmpolld virtlockd lvm2-lvmetad libvirt-guests uuidd unattended-upgrades apache2 ssh cron dbus rsync neutron-openvswitch-agent

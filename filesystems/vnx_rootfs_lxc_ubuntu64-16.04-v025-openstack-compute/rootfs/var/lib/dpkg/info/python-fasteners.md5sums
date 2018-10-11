@@ -1,0 +1,17 @@
+0e19248d05eb558fe2d182a8a807ce37  usr/lib/python2.7/dist-packages/fasteners-0.12.0.egg-info/PKG-INFO
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/fasteners-0.12.0.egg-info/dependency_links.txt
+d41d8cd98f00b204e9800998ecf8427e  usr/lib/python2.7/dist-packages/fasteners-0.12.0.egg-info/requires.txt
+65546c7cf5de86bb819550545f27a26e  usr/lib/python2.7/dist-packages/fasteners-0.12.0.egg-info/top_level.txt
+994e146dc9f9e08f927c6b0f7186e86b  usr/lib/python2.7/dist-packages/fasteners/__init__.py
+24a21f33ffc18e657ac66ac328a36008  usr/lib/python2.7/dist-packages/fasteners/_utils.py
+f7cb107ab446a1f12eca8e86f06a9d91  usr/lib/python2.7/dist-packages/fasteners/lock.py
+7454a852917bbed8100c5e29635107b5  usr/lib/python2.7/dist-packages/fasteners/process_lock.py
+cb7b5ea645811b220d30e71f913027db  usr/lib/python2.7/dist-packages/fasteners/test.py
+d41d8cd98f00b204e9800998ecf8427e  usr/lib/python2.7/dist-packages/fasteners/tests/__init__.py
+af7b1ef76e75c93be518bd281fb46a0f  usr/lib/python2.7/dist-packages/fasteners/tests/test_decorators.py
+09bc36b497721a1717e2c630c4d282a0  usr/lib/python2.7/dist-packages/fasteners/tests/test_helpers.py
+54409076679bbe222bd0d2ab3bdbe3d8  usr/lib/python2.7/dist-packages/fasteners/tests/test_lock.py
+eb2d87f529a4d4fc8c71f2273fbb6675  usr/lib/python2.7/dist-packages/fasteners/tests/test_process_lock.py
+5fc7fad422ff157e880183a2e8af2cbd  usr/lib/python2.7/dist-packages/fasteners/version.py
+e1e532ba0c7beefb5edb2f0598b96d4c  usr/share/doc/python-fasteners/changelog.Debian.gz
+2a27526e1c7c9bbec6b5189a2a3edd86  usr/share/doc/python-fasteners/copyright

@@ -1,0 +1,5 @@
+81cd5d89717e4685cf5094e124f3a72c  usr/lib/x86_64-linux-gnu/qemu/block-curl.so
+b3e62419b787fa72b5f77e9efc4eb241  usr/lib/x86_64-linux-gnu/qemu/block-iscsi.so
+4d162d30828e32844229c7ef8907121c  usr/lib/x86_64-linux-gnu/qemu/block-rbd.so
+39bf83e8095559c23558c19bfc2d8455  usr/share/doc/qemu-block-extra/changelog.Debian.gz
+d9cefe8260949104e3a13af15375fb0b  usr/share/doc/qemu-block-extra/copyright

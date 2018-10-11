@@ -1,0 +1,14 @@
+03423cff0f64b17d062a7ad55bf53277  usr/lib/python2.7/dist-packages/cachetools-1.1.6.egg-info/PKG-INFO
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/cachetools-1.1.6.egg-info/dependency_links.txt
+2e0a1256a50d95f0883e935aeeaee94e  usr/lib/python2.7/dist-packages/cachetools-1.1.6.egg-info/top_level.txt
+c277b81ede5861a2b8a894dfa013f9d6  usr/lib/python2.7/dist-packages/cachetools/__init__.py
+d03c2ea340a8947b95702722aa058c74  usr/lib/python2.7/dist-packages/cachetools/abc.py
+d15fac7d584f614e7ec439754d3ab2d1  usr/lib/python2.7/dist-packages/cachetools/cache.py
+f73cc79db80c752d305efdeff101d093  usr/lib/python2.7/dist-packages/cachetools/func.py
+2f97147254b2da26af0cb2daf11841c0  usr/lib/python2.7/dist-packages/cachetools/keys.py
+cda25578140cf1c27e2c021a0795e865  usr/lib/python2.7/dist-packages/cachetools/lfu.py
+b87d417b68b27502ddbb2e8936fff6ea  usr/lib/python2.7/dist-packages/cachetools/lru.py
+e9071f39870dd9cf2d651d44c50da926  usr/lib/python2.7/dist-packages/cachetools/rr.py
+046bc73a13c23df27f2b0e6d64756f71  usr/lib/python2.7/dist-packages/cachetools/ttl.py
+65bd6aa2f7eb1f3564d9298adb155728  usr/share/doc/python-cachetools/changelog.Debian.gz
+1a029fc7d917675fad74093b628c0dbc  usr/share/doc/python-cachetools/copyright

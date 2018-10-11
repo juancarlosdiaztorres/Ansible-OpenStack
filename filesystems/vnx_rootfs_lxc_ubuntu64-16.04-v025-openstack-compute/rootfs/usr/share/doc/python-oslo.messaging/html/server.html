@@ -1,0 +1,380 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RPC Server &mdash; oslo.messaging  documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="oslo.messaging  documentation" href="index.html" />
+    <link rel="next" title="RPC Client" href="rpcclient.html" />
+    <link rel="prev" title="Target" href="target.html" /> 
+  </head>
+  <body role="document">
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-oslo_messaging.rpc.server">
+<span id="rpc-server"></span><h1>RPC Server<a class="headerlink" href="#module-oslo_messaging.rpc.server" title="Permalink to this headline">¶</a></h1>
+<p>An RPC server exposes a number of endpoints, each of which contain a set of
+methods which may be invoked remotely by clients over a given transport.</p>
+<p>To create an RPC server, you supply a transport, target and a list of
+endpoints.</p>
+<p>A transport can be obtained simply by calling the get_transport() method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">transport</span> <span class="o">=</span> <span class="n">messaging</span><span class="o">.</span><span class="n">get_transport</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which will load the appropriate transport driver according to the user&#8217;s
+messaging configuration. See get_transport() for more details.</p>
+<p>The target supplied when creating an RPC server expresses the topic, server
+name and - optionally - the exchange to listen on. See Target for more details
+on these attributes.</p>
+<p>Multiple RPC Servers may listen to the same topic (and exchange)
+simultaneously. See RPCClient for details regarding how RPC requests are
+distributed to the Servers in this case.</p>
+<p>Each endpoint object may have a target attribute which may have namespace and
+version fields set. By default, we use the &#8216;null namespace&#8217; and version 1.0.
+Incoming method calls will be dispatched to the first endpoint with the
+requested method, a matching namespace and a compatible version number.</p>
+<p>The first parameter to method invocations is always the request context
+supplied by the client.  The remaining parameters are the arguments supplied to
+the method by the client.  Endpoint methods may return a value.  If so the RPC
+Server will send the returned value back to the requesting client via the
+transport.</p>
+<p>The executor parameter controls how incoming messages will be received and
+dispatched. By default, the most simple executor is used - the blocking
+executor.  This executor processes inbound RPC requests on the server&#8217;s thread,
+blocking it from processing additional requests until it finishes with the
+current request. This includes time spent sending the reply message to the
+transport if the method returns a result.  Refer to the Executor documentation
+for descriptions of the other types of executors.</p>
+<p><em>Note:</em> If the &#8220;eventlet&#8221; executor is used, the threading and time library need
+to be monkeypatched.</p>
+<p>The RPC reply operation is best-effort: the server will consider the message
+containing the reply successfully sent once it is accepted by the messaging
+transport.  The server does not guarantee that the reply is processed by the
+RPC client.  If the send fails an error will be logged and the server will
+continue to processing incoming RPC requests.</p>
+<p>Parameters to the method invocation and values returned from the method are
+python primitive types. However the actual encoding of the data in the message
+may not be in primitive form (e.g. the message payload may be a dictionary
+encoded as an ASCII string using JSON). A serializer object is used to convert
+incoming encoded message data to primitive types.  The serializer is also used
+to convert the return value from primitive types to an encoding suitable for
+the message payload.</p>
+<p>RPC servers have start(), stop() and wait() methods to begin handling
+requests, stop handling requests, and wait for all in-process requests to
+complete after the Server has been stopped.</p>
+<p>A simple example of an RPC server with multiple endpoints might be:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">oslo_config</span> <span class="kn">import</span> <span class="n">cfg</span>
+<span class="kn">import</span> <span class="nn">oslo_messaging</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">class</span> <span class="nc">ServerControlEndpoint</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="n">target</span> <span class="o">=</span> <span class="n">oslo_messaging</span><span class="o">.</span><span class="n">Target</span><span class="p">(</span><span class="n">namespace</span><span class="o">=</span><span class="s1">&#39;control&#39;</span><span class="p">,</span>
+                                   <span class="n">version</span><span class="o">=</span><span class="s1">&#39;2.0&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">server</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">TestEndpoint</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">arg</span>
+
+<span class="n">transport</span> <span class="o">=</span> <span class="n">oslo_messaging</span><span class="o">.</span><span class="n">get_transport</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">CONF</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">oslo_messaging</span><span class="o">.</span><span class="n">Target</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">server</span><span class="o">=</span><span class="s1">&#39;server1&#39;</span><span class="p">)</span>
+<span class="n">endpoints</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">ServerControlEndpoint</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span>
+    <span class="n">TestEndpoint</span><span class="p">(),</span>
+<span class="p">]</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">oslo_messaging</span><span class="o">.</span><span class="n">get_rpc_server</span><span class="p">(</span><span class="n">transport</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">endpoints</span><span class="p">,</span>
+                                       <span class="n">executor</span><span class="o">=</span><span class="s1">&#39;blocking&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Stopping server&quot;</span><span class="p">)</span>
+
+<span class="n">server</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<span class="n">server</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="oslo_messaging.get_rpc_server">
+<code class="descclassname">oslo_messaging.</code><code class="descname">get_rpc_server</code><span class="sig-paren">(</span><em>transport</em>, <em>target</em>, <em>endpoints</em>, <em>executor='blocking'</em>, <em>serializer=None</em>, <em>access_policy=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.get_rpc_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct an RPC server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>transport</strong> (<a class="reference internal" href="transport.html#oslo_messaging.Transport" title="oslo_messaging.Transport"><em>Transport</em></a>) &#8211; the messaging transport</li>
+<li><strong>target</strong> (<a class="reference internal" href="target.html#oslo_messaging.Target" title="oslo_messaging.Target"><em>Target</em></a>) &#8211; the exchange, topic and server to listen on</li>
+<li><strong>endpoints</strong> (<em>list</em>) &#8211; a list of endpoint objects</li>
+<li><strong>executor</strong> (<em>str</em>) &#8211; name of a message executor - for example
+&#8216;eventlet&#8217;, &#8216;blocking&#8217;</li>
+<li><strong>serializer</strong> (<a class="reference internal" href="serializer.html#oslo_messaging.Serializer" title="oslo_messaging.Serializer"><em>Serializer</em></a>) &#8211; an optional entity serializer</li>
+<li><strong>access_policy</strong> (<a class="reference internal" href="#oslo_messaging.RPCAccessPolicyBase" title="oslo_messaging.RPCAccessPolicyBase"><em>RPCAccessPolicyBase</em></a>) &#8211; an optional access policy.
+Defaults to LegacyRPCAccessPolicy</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="oslo_messaging.RPCAccessPolicyBase">
+<em class="property">class </em><code class="descclassname">oslo_messaging.</code><code class="descname">RPCAccessPolicyBase</code><a class="headerlink" href="#oslo_messaging.RPCAccessPolicyBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines which endpoint methods may be invoked via RPC</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="oslo_messaging.LegacyRPCAccessPolicy">
+<em class="property">class </em><code class="descclassname">oslo_messaging.</code><code class="descname">LegacyRPCAccessPolicy</code><a class="headerlink" href="#oslo_messaging.LegacyRPCAccessPolicy" title="Permalink to this definition">¶</a></dt>
+<dd><p>The legacy access policy allows RPC access to all callable endpoint
+methods including private methods (methods prefixed by &#8216;_&#8217;)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="oslo_messaging.DefaultRPCAccessPolicy">
+<em class="property">class </em><code class="descclassname">oslo_messaging.</code><code class="descname">DefaultRPCAccessPolicy</code><a class="headerlink" href="#oslo_messaging.DefaultRPCAccessPolicy" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default access policy prevents RPC calls to private methods
+(methods prefixed by &#8216;_&#8217;)</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">LegacyRPCAdapterPolicy currently needs to be the default while we have
+projects that rely on exposing private methods.</p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="oslo_messaging.ExplicitRPCAccessPolicy">
+<em class="property">class </em><code class="descclassname">oslo_messaging.</code><code class="descname">ExplicitRPCAccessPolicy</code><a class="headerlink" href="#oslo_messaging.ExplicitRPCAccessPolicy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Policy which requires decorated endpoint methods to allow dispatch</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="oslo_messaging.RPCDispatcher">
+<em class="property">class </em><code class="descclassname">oslo_messaging.</code><code class="descname">RPCDispatcher</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.RPCDispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>A message dispatcher which understands RPC messages.</p>
+<p>A MessageHandlingServer is constructed by passing a callable dispatcher
+which is invoked with context and message dictionaries each time a message
+is received.</p>
+<p>RPCDispatcher is one such dispatcher which understands the format of RPC
+messages. The dispatcher looks at the namespace, version and method values
+in the message and matches those against a list of available endpoints.</p>
+<p>Endpoints may have a target attribute describing the namespace and version
+of the methods exposed by that object.</p>
+<p>The RPCDispatcher may have an access_policy attribute which determines
+which of the endpoint methods are to be dispatched.
+The default access_policy dispatches all public methods
+on an endpoint object.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="oslo_messaging.MessageHandlingServer">
+<em class="property">class </em><code class="descclassname">oslo_messaging.</code><code class="descname">MessageHandlingServer</code><span class="sig-paren">(</span><em>transport</em>, <em>dispatcher</em>, <em>executor='blocking'</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.MessageHandlingServer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Server for handling messages.</p>
+<p>Connect a transport to a dispatcher that knows how to process the
+message using an executor that knows how the app wants to create
+new tasks.</p>
+<dl class="method">
+<dt id="oslo_messaging.MessageHandlingServer.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.MessageHandlingServer.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset service.</p>
+<p>Called in case service running in daemon mode receives SIGHUP.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging.MessageHandlingServer.start">
+<code class="descname">start</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.MessageHandlingServer.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start handling incoming messages.</p>
+<p>This method causes the server to begin polling the transport for
+incoming messages and passing them to the dispatcher. Message
+processing will continue until the stop() method is called.</p>
+<p>The executor controls how the server integrates with the applications
+I/O handling strategy - it may choose to poll for messages in a new
+process, thread or co-operatively scheduled coroutine or simply by
+registering a callback with an event loop. Similarly, the executor may
+choose to dispatch messages in a new thread, coroutine or simply the
+current thread.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging.MessageHandlingServer.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.MessageHandlingServer.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop handling incoming messages.</p>
+<p>Once this method returns, no new incoming messages will be handled by
+the server. However, the server may still be in the process of handling
+some messages, and underlying driver resources associated to this
+server are still in use. See &#8216;wait&#8217; for more details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging.MessageHandlingServer.wait">
+<code class="descname">wait</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.MessageHandlingServer.wait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for message processing to complete.</p>
+<p>After calling stop(), there may still be some existing messages
+which have not been completely processed. The wait() method blocks
+until all message processing has completed.</p>
+<p>Once it&#8217;s finished, the underlying driver resources associated to this
+server are released (like closing useless network connections).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="oslo_messaging.expected_exceptions">
+<code class="descclassname">oslo_messaging.</code><code class="descname">expected_exceptions</code><span class="sig-paren">(</span><em>*exceptions</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.expected_exceptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for RPC endpoint methods that raise expected exceptions.</p>
+<p>Marking an endpoint method with this decorator allows the declaration
+of expected exceptions that the RPC server should not consider fatal,
+and not log as if they were generated in a real error scenario.</p>
+<p>Note that this will cause listed exceptions to be wrapped in an
+ExpectedException, which is used internally by the RPC sever. The RPC
+client will see the original exception type.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="oslo_messaging.expose">
+<code class="descclassname">oslo_messaging.</code><code class="descname">expose</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging.expose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for RPC endpoint methods that are exposed to the RPC client.</p>
+<p>If the dispatcher&#8217;s access_policy is set to ExplicitRPCAccessPolicy then
+endpoint methods need to be explicitly exposed.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># foo() cannot be invoked by an RPC client</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="c1"># bar() can be invoked by an RPC client</span>
+<span class="nd">@rpc.expose</span>
+<span class="k">def</span> <span class="nf">bar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="exception">
+<dt id="oslo_messaging.ExpectedException">
+<em class="property">exception </em><code class="descclassname">oslo_messaging.</code><code class="descname">ExpectedException</code><a class="headerlink" href="#oslo_messaging.ExpectedException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulates an expected exception raised by an RPC endpoint</p>
+<p>Merely instantiating this exception records the current exception
+information, which  will be passed back to the RPC client without
+exceptional logging.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="target.html"
+                                  title="previous chapter">Target</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="rpcclient.html"
+                                  title="next chapter">RPC Client</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/server.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rpcclient.html" title="RPC Client"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="target.html" title="Target"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">oslo.messaging  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, OpenStack Foundation.
+      Last updated on February 27, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/oslo.messaging");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

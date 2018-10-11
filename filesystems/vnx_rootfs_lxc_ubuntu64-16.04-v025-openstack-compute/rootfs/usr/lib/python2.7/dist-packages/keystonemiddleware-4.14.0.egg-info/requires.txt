@@ -1,0 +1,3 @@
+
+[audit_notifications]
+oslo.messaging>=5.14.0 # Apache-2.0

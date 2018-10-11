@@ -1,0 +1,9 @@
+ieee-data
+---------
+
+The package ieee-data provides the files iab.txt (Individual Address Block) 
+and oui.txt (Organizationally Unique Identifier). These files are installed
+in /usr/share/ieee-data and a cronjob update them in /var/lib/ieee-data.
+
+If you want to refer to a relative new version of these files, point to
+/var/lib/ieee-data.

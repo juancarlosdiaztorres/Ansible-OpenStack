@@ -1,0 +1,12 @@
+7eaa08b2dd41894163a136ed5f6aadd5  usr/lib/python2.7/dist-packages/msgpack/__init__.py
+319f77a354a9aa44223a632e6e6dd059  usr/lib/python2.7/dist-packages/msgpack/_packer.x86_64-linux-gnu.so
+b262da04d8d6aeae4c0b16db38d80733  usr/lib/python2.7/dist-packages/msgpack/_unpacker.x86_64-linux-gnu.so
+f150e1fcdb45599bf11b6ea3861b9867  usr/lib/python2.7/dist-packages/msgpack/_version.py
+268ff761b708f011142e34cea1b2fe95  usr/lib/python2.7/dist-packages/msgpack/exceptions.py
+6e05fc7af0024b75f655801fe45e235c  usr/lib/python2.7/dist-packages/msgpack/fallback.py
+0cd39400f7901da9980a5ef6eaaa9e6b  usr/lib/python2.7/dist-packages/msgpack_python-0.4.6.egg-info/PKG-INFO
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/msgpack_python-0.4.6.egg-info/dependency_links.txt
+e18e4d8561a4648888635f02ee4e51d7  usr/lib/python2.7/dist-packages/msgpack_python-0.4.6.egg-info/top_level.txt
+81b046ce235d814f6c2b1873bbf8bc22  usr/share/doc/python-msgpack/README.rst.gz
+dccaa1c8469556fc764c1a82d6ed2255  usr/share/doc/python-msgpack/changelog.Debian.gz
+5c72b41d9d91ce7430f2a14b5b2f675f  usr/share/doc/python-msgpack/copyright

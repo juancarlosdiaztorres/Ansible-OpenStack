@@ -1,0 +1,12 @@
+f1171cccaaba10331aad6132509fefe7  usr/lib/python2.7/dist-packages/linecache2-1.0.0.egg-info/PKG-INFO
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/linecache2-1.0.0.egg-info/dependency_links.txt
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/linecache2-1.0.0.egg-info/not-zip-safe
+cd0ebaaac2c695d835ab79a5ad9f2217  usr/lib/python2.7/dist-packages/linecache2-1.0.0.egg-info/top_level.txt
+c98c29d9a299e410945006058a9f066f  usr/lib/python2.7/dist-packages/linecache2/__init__.py
+d41d8cd98f00b204e9800998ecf8427e  usr/lib/python2.7/dist-packages/linecache2/tests/__init__.py
+5b42d07d3f1fed2a5a68caca05a9a93a  usr/lib/python2.7/dist-packages/linecache2/tests/inspect_fodder.py
+513849da2effa3dfa305aeed6adafc7b  usr/lib/python2.7/dist-packages/linecache2/tests/inspect_fodder2.py
+d743b25b1b0f3bf9db4f8a4099f2a618  usr/lib/python2.7/dist-packages/linecache2/tests/mapping_tests.py
+f1a9f92a434fca5346d507e598753e98  usr/lib/python2.7/dist-packages/linecache2/tests/test_linecache.py
+02ccbe1d10508198a4c7f0d5fa498e01  usr/share/doc/python-linecache2/changelog.Debian.gz
+4fc1a562063c3d05b4cb3eb9e4fc3bff  usr/share/doc/python-linecache2/copyright

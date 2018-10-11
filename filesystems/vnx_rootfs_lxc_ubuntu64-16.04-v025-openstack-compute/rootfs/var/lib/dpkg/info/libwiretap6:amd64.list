@@ -1,0 +1,12 @@
+/.
+/usr
+/usr/lib
+/usr/lib/x86_64-linux-gnu
+/usr/lib/x86_64-linux-gnu/libwiretap.so.6.0.6
+/usr/share
+/usr/share/doc
+/usr/share/doc/libwiretap6
+/usr/share/doc/libwiretap6/copyright
+/usr/share/doc/libwiretap6/README.gz
+/usr/lib/x86_64-linux-gnu/libwiretap.so.6
+/usr/share/doc/libwiretap6/changelog.Debian.gz

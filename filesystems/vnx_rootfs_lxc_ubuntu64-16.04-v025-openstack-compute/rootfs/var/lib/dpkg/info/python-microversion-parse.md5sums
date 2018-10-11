@@ -1,0 +1,10 @@
+059bdf42a125f766252d431ecffc793e  usr/lib/python2.7/dist-packages/microversion_parse-0.1.4.egg-info/PKG-INFO
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/microversion_parse-0.1.4.egg-info/dependency_links.txt
+68b329da9893e34099c7d8ad5cb9c940  usr/lib/python2.7/dist-packages/microversion_parse-0.1.4.egg-info/not-zip-safe
+f3b22ac35aad36b066299f157ef7a5b4  usr/lib/python2.7/dist-packages/microversion_parse-0.1.4.egg-info/top_level.txt
+742ed761b309c441eff6e54ed4f11487  usr/lib/python2.7/dist-packages/microversion_parse/__init__.py
+d41d8cd98f00b204e9800998ecf8427e  usr/lib/python2.7/dist-packages/microversion_parse/tests/__init__.py
+ad1ba6eeafd24308f8cc6f88b4b9d0f1  usr/lib/python2.7/dist-packages/microversion_parse/tests/test_get_version.py
+bbf2e32cde1abfab5ced417325f1e294  usr/lib/python2.7/dist-packages/microversion_parse/tests/test_webob.py
+f05b1f18a37dfe1021d9986986511cd9  usr/share/doc/python-microversion-parse/changelog.Debian.gz
+76222713f0222f7192ca5af6e7585a7a  usr/share/doc/python-microversion-parse/copyright

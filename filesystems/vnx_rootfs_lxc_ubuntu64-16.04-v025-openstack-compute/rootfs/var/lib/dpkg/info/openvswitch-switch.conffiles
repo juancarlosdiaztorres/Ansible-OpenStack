@@ -1,0 +1,5 @@
+/etc/default/openvswitch-switch
+/etc/init.d/openvswitch-switch
+/etc/init/openvswitch-force-reload-kmod.conf
+/etc/init/openvswitch-switch.conf
+/etc/logrotate.d/openvswitch-switch

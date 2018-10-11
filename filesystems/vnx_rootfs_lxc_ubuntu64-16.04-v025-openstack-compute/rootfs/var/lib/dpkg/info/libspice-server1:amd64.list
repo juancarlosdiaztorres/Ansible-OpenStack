@@ -1,0 +1,13 @@
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/libspice-server1
+/usr/share/doc/libspice-server1/changelog.Debian.gz
+/usr/share/doc/libspice-server1/copyright
+/usr/share/doc/libspice-server1/README
+/usr/share/doc/libspice-server1/NEWS.gz
+/usr/lib
+/usr/lib/x86_64-linux-gnu
+/usr/lib/x86_64-linux-gnu/libspice-server.so.1.10.0
+/usr/lib/x86_64-linux-gnu/libspice-server.so.1

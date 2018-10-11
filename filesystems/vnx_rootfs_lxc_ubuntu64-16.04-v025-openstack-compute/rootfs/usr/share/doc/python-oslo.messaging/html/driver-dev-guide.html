@@ -1,0 +1,689 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Guide for Transport Driver Implementors &mdash; oslo.messaging  documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/tweaks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="oslo.messaging  documentation" href="index.html" />
+    <link rel="next" title="Frequently Asked Questions" href="FAQ.html" />
+    <link rel="prev" title="ZeroMQ Driver Deployment Guide" href="zmq_driver.html" /> 
+  </head>
+  <body role="document">
+  <div id="header">
+    <h1 id="logo"><a href="http://www.openstack.org/">OpenStack</a></h1>
+    <ul id="navigation">
+      
+      <li><a href="http://www.openstack.org/" title="Go to the Home page" class="link">Home</a></li>
+      <li><a href="http://www.openstack.org/projects/" title="Go to the OpenStack Projects page">Projects</a></li>
+      <li><a href="http://www.openstack.org/user-stories/" title="Go to the User Stories page" class="link">User Stories</a></li>
+      <li><a href="http://www.openstack.org/community/" title="Go to the Community page" class="link">Community</a></li>
+      <li><a href="http://www.openstack.org/blog/" title="Go to the OpenStack Blog">Blog</a></li>
+      <li><a href="http://wiki.openstack.org/" title="Go to the OpenStack Wiki">Wiki</a></li>
+      <li><a href="http://docs.openstack.org/" title="Go to OpenStack Documentation" class="current">Documentation</a></li>
+      
+    </ul>
+  </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-oslo_messaging._drivers.base">
+<span id="guide-for-transport-driver-implementors"></span><h1>Guide for Transport Driver Implementors<a class="headerlink" href="#module-oslo_messaging._drivers.base" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This document is a <em>best practices</em> guide for the developer interested
+in creating a new transport driver for Oslo.Messaging.  It should also
+be used by maintainers as a reference for proper driver behavior.
+This document will describe the driver interface and prescribe the
+expected behavior of any driver implemented to this interface.</p>
+<p><strong>Note well:</strong> The API described in this document is internal to the
+oslo.messaging library and therefore <strong>private</strong>.  Under no
+circumstances should this API be referenced by code external to the
+oslo.messaging library.</p>
+</div>
+<div class="section" id="driver-interface">
+<h2>Driver Interface<a class="headerlink" href="#driver-interface" title="Permalink to this headline">¶</a></h2>
+<p>The driver interface is defined by a set of abstract base classes. The
+developer creates a driver by defining concrete classes from these
+bases.  The derived classes embody the logic that is specific for the
+messaging back-end that is to be supported.</p>
+<p>These base classes are defined in the <em>base.py</em> file in the <em>_drivers</em>
+subdirectory.</p>
+</div>
+<div class="section" id="incomingmessage">
+<h2>IncomingMessage<a class="headerlink" href="#incomingmessage" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="oslo_messaging._drivers.base.IncomingMessage">
+<em class="property">class </em><code class="descclassname">oslo_messaging._drivers.base.</code><code class="descname">IncomingMessage</code><span class="sig-paren">(</span><em>ctxt</em>, <em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.IncomingMessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>The IncomingMessage class represents a single message received from the
+messaging backend. Instances of this class are passed to up a server&#8217;s
+messaging processing logic. The backend driver must provide a concrete
+derivation of this class which provides the backend specific logic for its
+public methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ctxt</strong> (<em>dict</em>) &#8211; Context metadata provided by sending application.</li>
+<li><strong>message</strong> (<em>dict</em>) &#8211; The message as provided by the sending application.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.IncomingMessage.acknowledge">
+<code class="descname">acknowledge</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.IncomingMessage.acknowledge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called by the server to acknowledge receipt of the message. When
+this is called the driver must notify the backend of the
+acknowledgment. This call should block at least until the driver has
+processed the acknowledgment request locally. It may unblock before the
+acknowledgment state has been acted upon by the backend.</p>
+<p>If the acknowledge operation fails this method must issue a log message
+describing the reason for the failure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">Does not raise an exception</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.IncomingMessage.requeue">
+<code class="descname">requeue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.IncomingMessage.requeue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called by the server to return the message to the backend so it may
+be made available for consumption by another server.  This call should
+block at least until the driver has processed the requeue request
+locally. It may unblock before the backend makes the requeued message
+available for consumption.</p>
+<p>If the requeue operation fails this method must issue a log message
+describing the reason for the failure.</p>
+<p>Support for this method is _optional_.  The
+<a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.require_features" title="oslo_messaging._drivers.base.BaseDriver.require_features"><code class="xref py py-meth docutils literal"><span class="pre">BaseDriver.require_features()</span></code></a> method should indicate whether
+or not support for requeue is available.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">Does not raise an exception</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="rpcincomingmessage">
+<h2>RpcIncomingMessage<a class="headerlink" href="#rpcincomingmessage" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="oslo_messaging._drivers.base.RpcIncomingMessage">
+<em class="property">class </em><code class="descclassname">oslo_messaging._drivers.base.</code><code class="descname">RpcIncomingMessage</code><span class="sig-paren">(</span><em>ctxt</em>, <em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.RpcIncomingMessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RpcIncomingMessage represents an RPC request message received from
+the backend. This class must be used for RPC calls that return a value to
+the caller.</p>
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.RpcIncomingMessage.reply">
+<code class="descname">reply</code><span class="sig-paren">(</span><em>reply=None</em>, <em>failure=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.RpcIncomingMessage.reply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called by the server to send an RPC reply message or an exception
+back to the calling client.</p>
+<p>If an exception is passed via <em>failure</em> the driver must convert it to
+a form that can be sent as a message and properly converted back to the
+exception at the remote.</p>
+<p>The driver must provide a way to determine the destination address for
+the reply. For example the driver may use the <em>reply-to</em> field from the
+corresponding incoming message. Often a driver will also need to set a
+correlation identifier in the reply to help the remote route the reply
+to the correct RPCClient.</p>
+<p>The driver should provide an <em>at-most-once</em> delivery guarantee for
+reply messages. This call should block at least until the reply message
+has been handed off to the backend - there is no need to confirm that
+the reply has been delivered.</p>
+<p>If the reply operation fails this method must issue a log message
+describing the reason for the failure.</p>
+<p>See <a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.send" title="oslo_messaging._drivers.base.BaseDriver.send"><code class="xref py py-meth docutils literal"><span class="pre">BaseDriver.send()</span></code></a> for details regarding how the received
+reply is processed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>reply</strong> (<em>dict</em>) &#8211; reply message body</li>
+<li><strong>failure</strong> (<em>Exception</em>) &#8211; an exception thrown by the RPC call</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">Does not raise an exception</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="listener">
+<h2>Listener<a class="headerlink" href="#listener" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="oslo_messaging._drivers.base.Listener">
+<em class="property">class </em><code class="descclassname">oslo_messaging._drivers.base.</code><code class="descname">Listener</code><span class="sig-paren">(</span><em>batch_size</em>, <em>batch_timeout</em>, <em>prefetch_size=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.Listener" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Listener is used to transfer incoming messages from the driver to a
+server for processing.  A callback is used by the driver to transfer the
+messages.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>batch_size</strong> (<em>int</em>) &#8211; desired number of messages passed to
+single on_incoming_callback notification</li>
+<li><strong>batch_timeout</strong> (<em>float</em>) &#8211; defines how long should we wait in seconds for
+batch_size messages if we already have some messages waiting for
+processing</li>
+<li><strong>prefetch_size</strong> (<em>int</em>) &#8211; defines how many messages we want to prefetch
+from the messaging backend in a single request. May not be honored by
+all backend implementations.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.Listener.cleanup">
+<code class="descname">cleanup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.Listener.cleanup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleanup all resources held by the listener. This method should block
+until the cleanup is completed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.Listener.start">
+<code class="descname">start</code><span class="sig-paren">(</span><em>on_incoming_callback</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.Listener.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start receiving messages. This should cause the driver to start
+receiving messages from the backend. When message(s) arrive the driver
+must invoke &#8216;on_incoming_callback&#8217; passing it the received messages as
+a list of IncomingMessages.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>on_incoming_callback</strong> (<em>func</em>) &#8211; callback function to be executed when
+listener receives messages.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.Listener.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.Listener.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop receiving messages.  The driver must no longer invoke
+the callback.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="pollstylelistener">
+<h2>PollStyleListener<a class="headerlink" href="#pollstylelistener" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="oslo_messaging._drivers.base.PollStyleListener">
+<em class="property">class </em><code class="descclassname">oslo_messaging._drivers.base.</code><code class="descname">PollStyleListener</code><span class="sig-paren">(</span><em>prefetch_size=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.PollStyleListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>A PollStyleListener is used to transfer received messages to a server
+for processing. A polling pattern is used to retrieve messages.  A
+PollStyleListener uses a separate thread to run the polling loop.  A
+<code class="xref py py-class docutils literal"><span class="pre">PollStyleListenerAdapter</span></code> can be used to create a
+<a class="reference internal" href="#oslo_messaging._drivers.base.Listener" title="oslo_messaging._drivers.base.Listener"><code class="xref py py-class docutils literal"><span class="pre">Listener</span></code></a> from a PollStyleListener.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prefetch_size</strong> (<em>int</em>) &#8211; The number of messages that should be pulled from the
+backend per receive transaction. May not be honored by all backend
+implementations.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.PollStyleListener.cleanup">
+<code class="descname">cleanup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.PollStyleListener.cleanup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleanup all resources held by the listener. This method should block
+until the cleanup is completed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.PollStyleListener.poll">
+<code class="descname">poll</code><span class="sig-paren">(</span><em>timeout=None</em>, <em>batch_size=1</em>, <em>batch_timeout=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.PollStyleListener.poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>poll is called by the server to retrieve incoming messages. It
+blocks until &#8216;batch_size&#8217; incoming messages are available, a timeout
+occurs, or the poll is interrupted by a call to the <a class="reference internal" href="#oslo_messaging._drivers.base.PollStyleListener.stop" title="oslo_messaging._drivers.base.PollStyleListener.stop"><code class="xref py py-meth docutils literal"><span class="pre">stop()</span></code></a>
+method.</p>
+<p>If &#8216;batch_size&#8217; is &gt; 1 poll must block until &#8216;batch_size&#8217; messages are
+available or at least one message is available and batch_timeout
+expires</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>timeout</strong> (<em>float</em>) &#8211; Block up to &#8216;timeout&#8217; seconds waiting for a message</li>
+<li><strong>batch_size</strong> (<em>int</em>) &#8211; Block until this number of messages are received.</li>
+<li><strong>batch_timeout</strong> (<em>float</em>) &#8211; Time to wait in seconds for a full batch to
+arrive. A timer is started when the first message in a batch is
+received. If a full batch&#8217;s worth of messages is not received when
+the timer expires then <a class="reference internal" href="#oslo_messaging._drivers.base.PollStyleListener.poll" title="oslo_messaging._drivers.base.PollStyleListener.poll"><code class="xref py py-meth docutils literal"><span class="pre">poll()</span></code></a> returns all messages
+received thus far.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">Does not raise an exception.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of up to batch_size IncomingMessage objects.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.PollStyleListener.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.PollStyleListener.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the listener from polling for messages. This method must cause
+the <a class="reference internal" href="#oslo_messaging._drivers.base.PollStyleListener.poll" title="oslo_messaging._drivers.base.PollStyleListener.poll"><code class="xref py py-meth docutils literal"><span class="pre">poll()</span></code></a> call to unblock and return whatever messages are
+currently available.  This method is called from a different thread
+than the poller so it must be thread-safe.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="basedriver">
+<h2>BaseDriver<a class="headerlink" href="#basedriver" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="oslo_messaging._drivers.base.BaseDriver">
+<em class="property">class </em><code class="descclassname">oslo_messaging._drivers.base.</code><code class="descname">BaseDriver</code><span class="sig-paren">(</span><em>conf</em>, <em>url</em>, <em>default_exchange=None</em>, <em>allowed_remote_exmods=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.BaseDriver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the backend driver interface. Each backend driver implementation
+must provide a concrete derivation of this class implementing the backend
+specific logic for its public methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>conf</strong> (<em>ConfigOpts</em>) &#8211; The configuration settings provided by the user.</li>
+<li><strong>url</strong> (<a class="reference internal" href="transport.html#oslo_messaging.TransportURL" title="oslo_messaging.TransportURL"><em>TransportURL</em></a>) &#8211; The network address of the messaging backend(s).</li>
+<li><strong>default_exchange</strong> (<em>str</em>) &#8211; The exchange to use if no exchange is specified in
+a Target.</li>
+<li><strong>allowed_remote_exmods</strong> (<em>list</em>) &#8211; whitelist of those exception modules which
+are permitted to be re-raised if an exception is returned in response
+to an RPC call.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.BaseDriver.cleanup">
+<code class="descname">cleanup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.BaseDriver.cleanup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release all resources used by the driver.  This method must block
+until the cleanup is complete.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.BaseDriver.listen">
+<code class="descname">listen</code><span class="sig-paren">(</span><em>target</em>, <em>batch_size</em>, <em>batch_timeout</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.BaseDriver.listen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a listener for the given target.  The listener may be
+either a <a class="reference internal" href="#oslo_messaging._drivers.base.Listener" title="oslo_messaging._drivers.base.Listener"><code class="xref py py-class docutils literal"><span class="pre">Listener</span></code></a> or <a class="reference internal" href="#oslo_messaging._drivers.base.PollStyleListener" title="oslo_messaging._drivers.base.PollStyleListener"><code class="xref py py-class docutils literal"><span class="pre">PollStyleListener</span></code></a>
+depending on the driver&#8217;s preference.  This method is used by the RPC
+server.</p>
+<p>The driver must create subscriptions to the address provided in
+<em>target</em>. These subscriptions must then be associated with a
+<a class="reference internal" href="#oslo_messaging._drivers.base.Listener" title="oslo_messaging._drivers.base.Listener"><code class="xref py py-class docutils literal"><span class="pre">Listener</span></code></a> or <a class="reference internal" href="#oslo_messaging._drivers.base.PollStyleListener" title="oslo_messaging._drivers.base.PollStyleListener"><code class="xref py py-class docutils literal"><span class="pre">PollStyleListener</span></code></a> which is returned
+by this method. See <a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.send" title="oslo_messaging._drivers.base.BaseDriver.send"><code class="xref py py-meth docutils literal"><span class="pre">BaseDriver.send()</span></code></a> for more detail
+regarding message addressing.</p>
+<p>The driver must support receiving messages sent to the following
+addresses derived from the values in <em>target</em>:</p>
+<ul class="simple">
+<li>all messages sent to the exchange and topic given in the target.
+This includes messages sent using a fanout pattern.</li>
+<li>if the server attribute of the target is set then the driver must
+also subscribe to messages sent to the exchange, topic, and server</li>
+</ul>
+<p>For example, given a target with exchange &#8216;my-exchange&#8217;, topic
+&#8216;my-topic&#8217;, and server &#8216;my-server&#8217;, the driver would create
+subscriptions for:</p>
+<ul class="simple">
+<li>all messages sent to my-exchange and my-topic (including fanout)</li>
+<li>all messages sent to my-exchange, my-topic, and my-server</li>
+</ul>
+<p>The driver must pass messages arriving from these subscriptions to the
+listener. For <a class="reference internal" href="#oslo_messaging._drivers.base.PollStyleListener" title="oslo_messaging._drivers.base.PollStyleListener"><code class="xref py py-class docutils literal"><span class="pre">PollStyleListener</span></code></a> the driver should trigger
+the <a class="reference internal" href="#oslo_messaging._drivers.base.PollStyleListener.poll" title="oslo_messaging._drivers.base.PollStyleListener.poll"><code class="xref py py-meth docutils literal"><span class="pre">PollStyleListener.poll()</span></code></a> method to unblock and return the
+incoming messages. For <a class="reference internal" href="#oslo_messaging._drivers.base.Listener" title="oslo_messaging._drivers.base.Listener"><code class="xref py py-class docutils literal"><span class="pre">Listener</span></code></a> the driver should invoke
+the callback with the incoming messages.</p>
+<p>This method only blocks long enough to establish the subscription(s)
+and construct the listener.  In the case of failover, the driver must
+restore the subscription(s). Subscriptions should remain active until
+the listener is stopped.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>target</strong> (<a class="reference internal" href="target.html#oslo_messaging.Target" title="oslo_messaging.Target"><em>Target</em></a>) &#8211; The address(es) to subscribe to.</li>
+<li><strong>batch_size</strong> (<em>int</em>) &#8211; passed to the listener</li>
+<li><strong>batch_timeout</strong> (<em>float</em>) &#8211; passed to the listener</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">None</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">MessagingException</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.BaseDriver.listen_for_notifications">
+<code class="descname">listen_for_notifications</code><span class="sig-paren">(</span><em>targets_and_priorities</em>, <em>pool</em>, <em>batch_size</em>, <em>batch_timeout</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.BaseDriver.listen_for_notifications" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a notification listener for the given list of
+tuples of (target, priority) addresses.</p>
+<p>The driver must create a subscription for each (<em>target</em>, <em>priority</em>)
+pair. The topic for the subscription is created for each pair using the
+format <cite>&#8220;%s.%s&#8221; % (target.topic, priority)</cite>.  This format is used by
+the caller of the <a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.send_notification" title="oslo_messaging._drivers.base.BaseDriver.send_notification"><code class="xref py py-meth docutils literal"><span class="pre">BaseDriver.send_notification()</span></code></a> when setting
+the topic member of the target parameter.</p>
+<p>Only the <em>exchange</em> and <em>topic</em> must be considered when creating
+subscriptions. <em>server</em> and <em>fanout</em> must be ignored.</p>
+<p>The <em>pool</em> parameter, if specified, should cause the driver to create a
+subscription that is shared with other subscribers using the same pool
+identifier. Each pool gets a single copy of the message. For example if
+there is a subscriber pool with identifier <strong>foo</strong> and another pool
+<strong>bar</strong>, then one <strong>foo</strong> subscriber and one <strong>bar</strong> subscriber will
+each receive a copy of the message.  The driver should implement a
+delivery pattern that distributes message in a balanced fashion across
+the subscribers in a pool.</p>
+<p>The driver must raise a <code class="xref py py-exc docutils literal"><span class="pre">NotImplementedError</span></code> if pooling is not
+supported and a pool identifier is passed in.</p>
+<p>Refer to the description of <a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.send_notification" title="oslo_messaging._drivers.base.BaseDriver.send_notification"><code class="xref py py-meth docutils literal"><span class="pre">BaseDriver.send_notification()</span></code></a> for
+further details regarding implementation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>targets_and_priorities</strong> (<em>list</em>) &#8211; List of (target, priority) pairs</li>
+<li><strong>pool</strong> (<em>str</em>) &#8211; pool identifier</li>
+<li><strong>batch_size</strong> (<em>int</em>) &#8211; passed to the listener</li>
+<li><strong>batch_timeout</strong> (<em>float</em>) &#8211; passed to the listener</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">None</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">MessagingException</span></code>, <code class="xref py py-exc docutils literal"><span class="pre">NotImplementedError</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.BaseDriver.require_features">
+<code class="descname">require_features</code><span class="sig-paren">(</span><em>requeue=False</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.BaseDriver.require_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>The driver must raise a &#8216;NotImplementedError&#8217; if any of the feature
+flags passed as True are not supported.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.BaseDriver.send">
+<code class="descname">send</code><span class="sig-paren">(</span><em>target</em>, <em>ctxt</em>, <em>message</em>, <em>wait_for_reply=None</em>, <em>timeout=None</em>, <em>envelope=False</em>, <em>retry=None</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.BaseDriver.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a message to the given target and optionally wait for a reply.
+This method is used by the RPC client when sending RPC requests to a
+server.</p>
+<p>The driver must use the <em>topic</em>, <em>exchange</em>, and <em>server</em> (if present)
+attributes of the <em>target</em> to construct the backend-native message
+address. The message address must match the format used by
+subscription(s) created by the <a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.listen" title="oslo_messaging._drivers.base.BaseDriver.listen"><code class="xref py py-meth docutils literal"><span class="pre">BaseDriver.listen()</span></code></a> method.</p>
+<p>If the <em>target&#8217;s</em> <em>fanout</em> attribute is set, a copy of the message must
+be sent to all subscriptions using the <em>exchange</em> and <em>topic</em>
+values. If <em>fanout</em> is not set, then only one subscriber should receive
+the message.  In the case of multiple subscribers to the same address,
+only one copy of the message is delivered. In this case the driver
+should implement a delivery pattern that distributes messages in a
+balanced fashion across the multiple subscribers.</p>
+<p>This method must block the caller until one of the following events
+occur:</p>
+<ul class="simple">
+<li>the send operation completes successfully</li>
+<li><em>timeout</em> seconds elapse (if specified)</li>
+<li><em>retry</em> count is reached (if specified)</li>
+</ul>
+<p>The <em>wait_for_reply</em> parameter determines whether or not the caller
+expects a response to the RPC request. If True, this method must block
+until a response message is received.  This method then returns the
+response message to the caller.  The driver must implement a mechanism
+for routing incoming responses back to their corresponding send
+request. How this is done may vary based on the type of messaging
+backend, but typically it involves having the driver create an internal
+subscription for reply messages and setting the request message&#8217;s
+<em>reply-to</em> header to the subscription address.  The driver may also
+need to supply a correlation identifier for mapping the response back
+to the sender.  See <a class="reference internal" href="#oslo_messaging._drivers.base.RpcIncomingMessage.reply" title="oslo_messaging._drivers.base.RpcIncomingMessage.reply"><code class="xref py py-meth docutils literal"><span class="pre">RpcIncomingMessage.reply()</span></code></a></p>
+<p>If <em>wait_for_reply</em> is False this method will block until the message
+has been handed off to the backend - there is no need to confirm that
+the message has been delivered. Once the handoff completes this method
+returns.</p>
+<p>The driver may attempt to retry sending the message should a
+recoverable error occur that prevents the message from being passed to
+the backend. The <em>retry</em> parameter specifies how many attempts to
+re-send the message the driver may make before raising a
+<code class="xref py py-exc docutils literal"><span class="pre">MessageDeliveryFailure</span></code> exception. A value of None or -1 means
+unlimited retries. 0 means no retry is attempted. N means attempt at
+most N retries before failing. <strong>Note well:</strong> the driver MUST guarantee
+that the message is not duplicated by the retry process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>target</strong> (<a class="reference internal" href="target.html#oslo_messaging.Target" title="oslo_messaging.Target"><em>Target</em></a>) &#8211; The message&#8217;s destination address</li>
+<li><strong>ctxt</strong> (<em>dict</em>) &#8211; Context metadata provided by sending application which
+must transfered along with the message.</li>
+<li><strong>message</strong> (<em>dict</em>) &#8211; message provided by the caller</li>
+<li><strong>wait_for_reply</strong> (<em>bool</em>) &#8211; If True block until a reply message is received.</li>
+<li><strong>timeout</strong> (<em>float</em>) &#8211; Maximum time in seconds to block waiting for the send
+operation to complete. Should this expire the <a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.send" title="oslo_messaging._drivers.base.BaseDriver.send"><code class="xref py py-meth docutils literal"><span class="pre">send()</span></code></a> must
+raise a <code class="xref py py-exc docutils literal"><span class="pre">MessagingTimeout</span></code> exception</li>
+<li><strong>retry</strong> (<em>int</em>) &#8211; maximum message send attempts permitted</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A reply message or None if no reply expected</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">MessagingException</span></code>, any exception thrown by the
+remote server when executing the RPC call.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oslo_messaging._drivers.base.BaseDriver.send_notification">
+<code class="descname">send_notification</code><span class="sig-paren">(</span><em>target</em>, <em>ctxt</em>, <em>message</em>, <em>version</em>, <em>retry</em><span class="sig-paren">)</span><a class="headerlink" href="#oslo_messaging._drivers.base.BaseDriver.send_notification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a notification message to the given target. This method is used
+by the Notifier to send notification messages to a Listener.</p>
+<p>Notifications use a <em>store and forward</em> delivery pattern. The driver
+must allow for delivery in the case where the intended recipient is
+not present at the time the notification is published. Typically this
+requires a messaging backend that has the ability to store messages
+until a consumer is present.</p>
+<p>Therefore this method must block at least until the backend accepts
+ownership of the message.  This method does not guarantee that the
+message has or will be processed by the intended recipient.</p>
+<p>The driver must use the <em>topic</em> and <em>exchange</em> attributes of the
+<em>target</em> to construct the backend-native message address. The message
+address must match the format used by subscription(s) created by the
+<a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.listen_for_notifications" title="oslo_messaging._drivers.base.BaseDriver.listen_for_notifications"><code class="xref py py-meth docutils literal"><span class="pre">BaseDriver.listen_for_notifications()</span></code></a> method. Only one copy of
+the message is delivered in the case of multiple subscribers to the
+same address. In this case the driver should implement a delivery
+pattern that distributes messages in a balanced fashion across the
+multiple subscribers.</p>
+<p>There is an exception to the single delivery semantics described above:
+the <em>pool</em> parameter to the
+<a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.listen_for_notifications" title="oslo_messaging._drivers.base.BaseDriver.listen_for_notifications"><code class="xref py py-meth docutils literal"><span class="pre">BaseDriver.listen_for_notifications()</span></code></a> method may be used to
+set up shared subscriptions.  See
+<a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.listen_for_notifications" title="oslo_messaging._drivers.base.BaseDriver.listen_for_notifications"><code class="xref py py-meth docutils literal"><span class="pre">BaseDriver.listen_for_notifications()</span></code></a> for details.</p>
+<p>This method must also honor the <em>retry</em> parameter. See
+<a class="reference internal" href="#oslo_messaging._drivers.base.BaseDriver.send" title="oslo_messaging._drivers.base.BaseDriver.send"><code class="xref py py-meth docutils literal"><span class="pre">BaseDriver.send()</span></code></a> for details regarding implementing the
+<em>retry</em> process.</p>
+<p><em>version</em> indicates whether or not the message should be encapsulated
+in an envelope.  A value &lt; 2.0 should not envelope the message. See
+<code class="xref py py-func docutils literal"><span class="pre">common.serialize_msg()</span></code> for more detail.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>target</strong> (<a class="reference internal" href="target.html#oslo_messaging.Target" title="oslo_messaging.Target"><em>Target</em></a>) &#8211; The message&#8217;s destination address</li>
+<li><strong>ctxt</strong> (<em>dict</em>) &#8211; Context metadata provided by sending application which
+must transfered along with the message.</li>
+<li><strong>message</strong> (<em>dict</em>) &#8211; message provided by the caller</li>
+<li><strong>version</strong> (<em>float</em>) &#8211; determines the envelope for the message</li>
+<li><strong>retry</strong> (<em>int</em>) &#8211; maximum message send attempts permitted</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">None</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">MessagingException</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+<div class="sphinxsidebar">
+    <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference internal" href="#">Guide for Transport Driver Implementors</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#driver-interface">Driver Interface</a></li>
+<li><a class="reference internal" href="#incomingmessage">IncomingMessage</a></li>
+<li><a class="reference internal" href="#rpcincomingmessage">RpcIncomingMessage</a></li>
+<li><a class="reference internal" href="#listener">Listener</a></li>
+<li><a class="reference internal" href="#pollstylelistener">PollStyleListener</a></li>
+<li><a class="reference internal" href="#basedriver">BaseDriver</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="zmq_driver.html"
+                                  title="previous chapter">ZeroMQ Driver Deployment Guide</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="FAQ.html"
+                                  title="next chapter">Frequently Asked Questions</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/driver-dev-guide.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+    </div>
+</div>
+
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="FAQ.html" title="Frequently Asked Questions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="zmq_driver.html" title="ZeroMQ Driver Deployment Guide"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">oslo.messaging  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, OpenStack Foundation.
+      Last updated on February 27, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+<script type="text/javascript">
+try {
+//Tracking docs.openstack.org/developer/<projectname> only
+//The URL is built from the project variable in conf.py
+var pageTracker = _gat._getTracker("UA-17511903-1");
+pageTracker._setCookiePath("/developer/oslo.messaging");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+  </body>
+</html>

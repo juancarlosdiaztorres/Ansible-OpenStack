@@ -1,0 +1,245 @@
+May  7 00:40:39 vnx_rootfs_lxc_ubuntu-16 sshd[165]: Server listening on 0.0.0.0 port 22.
+May  7 00:40:39 vnx_rootfs_lxc_ubuntu-16 sshd[165]: Server listening on :: port 22.
+May  7 00:50:40 vnx_rootfs_lxc_ubuntu-16 login[167]: pam_securetty(login:auth): access denied: tty '/dev/pts/0' is not secure !
+May  7 00:50:43 vnx_rootfs_lxc_ubuntu-16 login[167]: FAILED LOGIN (1) on '/dev/pts/0' FOR 'root', Authentication failure
+May  7 00:50:48 vnx_rootfs_lxc_ubuntu-16 login[167]: pam_unix(login:session): session opened for user ubuntu by LOGIN(uid=0)
+May  7 00:51:01 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/sbin/halt -p
+May  7 00:51:01 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by ubuntu(uid=0)
+May  7 00:51:01 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 00:51:21 vnx_rootfs_lxc_ubuntu-16 sshd[165]: Server listening on 0.0.0.0 port 22.
+May  7 00:51:21 vnx_rootfs_lxc_ubuntu-16 sshd[165]: Server listening on :: port 22.
+May  7 00:51:28 vnx_rootfs_lxc_ubuntu-16 login[168]: pam_unix(login:session): session opened for user ubuntu by (uid=0)
+May  7 00:52:00 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:auth): authentication failure; logname=LOGIN uid=1000 euid=0 tty=/dev/console ruser=ubuntu rhost=  user=ubuntu
+May  7 00:52:08 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/sbin/adduser vnx
+May  7 00:52:08 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 00:52:08 vnx_rootfs_lxc_ubuntu-16 groupadd[197]: group added to /etc/group: name=vnx, GID=1001
+May  7 00:52:08 vnx_rootfs_lxc_ubuntu-16 groupadd[197]: group added to /etc/gshadow: name=vnx
+May  7 00:52:08 vnx_rootfs_lxc_ubuntu-16 groupadd[197]: new group: name=vnx, GID=1001
+May  7 00:52:08 vnx_rootfs_lxc_ubuntu-16 useradd[201]: new user: name=vnx, UID=1001, GID=1001, home=/home/vnx, shell=/bin/bash
+May  7 00:52:13 vnx_rootfs_lxc_ubuntu-16 passwd[208]: pam_unix(passwd:chauthtok): password changed for vnx
+May  7 00:52:19 vnx_rootfs_lxc_ubuntu-16 chfn[209]: changed user 'vnx' information
+May  7 00:52:21 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 00:52:25 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/sbin/adduser vnx sudo
+May  7 00:52:25 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 00:52:25 vnx_rootfs_lxc_ubuntu-16 gpasswd[216]: user vnx added by root to group sudo
+May  7 00:52:25 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 00:52:30 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/bin/passwd root
+May  7 00:52:30 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 00:52:33 vnx_rootfs_lxc_ubuntu-16 passwd[221]: pam_unix(passwd:chauthtok): password changed for root
+May  7 00:52:33 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 00:52:39 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/bin/apt-get update
+May  7 00:52:39 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 00:52:40 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 00:52:45 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/bin/apt-get dist-upgrade
+May  7 00:52:45 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 00:52:46 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 00:52:57 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/bin/apt-get install aptsh openssh-server traceroute telnet nmap apache2 wget tcpdump
+May  7 00:52:57 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 00:54:12 vnx_rootfs_lxc_ubuntu-16 groupadd[2611]: group added to /etc/group: name=ssl-cert, GID=111
+May  7 00:54:12 vnx_rootfs_lxc_ubuntu-16 groupadd[2611]: group added to /etc/gshadow: name=ssl-cert
+May  7 00:54:12 vnx_rootfs_lxc_ubuntu-16 groupadd[2611]: new group: name=ssl-cert, GID=111
+May  7 00:54:28 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 00:54:42 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/sbin/update-rc.d -f apache2 remove
+May  7 00:54:42 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 00:54:42 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 01:00:03 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/bin/vi /etc/hosts
+May  7 01:00:03 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 01:00:09 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 01:00:12 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : unable to resolve host vnx_rootfs_lxc_ubuntu-16.04-v025
+May  7 01:00:12 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/bin/vi /etc/hostname
+May  7 01:00:12 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 01:00:14 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 01:00:42 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : unable to resolve host vnx_rootfs_lxc_ubuntu-16.04-v025
+May  7 01:00:42 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/bin/vi /etc/network/interfaces
+May  7 01:00:42 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 01:00:46 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 01:01:16 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : unable to resolve host vnx_rootfs_lxc_ubuntu-16.04-v025
+May  7 01:01:16 vnx_rootfs_lxc_ubuntu-16 sudo:   ubuntu : TTY=console ; PWD=/home/ubuntu ; USER=root ; COMMAND=/sbin/halt -p
+May  7 01:01:16 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 01:01:16 vnx_rootfs_lxc_ubuntu-16 sudo: pam_unix(sudo:session): session closed for user root
+May  7 12:50:26 vnx sshd[96]: Server listening on 0.0.0.0 port 22.
+May  7 12:50:26 vnx sshd[96]: Server listening on :: port 22.
+May  7 12:50:33 vnx login[105]: pam_unix(login:session): session opened for user root by (uid=0)
+May  7 12:50:33 vnx login[183]: ROOT LOGIN  on '/dev/lxc/console'
+May  7 12:50:55 vnx sudo:     root : TTY=console ; PWD=/root ; USER=root ; COMMAND=/usr/sbin/deluser ubuntu
+May  7 12:50:55 vnx sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 12:50:56 vnx userdel[199]: delete user 'ubuntu'
+May  7 12:50:56 vnx userdel[199]: delete 'ubuntu' from group 'sudo'
+May  7 12:50:56 vnx userdel[199]: removed group 'ubuntu' owned by 'ubuntu'
+May  7 12:50:56 vnx userdel[199]: removed shadow group 'ubuntu' owned by 'ubuntu'
+May  7 12:50:56 vnx userdel[199]: delete 'ubuntu' from shadow group 'sudo'
+May  7 12:50:56 vnx sudo: pam_unix(sudo:session): session closed for user root
+May  7 12:51:07 vnx sudo:     root : TTY=console ; PWD=/root ; USER=root ; COMMAND=/usr/sbin/delgroup ubuntu
+May  7 12:51:07 vnx sudo: pam_unix(sudo:session): session opened for user root by LOGIN(uid=0)
+May  7 12:51:07 vnx sudo: pam_unix(sudo:session): session closed for user root
+Dec  4 00:41:22 vnx sshd[100]: Server listening on 0.0.0.0 port 22.
+Dec  4 00:41:22 vnx sshd[100]: Server listening on :: port 22.
+Dec  4 00:41:32 vnx login[106]: pam_unix(login:session): session opened for user root by (uid=0)
+Dec  4 00:41:32 vnx login[174]: ROOT LOGIN  on '/dev/lxc/console'
+Dec  4 00:55:15 vnx sshd[100]: Received signal 15; terminating.
+Dec  4 00:55:15 vnx sshd[4387]: Server listening on 0.0.0.0 port 22.
+Dec  4 00:55:15 vnx sshd[4387]: Server listening on :: port 22.
+Dec  5 23:43:52 vnx sshd[98]: Server listening on 0.0.0.0 port 22.
+Dec  5 23:43:52 vnx sshd[98]: Server listening on :: port 22.
+Dec  5 23:44:11 vnx login[108]: pam_unix(login:session): session opened for user root by (uid=0)
+Dec  5 23:44:11 vnx login[268]: ROOT LOGIN  on '/dev/lxc/console'
+Dec  5 23:53:54 vnx sshd[98]: Received signal 15; terminating.
+Feb 11 17:17:46 vnx sshd[98]: Server listening on 0.0.0.0 port 22.
+Feb 11 17:17:46 vnx sshd[98]: Server listening on :: port 22.
+Feb 11 17:17:53 vnx login[128]: pam_unix(login:session): session opened for user root by (uid=0)
+Feb 11 17:17:53 vnx login[254]: ROOT LOGIN  on '/dev/lxc/console'
+Feb 11 18:17:01 vnx CRON[3625]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 11 18:17:01 vnx CRON[3625]: pam_unix(cron:session): session closed for user root
+Feb 11 19:17:01 vnx CRON[3692]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 11 19:17:01 vnx CRON[3692]: pam_unix(cron:session): session closed for user root
+Feb 11 20:17:01 vnx CRON[3731]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 11 20:17:01 vnx CRON[3731]: pam_unix(cron:session): session closed for user root
+Feb 11 21:17:01 vnx CRON[3758]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 11 21:17:01 vnx CRON[3758]: pam_unix(cron:session): session closed for user root
+Feb 11 22:17:01 vnx CRON[3797]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 11 22:17:01 vnx CRON[3797]: pam_unix(cron:session): session closed for user root
+Feb 11 23:17:01 vnx CRON[3824]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 11 23:17:01 vnx CRON[3824]: pam_unix(cron:session): session closed for user root
+Feb 12 00:17:02 vnx CRON[3863]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 00:17:02 vnx CRON[3863]: pam_unix(cron:session): session closed for user root
+Feb 12 01:17:01 vnx CRON[3890]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 01:17:01 vnx CRON[3890]: pam_unix(cron:session): session closed for user root
+Feb 12 02:17:01 vnx CRON[3929]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 02:17:01 vnx CRON[3929]: pam_unix(cron:session): session closed for user root
+Feb 12 03:17:01 vnx CRON[3956]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 03:17:01 vnx CRON[3956]: pam_unix(cron:session): session closed for user root
+Feb 12 04:17:01 vnx CRON[3983]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 04:17:01 vnx CRON[3983]: pam_unix(cron:session): session closed for user root
+Feb 12 05:17:01 vnx CRON[4022]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 05:17:01 vnx CRON[4022]: pam_unix(cron:session): session closed for user root
+Feb 12 06:17:01 vnx CRON[4049]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 06:17:01 vnx CRON[4049]: pam_unix(cron:session): session closed for user root
+Feb 12 06:25:01 vnx CRON[4064]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 06:25:02 vnx CRON[4064]: pam_unix(cron:session): session closed for user root
+Feb 12 06:47:01 vnx CRON[4144]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 06:47:01 vnx CRON[4144]: pam_unix(cron:session): session closed for user root
+Feb 12 07:17:01 vnx CRON[4161]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 07:17:01 vnx CRON[4161]: pam_unix(cron:session): session closed for user root
+Feb 12 08:17:01 vnx CRON[4200]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 08:17:01 vnx CRON[4200]: pam_unix(cron:session): session closed for user root
+Feb 12 09:17:01 vnx CRON[4227]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 09:17:01 vnx CRON[4227]: pam_unix(cron:session): session closed for user root
+Feb 12 10:17:01 vnx CRON[4254]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 10:17:01 vnx CRON[4254]: pam_unix(cron:session): session closed for user root
+Feb 12 11:17:01 vnx CRON[4293]: pam_unix(cron:session): session opened for user root by (uid=0)
+Feb 12 11:17:01 vnx CRON[4293]: pam_unix(cron:session): session closed for user root
+Feb 12 11:58:01 vnx sshd[98]: Received signal 15; terminating.
+Jul 29 23:58:22 vnx sshd[106]: Server listening on 0.0.0.0 port 22.
+Jul 29 23:58:22 vnx sshd[106]: Server listening on :: port 22.
+Jul 29 23:58:28 vnx login[134]: pam_unix(login:session): session opened for user root by (uid=0)
+Jul 29 23:58:28 vnx login[253]: ROOT LOGIN  on '/dev/lxc/console'
+Jul 30 00:00:53 vnx sshd[106]: Received signal 15; terminating.
+Jul 30 00:00:53 vnx sshd[3421]: Server listening on 0.0.0.0 port 22.
+Jul 30 00:00:53 vnx sshd[3421]: Server listening on :: port 22.
+Jul 30 16:30:42 vnx sshd[94]: Server listening on 0.0.0.0 port 22.
+Jul 30 16:30:42 vnx sshd[94]: Server listening on :: port 22.
+Jul 30 16:30:53 vnx login[135]: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+Jul 30 16:30:53 vnx login[253]: ROOT LOGIN  on '/dev/pts/0'
+Jul 30 16:31:30 vnx sshd[112]: Server listening on 0.0.0.0 port 22.
+Jul 30 16:31:30 vnx sshd[112]: Server listening on :: port 22.
+Jul 30 16:31:37 vnx login[119]: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+Jul 30 16:31:37 vnx login[213]: ROOT LOGIN  on '/dev/pts/0'
+Jul 30 16:33:26 vnx sshd[98]: Server listening on 0.0.0.0 port 22.
+Jul 30 16:33:26 vnx sshd[98]: Server listening on :: port 22.
+Jul 30 16:33:34 vnx login[114]: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+Jul 30 16:33:34 vnx login[213]: ROOT LOGIN  on '/dev/pts/0'
+Jul 30 16:34:03 vnx sshd[97]: Server listening on 0.0.0.0 port 22.
+Jul 30 16:34:03 vnx sshd[97]: Server listening on :: port 22.
+Jul 30 16:34:09 vnx login[118]: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+Jul 30 16:34:09 vnx login[213]: ROOT LOGIN  on '/dev/pts/0'
+Jul 30 22:48:52 vnx sshd[100]: Server listening on 0.0.0.0 port 22.
+Jul 30 22:48:52 vnx sshd[100]: Server listening on :: port 22.
+Jul 30 22:49:15 vnx login[133]: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+Jul 30 22:49:15 vnx login[253]: ROOT LOGIN  on '/dev/pts/0'
+Jul 30 22:52:09 vnx sshd[100]: Received signal 15; terminating.
+Jul 30 22:54:28 vnx sshd[112]: Server listening on 0.0.0.0 port 22.
+Jul 30 22:54:28 vnx sshd[112]: Server listening on :: port 22.
+Jul 30 22:54:35 vnx login[121]: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+Jul 30 22:54:35 vnx login[213]: ROOT LOGIN  on '/dev/pts/0'
+Aug  2 23:09:00 vnx sshd[97]: Server listening on 0.0.0.0 port 22.
+Aug  2 23:09:00 vnx sshd[97]: Server listening on :: port 22.
+Aug  2 23:09:25 vnx login[135]: pam_unix(login:session): session opened for user root by (uid=0)
+Aug  2 23:09:25 vnx login[255]: ROOT LOGIN  on '/dev/lxc/console'
+Aug  2 23:10:40 vnx groupadd[710]: group added to /etc/group: name=messagebus, GID=112
+Aug  2 23:10:40 vnx groupadd[710]: group added to /etc/gshadow: name=messagebus
+Aug  2 23:10:40 vnx groupadd[710]: new group: name=messagebus, GID=112
+Aug  2 23:10:40 vnx useradd[714]: new user: name=messagebus, UID=107, GID=112, home=/var/run/dbus, shell=/bin/false
+Aug  2 23:10:40 vnx usermod[719]: change user 'messagebus' password
+Aug  2 23:10:40 vnx chage[724]: changed password expiry for messagebus
+Aug  2 23:17:01 vnx CRON[2344]: pam_unix(cron:session): session opened for user root by (uid=0)
+Aug  2 23:17:01 vnx CRON[2344]: pam_unix(cron:session): session closed for user root
+Aug  2 23:20:39 vnx sshd[97]: Received signal 15; terminating.
+Sep 17 22:09:04 vnx systemd-logind[90]: New seat seat0.
+Sep 17 22:09:04 vnx sshd[113]: Server listening on 0.0.0.0 port 22.
+Sep 17 22:09:04 vnx sshd[113]: Server listening on :: port 22.
+Sep 17 22:15:13 vnx groupadd[4410]: group added to /etc/group: name=scanner, GID=113
+Sep 17 22:15:13 vnx groupadd[4410]: group added to /etc/gshadow: name=scanner
+Sep 17 22:15:13 vnx groupadd[4410]: new group: name=scanner, GID=113
+Sep 17 22:15:14 vnx groupadd[4462]: group added to /etc/group: name=colord, GID=114
+Sep 17 22:15:14 vnx groupadd[4462]: group added to /etc/gshadow: name=colord
+Sep 17 22:15:14 vnx groupadd[4462]: new group: name=colord, GID=114
+Sep 17 22:15:14 vnx useradd[4466]: new user: name=colord, UID=108, GID=114, home=/var/lib/colord, shell=/bin/false
+Sep 17 22:15:14 vnx usermod[4471]: change user 'colord' password
+Sep 17 22:15:14 vnx chage[4476]: changed password expiry for colord
+Sep 17 22:15:14 vnx chfn[4479]: changed user 'colord' information
+Sep 17 22:17:01 vnx CRON[7119]: pam_unix(cron:session): session opened for user root by (uid=0)
+Sep 17 22:17:01 vnx CRON[7119]: pam_unix(cron:session): session closed for user root
+Sep 17 22:19:14 vnx sshd[113]: Received signal 15; terminating.
+Sep 17 22:19:14 vnx sshd[9638]: Server listening on 0.0.0.0 port 22.
+Sep 17 22:19:14 vnx sshd[9638]: Server listening on :: port 22.
+Sep 17 22:20:15 vnx groupadd[15636]: group added to /etc/group: name=kvm, GID=115
+Sep 17 22:20:15 vnx groupadd[15636]: group added to /etc/gshadow: name=kvm
+Sep 17 22:20:15 vnx groupadd[15636]: new group: name=kvm, GID=115
+Sep 17 22:22:27 vnx useradd[17175]: new user: name=dnsmasq, UID=109, GID=65534, home=/var/lib/misc, shell=/bin/false
+Sep 17 22:22:27 vnx usermod[17180]: change user 'dnsmasq' password
+Sep 17 22:22:27 vnx chage[17185]: changed password expiry for dnsmasq
+Sep 17 22:22:27 vnx chfn[17188]: changed user 'dnsmasq' information
+Sep 17 22:22:46 vnx groupadd[17819]: group added to /etc/group: name=nova, GID=116
+Sep 17 22:22:46 vnx groupadd[17819]: group added to /etc/gshadow: name=nova
+Sep 17 22:22:46 vnx groupadd[17819]: new group: name=nova, GID=116
+Sep 17 22:22:46 vnx useradd[17825]: new user: name=nova, UID=110, GID=116, home=/var/lib/nova, shell=/bin/false
+Sep 17 22:22:46 vnx usermod[17830]: change user 'nova' password
+Sep 17 22:22:46 vnx chage[17835]: changed password expiry for nova
+Sep 17 22:22:46 vnx su[17850]: Successful su for nova by root
+Sep 17 22:22:46 vnx su[17850]: + /dev/pts/4 root:nova
+Sep 17 22:22:46 vnx su[17850]: pam_unix(su:session): session opened for user nova by (uid=0)
+Sep 17 22:22:46 vnx systemd-logind[90]: New session 80 of user nova.
+Sep 17 22:22:46 vnx systemd: pam_unix(systemd-user:session): session opened for user nova by (uid=0)
+Sep 17 22:23:27 vnx su[17850]: pam_unix(su:session): session closed for user nova
+Sep 17 22:23:27 vnx systemd-logind[90]: Removed session 80.
+Sep 17 22:23:27 vnx systemd: pam_unix(systemd-user:session): session closed for user nova
+Sep 17 22:23:29 vnx groupadd[17884]: group added to /etc/group: name=libvirt, GID=117
+Sep 17 22:23:29 vnx groupadd[17884]: group added to /etc/gshadow: name=libvirt
+Sep 17 22:23:29 vnx groupadd[17884]: new group: name=libvirt, GID=117
+Sep 17 22:23:29 vnx gpasswd[17895]: user vnx added by root to group libvirt
+Sep 17 22:23:29 vnx useradd[17903]: new user: name=libvirt-qemu, UID=64055, GID=115, home=/var/lib/libvirt, shell=/bin/false
+Sep 17 22:23:29 vnx chage[17908]: changed password expiry for libvirt-qemu
+Sep 17 22:23:29 vnx chfn[17911]: changed user 'libvirt-qemu' information
+Sep 17 22:23:29 vnx groupadd[17918]: group added to /etc/group: name=libvirt-qemu, GID=64055
+Sep 17 22:23:29 vnx groupadd[17918]: group added to /etc/gshadow: name=libvirt-qemu
+Sep 17 22:23:29 vnx groupadd[17918]: new group: name=libvirt-qemu, GID=64055
+Sep 17 22:23:29 vnx gpasswd[17923]: user libvirt-qemu added by root to group libvirt-qemu
+Sep 17 22:23:29 vnx useradd[17929]: new user: name=libvirt-dnsmasq, UID=111, GID=117, home=/var/lib/libvirt/dnsmasq, shell=/bin/false
+Sep 17 22:23:29 vnx chage[17934]: changed password expiry for libvirt-dnsmasq
+Sep 17 22:23:29 vnx chfn[17937]: changed user 'libvirt-dnsmasq' information
+Sep 17 22:23:33 vnx gpasswd[18622]: user nova added by root to group libvirt
+Sep 17 22:24:19 vnx groupadd[19059]: group added to /etc/group: name=uuidd, GID=118
+Sep 17 22:24:19 vnx groupadd[19059]: group added to /etc/gshadow: name=uuidd
+Sep 17 22:24:19 vnx groupadd[19059]: new group: name=uuidd, GID=118
+Sep 17 22:24:19 vnx useradd[19065]: new user: name=uuidd, UID=112, GID=118, home=/run/uuidd, shell=/bin/false
+Sep 17 22:24:19 vnx usermod[19070]: change user 'uuidd' password
+Sep 17 22:24:20 vnx chage[19075]: changed password expiry for uuidd
+Sep 17 22:24:25 vnx groupadd[19271]: group added to /etc/group: name=neutron, GID=119
+Sep 17 22:24:25 vnx groupadd[19271]: group added to /etc/gshadow: name=neutron
+Sep 17 22:24:25 vnx groupadd[19271]: new group: name=neutron, GID=119
+Sep 17 22:24:25 vnx useradd[19277]: new user: name=neutron, UID=113, GID=119, home=/var/lib/neutron, shell=/bin/false
+Sep 17 22:24:25 vnx usermod[19282]: change user 'neutron' password
+Sep 17 22:24:25 vnx chage[19287]: changed password expiry for neutron
+Sep 17 22:24:28 vnx sudo:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf ovs-vsctl --timeout=10 --oneline --format=json -- --id=@manager create Manager target="ptcp:6640:127.0.0.1" -- add Open_vSwitch . manager_options @manager -- set Manager ptcp:6640:127.0.0.1 inactivity_probe=10000
+Sep 17 22:24:28 vnx sudo: pam_unix(sudo:session): session opened for user root by (uid=0)
+Sep 17 22:24:28 vnx sudo: pam_unix(sudo:session): session closed for user root

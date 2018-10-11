@@ -1,0 +1,3 @@
+/etc/libvirt/libvirt.conf
+/etc/libvirt/virt-login-shell.conf
+/etc/profile.d/libvirt-uri.sh

@@ -1,0 +1,14 @@
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/python-pastedeploy-tpl
+/usr/share/doc/python-pastedeploy-tpl/changelog.Debian.gz
+/usr/share/doc/python-pastedeploy-tpl/copyright
+/usr/share/paster_templates
+/usr/share/paster_templates/paste_deploy
+/usr/share/paster_templates/paste_deploy/docs
+/usr/share/paster_templates/paste_deploy/docs/devel_config.ini_tmpl
+/usr/share/paster_templates/paste_deploy/+package+
+/usr/share/paster_templates/paste_deploy/+package+/wsgiapp.py_tmpl
+/usr/share/paster_templates/paste_deploy/+package+/sampleapp.py_tmpl
